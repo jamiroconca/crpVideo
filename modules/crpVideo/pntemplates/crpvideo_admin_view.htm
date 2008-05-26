@@ -1,0 +1,63 @@
+<!--[pnajaxheader modname=crpVideo filename=crpvideo.js noscriptaculous=true nobehaviour=true]-->
+<!--[include file="crpvideo_admin_menu.htm"]-->
+<!--[pnml name=_CRPVIDEO_VIDEOS assign=itemname]-->
+<!--[pnml name="_VIEWITEMS" i=$itemname assign=templatetitle]-->
+<div class="pn-admincontainer">
+<div class="pn-adminpageicon"><!--[pnimg modname=core src=windowlist.gif set=icons/large alt=$templatetitle]--></div>
+<h2><!--[$templatetitle]--></h2>
+<!--[if $enablecategorization]-->
+<form action="<!--[pnmodurl modname=crpVideo type=admin func=view]-->" method="post" enctype="application/x-www-form-urlencoded">
+<div>
+  <label for="videos_category"><!--[pnml name=_CATEGORY]--></label>
+  <!--[ pnml assign="lblDef" name="_ALLCATEGORIES" ]-->
+  <!--[ selector_category category=$mainCategory name="videos_category" selectedValue=$videos_category defaultValue="0" defaultText="$lblDef" ]-->
+  <select id="crpvideo_video_status" name="events_status">
+  	<option value=""<!--[if $videos_status eq '']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_NOT_SPECIFIED"]--></option>
+		<option value="A"<!--[if $videos_status eq 'A']--> selected="selected"<!--[/if]-->><!--[pnml name="_ACTIVE"]--></option>
+		<option value="P"<!--[if $videos_status eq 'P']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PENDING"]--></option>
+		<option value="R"<!--[if $videos_status eq 'R']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_REJECTED"]--></option>
+	</select>
+  <input name="submit" type="submit" value="<!--[pnml name="_SUBMIT"]-->" />
+  <input name="clear" type="submit" value="<!--[pnml name="_CLEAR"]-->" />
+</div>
+</form>
+<!--[/if]-->
+<table class="pn-admintable">
+  <tr>
+      <th><!--[pnml name="_TITLE"]--></th>
+      <th><!--[pnml name="_ID"]--></th>
+	  <!--[if $enablecategorization]-->
+      <th><!--[pnml name="_CATEGORY"]--></th>
+	  <!--[/if]-->
+	  	<th><!--[pnml name="_CRPVIDEO_STATUS"]--></th>
+      <th><!--[pnml name="_OPTIONS"]--></th>
+  </tr>
+  <!--[foreach from=$videos item=video]-->
+    <tr class="<!--[cycle values="pn-odd,pn-even"]-->">
+      <td><!--[$video.title|pnvarprephtmldisplay]--></td>
+      <td><!--[$video.videoid|pnvarprephtmldisplay]--></td>
+	  <!--[if $enablecategorization]-->
+      <td>
+          <!--[ $video.__CATEGORIES__.Main.display_name.$lang ]-->
+      </td>
+	  <!--[/if]-->
+	  	<td>
+	  	<span class="crp-status-real"><!--[crpvideostatus status=$video.obj_status videoid=$video.videoid]--></span>
+	  	<span class="crp-status-fake pn-hide"><!--[crpvideostatus status=$video.obj_status videoid=$video.videoid fake=true]--></span>
+	  	</td>	
+      <td>
+        <!--[assign var="options" value=$video.options]-->
+        <!--[section name=options loop=$options]-->
+          <a href="<!--[$options[options].url|pnvarprepfordisplay]-->"><!--[pnimg modname=core set=icons/extrasmall src=$options[options].image alt=$options[options].title]--></a>
+        <!--[/section]-->
+      </td>
+    </tr>
+  <!--[/foreach]-->
+</table>
+
+<script type="text/javascript">
+	Event.observe(window, 'load', function(){crpVideoAdminViewInit();}, false);
+</script>
+
+<!--[pager rowcount=$pager.numitems limit=$pager.itemsperpage posvar=startnum shift=1 img_prev=images/icons/extrasmall/previous.gif img_next=images/icons/extrasmall/next.gif]-->
+</div>

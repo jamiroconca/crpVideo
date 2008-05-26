@@ -1,0 +1,478 @@
+<?php
+/**
+ * crpVideo
+ *
+ * @copyright (c) 2007, Daniele Conca
+ * @link http://noc.postnuke.com/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca dot daniele at gmail dot com>
+ * @license GNU/GPL - v.2
+ * @package crpVideo
+ */
+
+/**
+ * crpVideoDAO
+ */
+class crpVideoDAO
+{
+
+	function crpVideoDAO()
+	{
+		// images allowed
+		$this->ImageTypes[] = 'image/gif';
+		$this->ImageTypes[] = 'image/jpeg';
+		$this->ImageTypes[] = 'image/pjpeg';
+		$this->ImageTypes[] = 'image/png';
+		
+		// video allowed
+		$this->VideoTypes[] = 'video/x-flv';
+		$this->VideoTypes[] = 'application/x-shockwave-flash';
+		$this->VideoTypes[] = 'application/octet-stream';
+	}
+	
+	/**
+	 * Return administrative list of videos
+	 * 
+	 * @param int $startnum pager offset
+	 * @param int $category current category if specified
+	 * @param bool $ignoreml ignore multilanguage
+	 * @param array $modvars module's variables
+	 * @param int $mainCat main module's category
+	 * 
+	 * @return array element list
+	 */
+	function adminList($startnum=1, $category=null, $clear=false, $ignoreml=true, 
+											$modvars=array(), $mainCat, $active=null, $interval=null, 
+											$sortOrder='DESC', $orderBy='title')
+	{
+		(empty($startnum))?$startnum=1:'';
+		(empty($modvars['itemsperpage']))?$modvars['itemsperpage']=pnModGetVar('crpVideo','itemsperpage'):'';
+		
+		if (!is_numeric($startnum) ||
+        !is_numeric($modvars['itemsperpage'])) {
+        return LogUtil::registerError (_MODARGSERROR);
+    }
+		
+		$catFilter = array();
+		if (is_array($category)) 
+			$catFilter = $category;
+    else if ($category)
+    	$catFilter['Main'] = $category;
+    	
+    $items = array();
+
+    // Security check
+    if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ)) {
+        return $items;
+    }
+    
+    $pntable = pnDBGetTables();
+    $crpvideocolumn = $pntable['crpvideos_column'];
+    $queryargs = array();
+    if (pnConfigGetVar('multilingual') == 1 && !$ignoreml) {
+        $queryargs[] = "($crpvideocolumn[language]='" . DataUtil::formatForStore(pnUserGetLang()) . "' 
+												OR $crpvideocolumn[language]='')";
+    }
+    
+    if ($active) {
+        $queryargs[] = "($crpvideocolumn[obj_status]='".DataUtil::formatForStore($active)."')";
+    }
+
+    $where = null;
+    if (count($queryargs) > 0) {
+        $where = ' WHERE ' . implode(' AND ', $queryargs);
+    }
+
+    // define the permission filter to apply
+    $permFilter = array(array('realm'           => 0,
+                              'component_left'  => 'crpVideo',
+                              'component_right' => 'Video',
+                              'instance_left'   => 'cr_uid',
+                              'instance_center' => 'title',
+                              'instance_right'  => 'videoid',
+                              'level'           => ACCESS_READ));
+		
+		$orderby = "ORDER BY $crpvideocolumn[$orderBy] $sortOrder";
+		
+    // get the objects from the db
+    $objArray = DBUtil::selectObjectArray('crpvideos', $where, $orderby, $startnum-1, $modvars['itemsperpage'], '', $permFilter, $catFilter);
+
+    // Check for an error with the database code, and if so set an appropriate
+    // error message and return
+    if ($objArray === false) {
+        return LogUtil::registerError (_GETFAILED);
+    }
+
+    // need to do this here as the category expansion code can't know the
+    // root category which we need to build the relative path component
+     if ($objArray && isset($mainCat) && $mainCat) {
+        if (!Loader::loadClass ('CategoryUtil')) {
+            pn_exit('Unable to load class [CategoryUtil]');
+	    }
+        ObjectUtil::postProcessExpandedObjectArrayCategories ($objArray, $mainCat);
+    }
+    
+    // Return the items
+    return $objArray;
+	}
+	
+	function getData($args=array())
+	{
+		// define the permission filter to apply
+		$permFilter= array (
+			array (
+				'realm' => 0,
+				'component_left' => 'crpVideo',
+				'component_right' => 'Video',
+				'instance_left' => 'title',
+				'instance_right' => 'videoid',
+				'level' => ACCESS_READ
+			)
+		);
+	
+		if (isset ($args['videoid']) && is_numeric($args['videoid']))
+		{
+			$item = DBUtil :: selectObjectByID('crpvideos', $args['videoid'], 'videoid', '', $permFilter);
+		} else
+		{
+			$item = DBUtil :: selectObjectByID('crpvideos', $args['title'], 'urltitle', '', $permFilter);
+		}
+		
+		if (empty($item))
+        	return false;
+
+	    // process the relative paths of the categories
+	    if (pnModGetVar('crpVideo', 'enablecategorization') && !empty($item['__CATEGORIES__'])) {
+	        static $registeredCats;
+	        if (!isset($registeredCats)) {
+	            if (!($class = Loader::loadClass('CategoryRegistryUtil'))) {
+	                pn_exit (pnML('_UNABLETOLOADCLASS', array('s' => 'CategoryRegistryUtil')));
+	            }
+	            $registeredCats  = CategoryRegistryUtil::getRegisteredModuleCategories('crpVideo', 'stories');
+	        }
+	    	ObjectUtil::postProcessExpandedObjectCategories($item['__CATEGORIES__'], $registeredCats);
+	
+	        if (!CategoryUtil::hasCategoryAccess($item['__CATEGORIES__'],'crpVideo'))
+	            return false;
+	    }
+	    
+	    return $item;
+	}
+	
+	/**
+	 * get a specific event date
+	 * 
+	 * @param int $videoid item identifier
+	 * @param int $dateType date type
+	 * 
+	 * @return string item value
+	 */
+	function getVideoDate($videoid=null, $dateType=null)
+	{
+		$pntable = pnDBGetTables();
+    $crpvideocolumn = $pntable['crpvideos_column'];
+    
+    $queryargs[] = "($crpvideocolumn[videoid] = '".DataUtil::formatForStore($videoid)."')";
+        
+    $columnArray = array('videoid',''.$dateType.'');
+    
+    $where = null;
+    if (count($queryargs) > 0) {
+        $where = ' WHERE ' . implode(' AND ', $queryargs);
+    }
+
+		$item = DBUtil::selectObject('crpvideos', $where, $columnArray);
+		
+		$dateValue=false;
+    ($item[$dateType])?$dateValue=$item[$dateType]:$author=false;
+    
+    return $dateValue;
+	}
+	
+	/**
+	 * Update video status
+	 * 
+	 * @param int $videoid item identifier
+	 * @param string $obj_status active or pending
+	 * 
+	 * @return bool true on succes
+	 */
+	function updateStatus($videoid=null, $obj_status=null)
+	{		
+		$obj = array('videoid'    	=> $videoid,
+                 'obj_status' 	=> $obj_status);
+
+    if (!DBUtil::updateObject($obj, 'crpvideos', '', 'videoid')) 
+    {
+    	return false;
+    }
+
+    return true;
+	}
+	
+	/**
+	 * Save file into DB
+	 */
+	function setFile($data=array())
+	{
+		$result = -1;
+						
+		if(!$data['error'])
+		{
+			$fd = fopen ($data['tmp_name'], "r");
+	    $file_content = fread ($fd, filesize($data['tmp_name']));
+  	  fclose ($fd);
+			
+  	  $item= $this->getFile($data['videoid'], $data['document_type']);
+  	  
+			// no empty spaces in filename
+  	  $document['name'] = str_replace(" ","_",$data['name']);
+  	  $document['content_type'] = $data['type'];
+  	  $document['size'] = $data['size'];
+  	  $document['document_type'] = $data['document_type'];
+  	  $document['videoid'] = $data['videoid'];
+  	  // load binary
+  	  $document['binary_data'] = $file_content;  	  
+			
+			if($item)
+			{
+				$document['id'] = $item['id']; 
+				if (!DBUtil::updateObject($document, 'crpvideo_covers', '', 'id')) 
+		    {
+		      LogUtil::registerError (_UPDATEFAILED);
+		      return false;
+		    }
+				$result = 0;
+			}
+			elseif(empty($item))
+			{
+				if (!DBUtil::insertObject($document, 'crpvideo_covers', 'id')) 
+		    {
+		      LogUtil::registerError (_CREATEFAILED);
+		      return false;
+		    }
+				$result = DBUtil::getInsertID ('crpvideo_covers', 'id');
+			}
+			else
+				return $result;
+		}
+
+		return $result;
+	}
+	
+	/**
+	 * Retrieve binary files
+	 */
+	function getFile($videoid=null, $file_type='image', $load_binary = false)
+	{
+		$pntable = pnDBGetTables();
+    $crpvideocolumn = $pntable['crpvideo_covers_column'];
+    
+    $queryargs[] = "($crpvideocolumn[videoid] = '".DataUtil::formatForStore($videoid)."'
+										AND $crpvideocolumn[document_type] = '".DataUtil::formatForStore($file_type)."')";
+        
+		$where = null;
+    if (count($queryargs) > 0) {
+        $where = ' WHERE ' . implode(' AND ', $queryargs);
+    }
+    
+    $columnArray = array('id','videoid','document_type','name','content_type','size');
+    if ($load_binary)
+    	array_push($columnArray, "binary_data");
+    	
+		$file = DBUtil::selectObject('crpvideo_covers', $where, $columnArray);
+		
+		return $file;
+	}
+	
+	/**
+	 * Get image for an event
+	 * 
+	 * @param int $eventid event identifier
+	 * 
+	 */
+	function getImage()
+	{
+		$videoid=pnVarCleanFromInput('videoid');
+
+		$pntable = pnDBGetTables();
+    $crpvideocolumn = $pntable['crpvideo_covers_column'];
+    
+    $queryargs[] = "($crpvideocolumn[videoid] = '".DataUtil::formatForStore($videoid)."'
+										AND $crpvideocolumn[document_type] = 'image')";
+        
+		$where = null;
+    if (count($queryargs) > 0) {
+        $where = ' WHERE ' . implode(' AND ', $queryargs);
+    }
+    
+    $columnArray = array('id','videoid','document_type','name','content_type','size','binary_data');
+    	
+		$file = DBUtil::selectObject('crpvideo_covers', $where, $columnArray);
+		$modifiedDate = $this->getVideoDate($videoid,'lu_date');
+		
+		// credits to Mediashare by Jorn Lind-Nielsen
+		if (pnConfigGetVar('UseCompression') == 1)
+			header("Content-Encoding: identity");
+			
+		// Check cached versus modified date
+	  $lastModifiedDate = date('D, d M Y H:i:s T', $modifiedDate);
+	  $currentETag = $modifiedDate;
+	
+	  global $HTTP_SERVER_VARS;
+	  $cachedDate = (isset($HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE']) ? $HTTP_SERVER_VARS['HTTP_IF_MODIFIED_SINCE'] : null);
+	  $cachedETag = (isset($HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH']) ? $HTTP_SERVER_VARS['HTTP_IF_NONE_MATCH'] : null);
+		
+		// If magic quotes are on then all query/post variables are escaped - so strip slashes to make a compare possible
+	  // - only cachedETag is expected to contain quotes
+	  if (get_magic_quotes_gpc())
+	    $cachedETag = stripslashes($cachedETag);
+	
+	  if (    (empty($cachedDate) || $lastModifiedDate == $cachedDate)
+	      &&  '"'.$currentETag.'"' == $cachedETag)
+	  {
+	    header("HTTP/1.1 304 Not Modified");
+	    header("Status: 304 Not Modified");
+	    header("Expires: " . date('D, d M Y H:i:s T', time()+180*24*3600)); // My PHP insists on Expires in 1981 as default!
+	  	header('Pragma: cache'); // My PHP insists on putting a pragma "no-cache", so this is an attempt to avoid that
+	  	header('Cache-Control: public');
+	    header("ETag: \"$modifiedDate\"");
+	    return true;
+	  }
+
+		Header("Content-type: {$file['content_type']}");
+		Header("Content-Disposition: inline; filename={$file['name']}");
+		//Header("Content-Length: " . strlen($file['binary_data']));
+
+		echo $file['binary_data'];
+
+		pnShutDown();
+	}
+	
+	/**
+	 * delete file
+	 * 
+	 * @param int $file_type file identifier
+	 * @param int $eventid event identifier
+	 */
+	function deleteFile($file_type=null, $videoid=null)
+	{
+		// Argument check
+    if (!$videoid)
+    	return LogUtil::registerError (_MODARGSERROR);
+		
+		$item = $this->getFile($videoid, $file_type);
+    if (!$item)
+      return LogUtil::registerError (_NOSUCHITEM);
+
+
+    if (!DBUtil::deleteObjectByID('crpvideo_covers', $item['id'], 'id'))
+      return LogUtil::registerError (_DELETEFAILED);
+
+    return true;
+	}
+	
+	
+	/**
+	 * Verify binary existence
+	 * 
+	 * @param int $eventid event identifier
+	 * @param string $documentType tipe of file
+	 * 
+	 * @return int count
+	 */
+	function existFile($videoid=null)
+	{
+		$count = DBUtil::selectObjectCountByID ('crpvideo_covers', $videoid, 'id', false);
+
+		return $count>0;
+	}
+	
+	/**
+	 * Validate submitted data
+	 * 
+	 * @param array data submitted data
+	 * @return boolean true if data are OK
+	 */
+	function validateData(&$data)
+	{
+		$validateOK = false;
+		
+		if( pnModGetVar('crpVideo','mandatory_cover') && $data['image']['error']!=UPLOAD_ERR_OK && empty($data['videoid']))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_IMAGE_NO_FILE);
+		}
+  	elseif( ($data['image']['error']) && $data['image']['error']!=UPLOAD_ERR_NO_FILE)
+		{
+			switch($data['image']['error'])
+			{
+				case UPLOAD_ERR_INI_SIZE:
+				case UPLOAD_ERR_FORM_SIZE:
+					LogUtil::registerError (_CRPVIDEO_ERROR_IMAGE_FILE_SIZE_TOO_BIG);
+					break;
+				case UPLOAD_ERR_PARTIAL:
+				case UPLOAD_ERR_NO_TMP_DIR:
+					LogUtil::registerError (_CRPVIDEO_ERROR_IMAGE_NO_FILE);
+					break;
+			}
+		}
+		elseif(!in_array($data['image']['type'], $this->ImageTypes) && $data['image']['error']!=UPLOAD_ERR_NO_FILE)
+		{
+			LogUtil::registerError (_CRPVIDEO_IMAGE_INVALID_TYPE);
+		}
+		elseif( ($data['file']['error']) && empty($data['videoid']))
+		{
+			switch($data['file']['error'])
+			{
+				case UPLOAD_ERR_INI_SIZE:
+				case UPLOAD_ERR_FORM_SIZE:
+					LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_FILE_SIZE_TOO_BIG);
+					break;
+				case UPLOAD_ERR_PARTIAL:
+				case UPLOAD_ERR_NO_TMP_DIR:
+				case UPLOAD_ERR_NO_FILE:
+					LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_NO_FILE);
+					break;
+			}
+		}
+		elseif(!in_array($data['file']['type'], $this->VideoTypes) && $data['file']['error']!=UPLOAD_ERR_NO_FILE && $data['source']=='video')
+		{
+			LogUtil::registerError (_CRPVIDEO_VIDEO_INVALID_TYPE);
+		}
+		elseif ($data['image']['size'] > pnModGetVar('crpVideo','cover_dimension'))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_IMAGE_FILE_SIZE_TOO_BIG);
+		}
+		elseif ($data['file']['size']> pnModGetVar('crpVideo','file_dimension'))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_FILE_SIZE_TOO_BIG);
+		}
+		elseif($data['external'] && $data['source']=='external' && !pnVarValidate($data['external'],'url'))
+		{
+			LogUtil::registerError (_CRPVIDEO_INVALID_URL);
+		}
+		elseif (empty($data['title']))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_NO_TITLE);
+		}
+		elseif (empty($data['author']))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_NO_AUTHOR);
+		}
+		elseif (empty($data['content']))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_NO_CONTENT);
+		}
+		elseif (empty($data['__CATEGORIES__']['Main']))
+		{
+			LogUtil::registerError (_CRPVIDEO_ERROR_VIDEO_NO_CATEGORY);
+		}
+		else
+		{
+			$validateOK = true;
+		}
+
+		return $validateOK;
+	}
+}
+
+?>

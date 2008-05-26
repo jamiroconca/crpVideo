@@ -1,0 +1,77 @@
+<!--[ pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/swfobject.js" ]-->
+<!--[include file="crpvideo_user_menu.htm"]-->
+
+<!--[pnpagesetvar name=title value=$title]-->
+<div class="crpvideo_video_container">
+<h2><!--[$title|pnvarprephtmldisplay]--></h2>
+<h3><!--[pnml name=_CRPVIDEO_TAGS]--></strong>: <!--[$tags|replace:" ":" &middot; "]--></h3>
+<!--[if $displaywrapper]-->
+<div class="crpvideo_video_header">
+<ul>
+<!--[if $cr_uid]-->
+<!--[pnusergetvar name=uname uid=$cr_uid assign=cr_uname]-->
+<!--[pnmodurl modname=Profile func=view uname=$cr_uname assign=cr_profilelink]-->
+<li><!--[pnml name=_CREATEDBYON username="<a href='$cr_profilelink'>$cr_uname</a>" date=$cr_date|pndate_format html=true]--></li>
+<!--[/if]-->
+<!--[pnusergetvar name=uname uid=$lu_uid assign=lu_uname]-->
+<!--[pnmodurl modname=Profile func=view uname=$lu_uname assign=lu_profilelink]-->
+<li><!--[pnml name=_UPDATEDBYON username="<a href='$lu_profilelink'>$lu_uname</a>" date=$lu_date|pndate_format html=true]--></li>
+</ul>
+</div>
+<!--[/if]-->
+
+<div style="clear:left;">&nbsp;</div>
+
+<div style="float:left;">
+
+<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid assign=coverurl]-->
+<!--[if $source eq 'video']-->
+<p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
+<script type="text/javascript">
+	var so = new SWFObject('modules/crpVideo/pnincludes/flvplayer.swf','player','<!--[pnmodgetvar module=crpVideo name=playerwidth]-->','<!--[pnmodgetvar module=crpVideo name=playerheight]-->','7');
+	so.addParam("allowfullscreen","false");
+	so.addVariable("title","<!--[$title]-->");
+	so.addVariable("file","<!--[$urlvideo]-->");
+	so.addVariable("displayheight","<!--[pnmodgetvar module=crpVideo name=displayheight]-->");
+	so.addVariable("overstretch","false");
+	so.addVariable("author","<!--[$author]-->");
+	so.write('player');
+</script>
+<!--[elseif $source eq 'external']-->
+<object width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=playerheight]-->">
+	<param name="movie" value="<!--[$external|pnvarprepfordisplay]-->"></param>
+	<param name="wmode" value="transparent"></param>
+	<embed src="<!--[$external|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=playerheight]-->"></embed>
+</object>
+<!--[/if]-->
+</div>
+
+<p class="crpvideo_video_body">
+<!--[$video|nl2paragraphs|pnvarprephtmldisplay]-->
+</p>
+<div style="clear:left;"></div>
+
+<!--[if $display_embed && $source eq 'video']-->
+<p>
+	<label for="embed_code"><!--[pnml name=_CRPVIDEO_EMBED_CODE]--></label>
+	<textarea id="embed_code" readonly="readonly" cols="80" rows="8">
+	<object width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=displayheight]-->">
+	<param name="movie" value="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->"></param>
+	<param name="wmode" value="transparent"></param><embed src="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=displayheight]-->"></embed>
+	</object>
+	</textarea>
+</p>
+<!--[/if]-->
+
+<!--[if $displaywrapper]-->
+<div class="crpvideo_video_footer">
+(<!--[pnml name=_CRPVIDEO_WORDSINTHISTEXT t=$content|count_words]-->) (<!--[pnml name=_CRPVIDEO_READS x=$counter]-->)
+<span class="crpvideo_video_printerlink">
+<a href="<!--[pnmodurl modname=crpVideo func=display videoid=$videoid theme=printer]-->"><!--[pnimg modname=core src=printer1.gif set=icons/small alt='_CRPVIDEO_PRINT' altml=true]--></a>
+</span>
+</div>
+<!--[/if]-->
+<!--[pager rowcount=$pager.numitems limit=$pager.itemsperpage posvar=page img_prev=images/icons/extrasmall/previous.gif img_next=images/icons/extrasmall/next.gif]-->
+<!--[pnmodurl modname=crpVideo func=display videoid=$videoid assign=returnurl]-->
+<!--[pnmodcallhooks hookobject=item hookaction=display hookid=$videoid module=crpVideo returnurl=$returnurl]-->
+</div>

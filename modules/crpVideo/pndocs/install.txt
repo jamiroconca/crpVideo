@@ -1,0 +1,14 @@
+INSTALL:
+- requirements are postnuke 0.8 and Categories module 
+- be sure there's no crpVideo category from a previous installation
+- default module installation procedure
+- check module settings for size limit and other configuration variables (important: relative upload path)
+- upload path folder must be 777 chmodded
+
+UPGRADE:
+- standard upgrade procedure
+
+UNINSTALL:
+- default module uninstallation procedure
+- remeber to delete crpVideo category and sub-categories before attempting a new installation
+
