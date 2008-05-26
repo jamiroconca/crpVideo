@@ -1,0 +1,28 @@
+<!--[pngetstatusmsg]-->
+
+<div class="crpvideo-box">
+	<h1><!--[sitename]--> <!--[pnml name="_CRPVIDEO"]--></h1>
+	<div class="pn-menu">
+	[&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="view"]-->"><!--[pnml name="_CRPVIDEO_VIEW"]--></a>&nbsp;|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;]
+	
+	<!--[if $enablecategorization and $category]-->
+	<!--[breadcrumbcategorymenu modname="crpVideo" tablename ="crpvideos" category=$category lang=$lang]-->
+	<!--[/if]-->
+	
+	<!--[if $categories]-->
+	<div id="video-categories">
+		<h3><!--[pnml name=_CATEGORIES]--></h3>
+		<ul>
+			<!--[foreach from=$categories item=category]-->
+			<!--[if $shorturls and $shorturlstype eq 0]-->
+			<li><a href="<!--[pnmodurl modname=crpVideo func=view cat=$category.path|replace:$rootCat.path:'']-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
+			<!--[else]-->
+			<li><a href="<!--[pnmodurl modname=crpVideo func=view cat=$category.id]-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
+			<!--[/if]-->		
+			<!--[/foreach]-->
+		</ul>
+	</div>
+	<!--[/if]-->
+
+	</div>
+</div>

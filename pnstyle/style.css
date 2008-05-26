@@ -1,0 +1,118 @@
+div.crpvideo_video_container {
+	margin-bottom: 5px;
+}
+
+div.crpvideo_video_header {
+	border: 1px dashed black;
+	padding: 5px;
+}
+
+div.crpvideo_video_body {
+	margin: 10px;
+}
+
+div.crpvideo_video_footer {
+	border: 1px dashed black;
+	font-size: 95%;
+	padding: 5px;
+}
+
+ul.crpvideo-list {
+	list-style: none;
+}
+
+li.crpvideo-odd {
+  display: inline;
+  position: relative;
+}
+
+li.crpvideo-even {
+  display: inline;
+  position: relative;
+}
+
+.pages-bread ul {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	display: inline;
+}
+
+.pages-bread li {
+	display:inline;
+	margin: 0 18px 0 -10px;
+	padding: 0 3px 0 3px;
+}
+
+.pages-bread a span {	
+	display: block;
+	cursor: pointer; /* IE doesnt display the hand when you roll over the link for some reason. This fixes it */
+}
+
+.pages-bread li a {}
+.pages-bread li a:hover {}
+.pages-bread li:hover {}
+
+/* styles to ensure that control elements inside the floated div directly above
+don't themselves float*/
+div.crpvideo-formrow div input, div.crpvideo-formrow div textarea,
+div.crpvideo-formrow div select {
+	float: none;
+}
+
+div.crpvideo-formrow {
+	border-top: 0px solid #ccc;
+	padding: 5px 0px 10px 0px; /* top, right, bottom, left */
+	min-height: 2em;
+}
+
+div.crpvideo-formrow>label {
+	float: left;
+	width: 23em;
+	margin-left: 5px;
+  padding: 0px 5px 0px 0px;
+	text-align: right;
+}
+
+form.crpvideo-formrow div.formbuttons {
+	text-align: left;
+	margin-left: 15em;
+}
+
+form.crpvideo-form div.formbuttons input, form.crpvideo-form div.formbuttons img {
+	margin: 5px;	
+}
+
+form.crpvideo-form button {
+  border: 0px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.crpvideo-box {
+	padding: 8px;
+	border: 1px dashed black;
+	margin: 0 0 16px 0;
+}
+
+/* -- shadow -- */
+.crpvideo-shadow {
+  background-image: url(../pnimages/dropshadow.gif);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  float: left;
+  position: relative;
+  display: inline;
+}
+
+.crpvideo-shadow div {
+	position: relative;
+  left: -5px;
+  top: -5px;
+  border: 1px outset #808080;
+  padding: 9px 0px 6px 0px;
+ }
+ 
+ .crpvideo-shadow img {
+ 	padding: 0px;
+ 	margin: 0px;
+ }

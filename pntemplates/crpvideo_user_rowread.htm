@@ -1,0 +1,26 @@
+<!--[if $crpvideo_userlist_image]-->
+<div class="crpvideo-shadow">
+<div class="crpvideo_image_thumb">
+  <a href="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid]-->" title="<!--[$title]-->" rel="lightbox">
+	<!--[if $crpvideo_use_gd eq '1']-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_thumbnail" videoid=$videoid width=$userlist_width]-->" alt="<!--[$title]-->" title="<!--[$title]-->"/>
+	<!--[else]-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid]-->" alt="<!--[$title]-->" title="<!--[$title]-->" width="<!--[$userlist_width]-->px"/>
+	<!--[/if]-->
+	</a>
+</div>
+</div>
+<!--[/if]-->
+
+<div>
+	<a href="<!--[pnmodurl modname="crpVideo" func="display" videoid=$videoid]-->"><!--[$title|pnvarprephtmldisplay]--></a>
+</div>
+
+<div>
+<!--[pnml name="_CRPVIDEO_AUTHOR"]-->: <!--[$author|pnvarprephtmldisplay]-->
+</div>
+<div>
+( <!--[pnml name="_CRPVIDEO_INSERTION"]--> <!--[$cr_date|pndate_format:"%d/%m/%Y"]--> - <!--[pnml name=_CRPVIDEO_READS x=$counter]-->)
+</div>
+
+<div style="clear:left;">&nbsp;</div>

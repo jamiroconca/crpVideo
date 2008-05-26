@@ -1,0 +1,20 @@
+crpVideo
+v0.1.5 - ??? april 2008
+- added show videos block from a user
+v0.1.4 - 16 March 2008
+- added external url video submission
+- display embed code work only for not external videos
+- more stylish list
+- added most viewed videos block
+- added configuration of mandatory cover
+v0.1.3 - 24 February 2008
+- added latest categorized and latest video blocks
+- added display embed code
+- added video tags
+- added more specific permission, users can add videos with crpVideo:: .* ACCESS_COMMENT permission 
+v0.1.2 - 5 January 2008
+- added file upload management
+v0.1.1 - 12 november 2007
+- added db stored image management
+v0.1.0 - 10 August 2007
+- Initial version 

@@ -1,0 +1,112 @@
+<!--[pnajaxheader modname=crpVideo filename=crpvideo.js noscriptaculous=true nobehaviour=true]-->
+<!--[include file="crpvideo_admin_menu.htm"]-->
+<div class="pn-admincontainer">
+<div class="pn-adminpageicon"><!--[pnimg modname=core src=configure.gif set=icons/large alt='_MODIFYCONFIG' altml=true]--></div>
+<h2><!--[pnml name="_MODIFYCONFIG"]--></h2>
+<form class="pn-adminform" action="<!--[pnmodurl modname="crpVideo" type="admin" func="updateconfig"]-->" method="post" enctype="application/x-www-form-urlencoded">
+<div>
+	<input type="hidden" name="authid" value="<!--[pnsecgenauthkey module="crpVideo"]-->" />
+	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_GENERAL]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_enablecategorization"><!--[pnml name="_ENABLECATEGORISATION"]--></label>
+			<input id="crpvideo_enablecategorization" type="checkbox" name="enablecategorization"<!--[if $enablecategorization]--> checked="checked"<!--[/if]--> />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_itemsperpage"><!--[pnml name="_ITEMSPERPAGE"]--></label>
+			<input id="crpvideo_itemsperpage" type="text" name="itemsperpage" size="3" value="<!--[$itemsperpage|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_file_dimension"><!--[pnml name="_CRPVIDEO_FILE_DIMENSION"]--></label>
+			<input id="crpvideo_file_dimension" type="text" name="file_dimension" maxlength="10" size="12" value="<!--[$file_dimension|pnvarprepfordisplay]-->" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_IMAGES]--></legend>		
+		<div class="pn-adminformrow">
+			<label for="crpcalendar_gd_version"><!--[pnml name="_CRPVIDEO_GD_AVAILABLE"]--></label>
+			<input id="crpcalendar_gd_version" type="text" name="gd_version" disabled="disabled" size="32" value="<!--[$gd_version.string|pnvarprepfordisplay]-->" />
+			<!--[if $gd_version.value >= 2]-->
+				<!--[pnimg modname=core src=button_ok.gif set=icons/small altml=true titleml=true alt="_OK" title="_OK"]-->
+			<!--[else]-->
+				<!--[pnimg modname=core src=editdelete.gif set=icons/small altml=true titleml=true alt="_ERROR" title="_ERROR"]-->
+			<!--[/if]-->
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_cover_dimension"><!--[pnml name="_CRPVIDEO_COVER_DIMENSION"]--></label>
+			<input id="crpvideo_cover_dimension" type="text" name="cover_dimension" maxlength="6" size="7" value="<!--[$cover_dimension|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow pn-hide" id="crpvideo_use_browser">
+			<label><!--[pnml name="_CRPVIDEO_USE_BROWSER"]--></label>
+			<input type="hidden" name="crpvideo_use_gd" value="0" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_use_gd"><!--[pnml name="_CRPVIDEO_USE_GD"]--></label>
+			<input id="crpvideo_use_gd" type="checkbox" name="crpvideo_use_gd"<!--[if $crpvideo_use_gd]--> checked="checked"<!--[/if]--> />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_userlist_image"><!--[pnml name="_CRPVIDEO_USERLIST_IMAGE"]--></label>
+			<input id="crpvideo_userlist_image" type="checkbox" name="crpvideo_userlist_image"<!--[if $crpvideo_userlist_image]--> checked="checked"<!--[/if]--> />
+		</div>		
+		<div class="pn-adminformrow">
+			<label for="crpvideo_image_width"><!--[pnml name="_CRPVIDEO_IMAGE_WIDTH"]--></label>
+			<input id="crpvideo_image_width" type="text" name="image_width" maxlength="3" size="4" value="<!--[$image_width|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="userlist_width"><!--[pnml name="_CRPVIDEO_USERLIST_WIDTH"]--></label>
+			<input id="userlist_width" type="text" name="userlist_width" maxlength="3" size="4" value="<!--[$userlist_width|pnvarprepfordisplay]-->" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_PLAYER]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_playerwidth"><!--[pnml name="_CRPVIDEO_PLAYER_WIDTH"]--></label>
+			<input id="crpvideo_playerwidth" type="text" name="playerwidth" maxlength="3" size="4" value="<!--[$playerwidth|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_playerheight"><!--[pnml name="_CRPVIDEO_PLAYER_HEIGHT"]--></label>
+			<input id="crpvideo_playerheight" type="text" name="playerheight" maxlength="3" size="4" value="<!--[$playerheight|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_displayheight"><!--[pnml name="_CRPVIDEO_DISPLAY_HEIGHT"]--></label>
+			<input id="crpvideo_displayheight" type="text" name="displayheight" maxlength="3" size="4" value="<!--[$displayheight|pnvarprepfordisplay]-->" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_UPLOAD]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_upload_path"><!--[pnml name="_CRPVIDEO_UPLOAD_PATH"]--></label>
+			<input id="crpvideo_upload_path" type="text" name="upload_path" maxlength="255" size="72" value="<!--[$upload_path|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_mandatory_cover"><!--[pnml name="_CRPVIDEO_MANDATORY_COVER"]--></label>
+			<input id="crpvideo_mandatory_cover" type="checkbox" name="mandatory_cover"<!--[if $mandatory_cover]--> checked="checked"<!--[/if]--> />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend><!--[pnml name=_PERMALINKS]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_addcategorytitletopermalink"><!--[pnml name="_ADDCATEGORYTITLETOPERMALINK"]--></label>
+			<input id="crpvideo_addcategorytitletopermalink" type="checkbox" name="addcategorytitletopermalink"<!--[if $addcategorytitletopermalink]--> checked="checked"<!--[/if]--> />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_SHARE]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_display_embed"><!--[pnml name="_CRPVIDEO_DISPLAY_EMBED"]--></label>
+			<input id="crpvideo_display_embed" type="checkbox" name="display_embed"<!--[if $display_embed]--> checked="checked"<!--[/if]--> />
+		</div>
+	</fieldset>
+ 		<!--[pnmodcallhooks hookobject=module hookaction=modifyconfig module=crpVideo]-->
+    <div class="pn-adminformrow pn-adminformbuttons">
+    <a href="<!--[pnmodurl modname=crpVideo type=admin func=view]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small altml=true titleml=true alt="_CANCEL" title="_CANCEL"]--></a>
+    <!--[pnbutton src=button_ok.gif set=icons/small alt="_UPDATECONFIG" title="_UPDATECONFIG"]-->
+    </div>
+</div>
+</form>
+
+<script type="text/javascript">
+	Event.observe(window, 'load', function(){crpVideoConfigInit('<!--[$gd_version.value]-->');}, false);
+</script>
+
+</div>
