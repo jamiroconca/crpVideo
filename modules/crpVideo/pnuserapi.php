@@ -185,14 +185,22 @@ function crpVideo_userapi_get($args)
  */
 function crpVideo_userapi_countitems($args)
 {
-	$args['catFilter']= array ();
-	if (isset ($args['category']) && !empty ($args['category']))
-	{
-		$args['catFilter'][]= $args['category'];
-	}
+	$pntable = pnDBGetTables();
+  $crpvideocolumn = $pntable['crpvideos_column'];
 
+	$where = '';
+	
+	$catFilter = array();
+	if (is_array($args['category'])) 
+		$catFilter = $args['category'];
+  else if ($args['category'])
+  	$catFilter['Main'] = $args['category'];
+		
+	if ($args['active'])
+		$where = " WHERE $crpvideocolumn[obj_status]='".DataUtil::formatForStore($args['active'])."'";
+	
 	// Return the number of items
-	return DBUtil :: selectObjectCount('crpvideos', '', 'videoid', false, $args['catFilter']);
+	return DBUtil :: selectObjectCount('crpvideos', $where, 'videoid', false, $catFilter);
 }
 
 /**
