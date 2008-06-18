@@ -3,9 +3,9 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpvideo Support and documentation
- * @author Daniele Conca <conca dot daniele at gmail dot com>
+ * @copyright (c) 2007-2008, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
@@ -86,12 +86,15 @@ function crpVideo_userapi_getall($args)
 		return LogUtil :: registerError(_MODARGSERROR);
 	}
 	
-	$args['catFilter'] = array();
+	$catFilter = array();
 	if (is_array($args['category'])) 
 		$catFilter = $args['category'];
   else if ($args['category'])
-  	$args['catFilter']['Main'] = $args['category'];
-
+ 	{
+  	$catFilter['Main'] = $args['category'];
+ 		$catFilter['__META__']['module'] = 'crpVideo';
+ 	}
+ 	
 	$items= array ();
 
 	// Security check
@@ -140,7 +143,7 @@ function crpVideo_userapi_getall($args)
 	$orderby = "ORDER BY $videoscolumn[$orderColumn] $args[sortOrder]";
 	
 	// get the objects from the db
-	$objArray= DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1, $args['numitems'], '', $permFilter, $args['catFilter']);
+	$objArray= DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1, $args['numitems'], '', $permFilter, $catFilter);
 
 	// Check for an error with the database code, and if so set an appropriate
 	// error message and return
@@ -194,8 +197,11 @@ function crpVideo_userapi_countitems($args)
 	if (is_array($args['category'])) 
 		$catFilter = $args['category'];
   else if ($args['category'])
+  {
   	$catFilter['Main'] = $args['category'];
-		
+  	$catFilter['__META__']['module'] = 'crpVideo';
+  }
+  	
 	if ($args['active'])
 		$where = " WHERE $crpvideocolumn[obj_status]='".DataUtil::formatForStore($args['active'])."'";
 	
