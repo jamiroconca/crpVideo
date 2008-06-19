@@ -47,6 +47,7 @@ define('_CRPVIDEO_FILE_DIMENSION','Massima dimensione del file per l\'upload (by
 define('_CRPVIDEO_GD_AVAILABLE','GD Library');
 define('_CRPVIDEO_IMAGES','Immagini');
 define('_CRPVIDEO_IMAGE_RESIZE','Le immagini saranno scalate alla larghezza di');
+define('_CRPVIDEO_MAIN_ITEMS','Elementi nell\'indice');
 define('_CRPVIDEO_MANDATORY_COVER','Cover obbligatoria');
 define('_CRPVIDEO_PLAYER','Player');
 define('_CRPVIDEO_PLAYER_HEIGHT','Altezza player');

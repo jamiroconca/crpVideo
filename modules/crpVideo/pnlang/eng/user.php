@@ -2,11 +2,10 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpvideo Support and documentation
- * @version $Id: $
- * @author Daniele Conca <conca dot daniele at gmail dot com>
- * @license GNU/GPL - v.2
+ * @copyright (c) 2007-2008, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
+ * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
 
@@ -15,8 +14,10 @@ define('_CRPVIDEO', 'crpVideo');
 
 // main list
 define('_CRPVIDEO_AVAILABLESECTIONS', 'The available sections are as follows:');
-define('_CRPVIDEO_INDEX','Module Root');
+define('_CRPVIDEO_INDEX','crpVideo index');
 define('_CRPVIDEO_LIST_NONE','There are no videos here');
+define('_CRPVIDEO_MOSTRECENT_VIDEOS','Recent videos');
+define('_CRPVIDEO_MOSTVIEWED_VIDEOS','Popular videos');
 define('_CRPVIDEO_VIDEO', 'Video');
 define('_CRPVIDEO_VIDEOSINSECTION', 'The videos published under this section are as follows.');
 define('_CRPVIDEO_VIEW', 'Videos list');
