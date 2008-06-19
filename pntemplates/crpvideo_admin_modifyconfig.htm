@@ -9,7 +9,7 @@
 	<fieldset>
 		<legend><!--[pnml name=_CRPVIDEO_GENERAL]--></legend>
 		<div class="pn-adminformrow">
-			<label for="crpvideo_enablecategorization"><!--[pnml name="_ENABLECATEGORISATION"]--></label>
+			<label for="crpvideo_enablecategorization"><!--[pnml name="_ENABLECATEGORIZATION"]--></label>
 			<input id="crpvideo_enablecategorization" type="checkbox" name="enablecategorization"<!--[if $enablecategorization]--> checked="checked"<!--[/if]--> />
 		</div>
 		<div class="pn-adminformrow">
@@ -20,12 +20,16 @@
 			<label for="crpvideo_file_dimension"><!--[pnml name="_CRPVIDEO_FILE_DIMENSION"]--></label>
 			<input id="crpvideo_file_dimension" type="text" name="file_dimension" maxlength="10" size="12" value="<!--[$file_dimension|pnvarprepfordisplay]-->" />
 		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_main_items"><!--[pnml name="_CRPVIDEO_MAIN_ITEMS"]--></label>
+			<input id="crpvideo_main_items" type="text" name="main_items" size="3" value="<!--[$main_items|pnvarprepfordisplay]-->" />
+		</div>
 	</fieldset>
 	<fieldset>
 		<legend><!--[pnml name=_CRPVIDEO_IMAGES]--></legend>		
 		<div class="pn-adminformrow">
-			<label for="crpcalendar_gd_version"><!--[pnml name="_CRPVIDEO_GD_AVAILABLE"]--></label>
-			<input id="crpcalendar_gd_version" type="text" name="gd_version" disabled="disabled" size="32" value="<!--[$gd_version.string|pnvarprepfordisplay]-->" />
+			<label for="crpvideo_gd_version"><!--[pnml name="_CRPVIDEO_GD_AVAILABLE"]--></label>
+			<input id="crpvideo_gd_version" type="text" name="gd_version" disabled="disabled" size="32" value="<!--[$gd_version.string|pnvarprepfordisplay]-->" />
 			<!--[if $gd_version.value >= 2]-->
 				<!--[pnimg modname=core src=button_ok.gif set=icons/small altml=true titleml=true alt="_OK" title="_OK"]-->
 			<!--[else]-->
