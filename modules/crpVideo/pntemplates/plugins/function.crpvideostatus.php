@@ -1,14 +1,15 @@
 <?php
+
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpcalendar Support and documentation
- * @author Daniele Conca <jami at cremonapalloza dot org>
+ * @copyright (c) 2007-2008, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
- 
+
 /**
  * Smarty function to display status of a video
  *
@@ -22,51 +23,51 @@
  * 
  * @return string the results of the module function
  */
-function smarty_function_crpvideostatus($params, &$smarty)
+function smarty_function_crpvideostatus($params, & $smarty)
 {
 	// Security check
-	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_EDIT))
+	if (!SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_EDIT))
 	{
-		return LogUtil::registerPermissionError();
+		return LogUtil :: registerPermissionError();
 	}
 
-  $statusimage = '';
-	
+	$statusimage = '';
+
 	if (!$params['fake'])
 	{
-		if (SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_ADD) && ($params['status']=='A' || $params['status']=='P'))
-	  	$statusimage .= '<a href="'.pnModUrl('crpVideo','admin','change_status', array('videoid' => $params['videoid'], 'obj_status'=>$params['status'])).'" title="'._CRPVIDEO_CHANGE_STATUS.'">'."\n";
+		if (SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_ADD) && ($params['status'] == 'A' || $params['status'] == 'P'))
+			$statusimage .= '<a href="' . pnModUrl('crpVideo', 'admin', 'change_status', array (
+				'videoid' => $params['videoid'],
+				'obj_status' => $params['status']
+			)) . '" title="' . _CRPVIDEO_CHANGE_STATUS . '">' . "\n";
 		else
 			$statusimage .= '';
-	
-		if ($params['status']=='A')
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/green_dot.gif" alt="'._ACTIVE.'" title="'._CRPVIDEO_CHANGE_STATUS.'"/>'."\n</a>\n";
-	  elseif ($params['status']=='P')
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="'._CRPVIDEO_PENDING.'" title="'._CRPVIDEO_CHANGE_STATUS.'"/>'."\n</a>\n";
+
+		if ($params['status'] == 'A')
+			$statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/green_dot.gif" alt="' . _ACTIVE . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n</a>\n";
+		elseif ($params['status'] == 'P') $statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="' . _CRPVIDEO_PENDING . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n</a>\n";
 		else
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/red_dot.gif" alt="'._CRPVIDEO_REJECTED.'" title="'._CRPVIDEO_CHANGE_STATUS_MODIFYING.'" />'."\n";
+			$statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/red_dot.gif" alt="' . _CRPVIDEO_REJECTED . '" title="' . _CRPVIDEO_CHANGE_STATUS_MODIFYING . '" />' . "\n";
 	}
 	else
 	{
-		if (SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_ADD) && ($params['status']=='A' || $params['status']=='P'))
+		if (SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_ADD) && ($params['status'] == 'A' || $params['status'] == 'P'))
 		{
 			$statusimage .= "<a href='javascript:void(0);'>";
-	    $statusimage .= '<img id="videostatus_fake_A_'.$params['videoid'].'" ';
-	    $statusimage .= ($params['status']=='P')?' style="display:none" ':'';
-			$statusimage .= '" onclick="togglestatus(\''.$params['videoid'].'\',\'A\')" src="modules/crpVideo/pnimages/green_dot.gif" alt="'._ACTIVE.'" title="'._CRPVIDEO_CHANGE_STATUS.'"/>'."\n";
-	    $statusimage .= '<img id="videostatus_fake_P_'.$params['videoid'].'"';
-	    $statusimage .= ($params['status']=='A')?' style="display:none" ':'';
-			$statusimage .= 'onclick="togglestatus(\''.$params['videoid'].'\',\'P\')" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="'._CRPVIDEO_PENDING.'" title="'._CRPVIDEO_CHANGE_STATUS.'"/>'."\n";
+			$statusimage .= '<img id="videostatus_fake_A_' . $params['videoid'] . '" ';
+			$statusimage .= ($params['status'] == 'P') ? ' style="display:none" ' : '';
+			$statusimage .= '" onclick="togglestatus(\'' . $params['videoid'] . '\',\'A\')" src="modules/crpVideo/pnimages/green_dot.gif" alt="' . _ACTIVE . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n";
+			$statusimage .= '<img id="videostatus_fake_P_' . $params['videoid'] . '"';
+			$statusimage .= ($params['status'] == 'A') ? ' style="display:none" ' : '';
+			$statusimage .= 'onclick="togglestatus(\'' . $params['videoid'] . '\',\'P\')" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="' . _CRPVIDEO_PENDING . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n";
 			$statusimage .= "</a>";
 		}
-		elseif ($params['status']=='A')
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/green_dot.gif" alt="'._ACTIVE.'" title="'._CRPCALENDAR_CHANGE_STATUS.'"/>'."\n";
-	  elseif ($params['status']=='P')
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="'._CRPVIDEO_PENDING.'" title="'._CRPVIDEO_CHANGE_STATUS.'"/>'."\n";
+		elseif ($params['status'] == 'A') $statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/green_dot.gif" alt="' . _ACTIVE . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n";
+		elseif ($params['status'] == 'P') $statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/yellow_dot.gif" alt="' . _CRPVIDEO_PENDING . '" title="' . _CRPVIDEO_CHANGE_STATUS . '"/>' . "\n";
 		else
-	    $statusimage .= '<img id="videostatus_'.$params['videoid'].'" src="modules/crpVideo/pnimages/red_dot.gif" alt="'._CRPVIDEO_REJECTED.'" title="'._CRPVIDEO_CHANGE_STATUS_MODIFYING.'" />'."\n";
+			$statusimage .= '<img id="videostatus_' . $params['videoid'] . '" src="modules/crpVideo/pnimages/red_dot.gif" alt="' . _CRPVIDEO_REJECTED . '" title="' . _CRPVIDEO_CHANGE_STATUS_MODIFYING . '" />' . "\n";
 	}
-	  
-  return $statusimage;
+
+	return $statusimage;
 }
 ?>
