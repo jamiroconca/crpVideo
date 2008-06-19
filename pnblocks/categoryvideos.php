@@ -1,11 +1,12 @@
 <?php
+
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpcalendar Support and documentation
- * @author Daniele Conca <jami at cremonapalloza dot org>
- * @license GNU/GPL - v.2
+ * @copyright (c) 2007-2008, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
+ * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
 
@@ -15,8 +16,8 @@
  */
 function crpVideo_categoryvideosblock_init()
 {
-  // Security
-  pnSecAddSchema('Categoryvideosblock::', 'Block title::');
+	// Security
+	pnSecAddSchema('Categoryvideosblock::', 'Block title::');
 }
 
 /**
@@ -25,13 +26,15 @@ function crpVideo_categoryvideosblock_init()
  */
 function crpVideo_categoryvideosblock_info()
 {
-  return array('text_type'       => 'crpVideos',
-               'module'          => 'crpVideo',
-               'text_type_long'  => 'Latest Category\'s videos',
-               'allow_multiple'  => true,
-               'form_content'    => false,
-               'form_refresh'    => false,
-               'show_preview'    => true);
+	return array (
+		'text_type' => 'crpVideos',
+		'module' => 'crpVideo',
+		'text_type_long' => 'Latest Category\'s videos',
+		'allow_multiple' => true,
+		'form_content' => false,
+		'form_refresh' => false,
+		'show_preview' => true
+	);
 }
 
 /**
@@ -42,46 +45,46 @@ function crpVideo_categoryvideosblock_info()
  */
 function crpVideo_categoryvideosblock_display($blockinfo)
 {
-  // security check
-  if (!SecurityUtil::checkPermission( 'Categoryvideosblock::', "$blockinfo[title]::", ACCESS_READ))
-    return;
-  	
-	if(!pnModAvailable('crpVideo'))
-		return;  
-  
-  // get the current language
-  $currentlang = pnUserGetLang();
+	// security check
+	if (!SecurityUtil :: checkPermission('Categoryvideosblock::', "$blockinfo[title]::", ACCESS_READ))
+		return;
 
-  // Break out options from our content field
-  $vars = pnBlockVarsFromContent($blockinfo['content']);
-  // get all module vars for later use
-	$modvars= pnModGetVar('crpVideo');
+	if (!pnModAvailable('crpVideo'))
+		return;
 
-  if (!isset($vars['numitems']))
-    $vars['numitems'] = 5;
-    
-  $apiargs['startnum'] = 1;
-  $apiargs['category'] = $vars['videos_category'];
-  $apiargs['active'] = 'A';
-  $apiargs['numitems'] = $vars['numitems'];
-  $apiargs['orderBy'] = 'cr_date';
-  $apiargs['sortOrder'] = 'DESC';
+	// get the current language
+	$currentlang = pnUserGetLang();
 
-  // call the api
-  $items = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
+	// Break out options from our content field
+	$vars = pnBlockVarsFromContent($blockinfo['content']);
+	// get all module vars for later use
+	$modvars = pnModGetVar('crpVideo');
 
-  // check for an empty return
-  if (empty($items))
-    return;
-  
-  // create the output object
-  $pnRender = pnRender::getInstance('crpVideo',false);
-		
-  $pnRender->assign('videos', $items);
+	if (!isset ($vars['numitems']))
+		$vars['numitems'] = 5;
+
+	$apiargs['startnum'] = 1;
+	$apiargs['category'] = $vars['videos_category'];
+	$apiargs['active'] = 'A';
+	$apiargs['numitems'] = $vars['numitems'];
+	$apiargs['orderBy'] = 'cr_date';
+	$apiargs['sortOrder'] = 'DESC';
+
+	// call the api
+	$items = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
+
+	// check for an empty return
+	if (empty ($items))
+		return;
+
+	// create the output object
+	$pnRender = pnRender :: getInstance('crpVideo', false);
+
+	$pnRender->assign('videos', $items);
 	$pnRender->assign($modvars);
-	
-  $blockinfo['content'] = $pnRender->fetch('crpvideo_block_videos.htm');
-  return pnBlockThemeBlock($blockinfo);
+
+	$blockinfo['content'] = $pnRender->fetch('crpvideo_block_videos.htm');
+	return pnBlockThemeBlock($blockinfo);
 }
 
 /**
@@ -92,29 +95,28 @@ function crpVideo_categoryvideosblock_display($blockinfo)
  */
 function crpVideo_categoryvideosblock_modify($blockinfo)
 {
-  // Break out options from our content field
-  $vars = pnBlockVarsFromContent($blockinfo['content']);
+	// Break out options from our content field
+	$vars = pnBlockVarsFromContent($blockinfo['content']);
 
-  // Defaults
-  if (!isset($vars['numitems']))
-      $vars['numitems'] = 5;
-    
-  // load the category registry util
-	if (!($class = Loader::loadClass('CategoryRegistryUtil')))
+	// Defaults
+	if (!isset ($vars['numitems']))
+		$vars['numitems'] = 5;
+
+	// load the category registry util
+	if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
 		pn_exit('Unable to load class [CategoryRegistryUtil] ...');
-	
+
 	$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideo', 'Main', '/__SYSTEM__/Modules/crpVideo');
-	
 
-  // Create output object
-  $pnRender = pnRender::getInstance('crpVideo', false);
+	// Create output object
+	$pnRender = pnRender :: getInstance('crpVideo', false);
 
-  // assign the block vars
-  $pnRender->assign($vars);
-  $pnRender->assign ('mainCategory', $mainCat);
+	// assign the block vars
+	$pnRender->assign($vars);
+	$pnRender->assign('mainCategory', $mainCat);
 
-  // Return the output that has been generated by this function
-  return $pnRender->fetch('crpvideo_block_categoryvideos_modify.htm');
+	// Return the output that has been generated by this function
+	return $pnRender->fetch('crpvideo_block_categoryvideos_modify.htm');
 
 }
 
@@ -126,21 +128,20 @@ function crpVideo_categoryvideosblock_modify($blockinfo)
  */
 function crpVideo_categoryvideosblock_update($blockinfo)
 {
-  // Get current content
-  $vars = pnBlockVarsFromContent($blockinfo['content']);
+	// Get current content
+	$vars = pnBlockVarsFromContent($blockinfo['content']);
 
-  // alter the corresponding variable
-  $vars['numitems']    = (int)FormUtil::getPassedValue('numitems', null, 'POST');
- 	$vars['videos_category'] = FormUtil :: getPassedValue('videos_category', null);
+	// alter the corresponding variable
+	$vars['numitems'] = (int) FormUtil :: getPassedValue('numitems', null, 'POST');
+	$vars['videos_category'] = FormUtil :: getPassedValue('videos_category', null);
 
-  // write back the new contents
-  $blockinfo['content'] = pnBlockVarsToContent($vars);
+	// write back the new contents
+	$blockinfo['content'] = pnBlockVarsToContent($vars);
 
-  // clear the block cache
-  $pnRender = pnRender::getInstance('crpVideo');
-  $pnRender->clear_cache('crpvideo_block_videos.htm');
+	// clear the block cache
+	$pnRender = pnRender :: getInstance('crpVideo');
+	$pnRender->clear_cache('crpvideo_block_videos.htm');
 
-  return $blockinfo;
+	return $blockinfo;
 }
-
 ?>
