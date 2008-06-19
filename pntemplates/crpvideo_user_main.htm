@@ -1,1 +1,34 @@
-<!--[pnmodfunc modname=crpVideo func=view]-->
+<!--[pnajaxheader modname="crpVideo" nobehaviour=true noscriptaculous=true lightbox=true builder=true]-->
+<!--[include file="crpvideo_user_menu.htm"]-->
+
+<table class="pn-datatable">
+	<thead>
+		<th><!--[pnml name=_CRPVIDEO_MOSTVIEWED_VIDEOS html=1]--></th>
+		<th><!--[pnml name=_CRPVIDEO_MOSTRECENT_VIDEOS html=1]--></th>
+	</thead>
+	
+	<td>
+	<!--[if $mostviewedvideos]-->
+	<ul class="crpvideo-list">
+	<!--[foreach item=video from=$mostviewedvideos]-->
+	<li class="<!--[cycle values="crpvideo-odd,crpvideo-even"]-->"><!--[$video]--></li>
+	<!--[/foreach]-->
+	</ul>
+	<!--[else]-->
+	<!--[pnml name=_CRPVIDEO_LIST_NONE html=1]-->
+	<!--[/if]-->
+	</td>
+	
+	<td>
+	<!--[if $recentvideos]-->
+	<ul class="crpvideo-list">
+	<!--[foreach item=video from=$recentvideos]-->
+	<li class="<!--[cycle values="crpvideo-odd,crpvideo-even"]-->"><!--[$video]--></li>
+	<!--[/foreach]-->
+	</ul>
+	<!--[else]-->
+	<!--[pnml name=_CRPVIDEO_LIST_NONE html=1]-->
+	<!--[/if]-->
+	</td>
+	
+</table>
