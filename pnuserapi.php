@@ -10,6 +10,7 @@
  * @package crpVideo
  */
 
+Loader :: includeOnce('modules/crpVideo/pnclass/crpVideo.php');
 
 /**
  * create a new video
@@ -23,21 +24,21 @@ function crpVideo_userapi_create($args)
 	// defaults
 	if (!isset ($args['language']))
 	{
-		$args['language']= '';
+		$args['language'] = '';
 	}
 	if (!isset ($args['displaywrapper']))
 	{
-		$args['displaywrapper']= false;
+		$args['displaywrapper'] = false;
 	}
 
 	// define the permalink title if not present
 	if (!isset ($args['urltitle']) || empty ($args['urltitle']))
 	{
-		$args['urltitle']= DataUtil :: formatPermalink($args['title']);
+		$args['urltitle'] = DataUtil :: formatPermalink($args['title']);
 	}
-	
+
 	$args['obj_status'] = 'P';
-	
+
 	// Security check
 	if (!SecurityUtil :: checkPermission('crpVideo::Video', "$args[title]::", ACCESS_COMMENT))
 	{
@@ -65,37 +66,38 @@ function crpVideo_userapi_create($args)
 function crpVideo_userapi_getall($args)
 {
 	if (!isset ($args['startnum']) || empty ($args['startnum']))
-		$args['startnum']= 0;
+		$args['startnum'] = 0;
 	if (!isset ($args['numitems']) || empty ($args['numitems']))
-		$args['numitems']= -1;
+		$args['numitems'] = -1;
 	if (!isset ($args['ignoreml']) || !is_bool($args['ignoreml']))
-		$args['ignoreml']= false;
+		$args['ignoreml'] = false;
 	if (!isset ($args['category']))
-		$args['category']= null;
+		$args['category'] = null;
 	if (!isset ($args['sortOrder']))
-		$args['sortOrder']= 'ASC';
+		$args['sortOrder'] = 'ASC';
 	if (!isset ($args['orderBy']))
-		$args['orderBy']= 'title';
+		$args['orderBy'] = 'title';
 	if (!isset ($args['active']))
-		$args['active']= 'A';
+		$args['active'] = 'A';
 	if (!isset ($args['uid']))
-		$args['uid']= false;
+		$args['uid'] = false;
 
 	if (!is_numeric($args['startnum']) || !is_numeric($args['numitems']))
 	{
 		return LogUtil :: registerError(_MODARGSERROR);
 	}
-	
-	$catFilter = array();
-	if (is_array($args['category'])) 
+
+	$catFilter = array ();
+	if (is_array($args['category']))
 		$catFilter = $args['category'];
-  else if ($args['category'])
- 	{
-  	$catFilter['Main'] = $args['category'];
- 		$catFilter['__META__']['module'] = 'crpVideo';
- 	}
- 	
-	$items= array ();
+	else
+		if ($args['category'])
+		{
+			$catFilter['Main'] = $args['category'];
+			$catFilter['__META__']['module'] = 'crpVideo';
+		}
+
+	$items = array ();
 
 	// Security check
 	if (!SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_READ))
@@ -105,30 +107,30 @@ function crpVideo_userapi_getall($args)
 
 	// populate an array with each part of the where clause and then implode the array if there is a need.
 	// credit to Jorg Napp for this technique - markwest
-	$pntable= pnDBGetTables();
-	$videoscolumn= $pntable['crpvideos_column'];
-	$queryargs= array ();
+	$pntable = pnDBGetTables();
+	$videoscolumn = $pntable['crpvideos_column'];
+	$queryargs = array ();
 	if (pnConfigGetVar('multilingual') == 1 && !$args['ignoreml'])
 	{
-		$queryargs[]= "($videoscolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' OR $videoscolumn[language]='')";
+		$queryargs[] = "($videoscolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' OR $videoscolumn[language]='')";
 	}
-	if ($args['active']) 
+	if ($args['active'])
 	{
-    $queryargs[] = "($videoscolumn[obj_status]='".DataUtil::formatForStore($args['active'])."')";
-  }
-  if ($args['uid']) 
+		$queryargs[] = "($videoscolumn[obj_status]='" . DataUtil :: formatForStore($args['active']) . "')";
+	}
+	if ($args['uid'])
 	{
-    $queryargs[] = "($videoscolumn[cr_uid]='".DataUtil::formatForStore($args['uid'])."')";
-  }
+		$queryargs[] = "($videoscolumn[cr_uid]='" . DataUtil :: formatForStore($args['uid']) . "')";
+	}
 
-	$where= null;
+	$where = null;
 	if (count($queryargs) > 0)
 	{
-		$where= ' WHERE ' . implode(' AND ', $queryargs);
+		$where = ' WHERE ' . implode(' AND ', $queryargs);
 	}
 
 	// define the permission filter to apply
-	$permFilter= array (
+	$permFilter = array (
 		array (
 			'realm' => 0,
 			'component_left' => 'crpVideo',
@@ -138,12 +140,12 @@ function crpVideo_userapi_getall($args)
 			'level' => ACCESS_READ
 		)
 	);
-	
+
 	$orderColumn = $args['orderBy'];
 	$orderby = "ORDER BY $videoscolumn[$orderColumn] $args[sortOrder]";
-	
+
 	// get the objects from the db
-	$objArray= DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1, $args['numitems'], '', $permFilter, $catFilter);
+	$objArray = DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1, $args['numitems'], '', $permFilter, $catFilter);
 
 	// Check for an error with the database code, and if so set an appropriate
 	// error message and return
@@ -189,22 +191,23 @@ function crpVideo_userapi_get($args)
 function crpVideo_userapi_countitems($args)
 {
 	$pntable = pnDBGetTables();
-  $crpvideocolumn = $pntable['crpvideos_column'];
+	$crpvideocolumn = $pntable['crpvideos_column'];
 
 	$where = '';
-	
-	$catFilter = array();
-	if (is_array($args['category'])) 
+
+	$catFilter = array ();
+	if (is_array($args['category']))
 		$catFilter = $args['category'];
-  else if ($args['category'])
-  {
-  	$catFilter['Main'] = $args['category'];
-  	$catFilter['__META__']['module'] = 'crpVideo';
-  }
-  	
+	else
+		if ($args['category'])
+		{
+			$catFilter['Main'] = $args['category'];
+			$catFilter['__META__']['module'] = 'crpVideo';
+		}
+
 	if ($args['active'])
-		$where = " WHERE $crpvideocolumn[obj_status]='".DataUtil::formatForStore($args['active'])."'";
-	
+		$where = " WHERE $crpvideocolumn[obj_status]='" . DataUtil :: formatForStore($args['active']) . "'";
+
 	// Return the number of items
 	return DBUtil :: selectObjectCount('crpvideos', $where, 'videoid', false, $catFilter);
 }
@@ -223,7 +226,8 @@ function crpVideo_userapi_incrementreadcount($args)
 	if (isset ($args['videoid']))
 	{
 		return DBUtil :: incrementObjectFieldByID('crpvideos', 'counter', $args['videoid'], 'videoid');
-	} else
+	}
+	else
 	{
 		return DBUtil :: incrementObjectFieldByID('crpvideos', 'counter', $args['title'], 'urltitle');
 	}
@@ -242,12 +246,12 @@ function crpVideo_userapi_encodeurl($args)
 	}
 
 	// create an empty string ready for population
-	$vars= '';
+	$vars = '';
 
 	// view function
 	if ($args['func'] == 'view' && isset ($args['args']['cat']))
 	{
-		$vars= substr($args['args']['cat'], 1);
+		$vars = substr($args['args']['cat'], 1);
 	}
 
 	// for the display function use either the title (if present) or the video id
@@ -256,26 +260,28 @@ function crpVideo_userapi_encodeurl($args)
 		// check for the generic object id parameter
 		if (isset ($args['args']['objectid']))
 		{
-			$args['args']['videoid']= $args['args']['videoid'];
+			$args['args']['videoid'] = $args['args']['videoid'];
 		}
 		// get the item (will be cached by DBUtil)
 		if (isset ($args['args']['videoid']))
 		{
-			$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+			$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
 				'videoid' => $args['args']['videoid']
 			));
-		} else
+		}
+		else
 		{
-			$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+			$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
 				'title' => $args['args']['title']
 			));
 		}
 		if (pnModGetVar('crpVideo', 'addcategorytitletopermalink') && isset ($args['args']['cat']))
 		{
-			$vars= $args['args']['cat'] . '/' . $item['urltitle'];
-		} else
+			$vars = $args['args']['cat'] . '/' . $item['urltitle'];
+		}
+		else
 		{
-			$vars= $item['urltitle'];
+			$vars = $item['urltitle'];
 		}
 		if (isset ($args['args']['video']) && $args['args']['video'] != 1)
 		{
@@ -286,7 +292,7 @@ function crpVideo_userapi_encodeurl($args)
 	// don't display the function name if either displaying a video or the normal overview
 	if ($args['func'] == 'main' || $args['func'] == 'display')
 	{
-		$args['func']= '';
+		$args['func'] = '';
 	}
 
 	// construct the custom url part
@@ -301,7 +307,8 @@ function crpVideo_userapi_encodeurl($args)
 	elseif (empty ($vars))
 	{
 		return $args['modname'] . '/' . $args['func'] . '/';
-	} else
+	}
+	else
 	{
 		return $args['modname'] . '/' . $args['func'] . '/' . $vars . '/';
 	}
@@ -321,7 +328,7 @@ function crpVideo_userapi_decodeurl($args)
 	}
 
 	// define the available user functions
-	$funcs= array (
+	$funcs = array (
 		'main',
 		'view',
 		'display'
@@ -334,11 +341,12 @@ function crpVideo_userapi_decodeurl($args)
 	elseif (!in_array($args['vars'][2], $funcs))
 	{
 		pnQueryStringSetVar('func', 'display');
-		$nextvar= 2;
-	} else
+		$nextvar = 2;
+	}
+	else
 	{
 		pnQueryStringSetVar('func', $args['vars'][2]);
-		$nextvar= 3;
+		$nextvar = 3;
 	}
 
 	// add the category info
@@ -357,7 +365,8 @@ function crpVideo_userapi_decodeurl($args)
 		if (is_numeric($args['vars'][$nextvar]))
 		{
 			pnQueryStringSetVar('videoid', $args['vars'][$nextvar]);
-		} else
+		}
+		else
 		{
 			pnQueryStringSetVar('title', $args['vars'][$nextvar]);
 		}
@@ -393,28 +402,32 @@ function crpVideo_userapi_getmodulemeta()
 function crpVideo_userapi_breadcrumblinks($args)
 {
 	if (!$args['tablename'])
-            return false;
-            
+		return false;
+
 	$cat = $args['cat'];
 	$module = $args['module'];
 	$tablename = $args['tablename'];
-	($args['module'])?$property=$args['property']:$property='Main';
-	
+	($args['module']) ? $property = $args['property'] : $property = 'Main';
+
 	// process the relative paths of the categories
-    if (pnModGetVar($module, 'enablecategorization') && !empty($cat)) {
-        $registeredCats = array();
-        if (!($class = Loader::loadClass('CategoryRegistryUtil'))) {
-        	pn_exit (pnML('_UNABLETOLOADCLASS', array('s' => 'CategoryRegistryUtil')));
-        }
-        $registeredCats  = CategoryRegistryUtil::getRegisteredModuleCategories($module, $tablename);
-        
-        if (!CategoryUtil::hasCategoryAccess($cat,$module))
-            return false;
-    }
+	if (pnModGetVar($module, 'enablecategorization') && !empty ($cat))
+	{
+		$registeredCats = array ();
+		if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
+		{
+			pn_exit(pnML('_UNABLETOLOADCLASS', array (
+				's' => 'CategoryRegistryUtil'
+			)));
+		}
+		$registeredCats = CategoryRegistryUtil :: getRegisteredModuleCategories($module, $tablename);
 
-	$mainCat= $registeredCats[$property];
+		if (!CategoryUtil :: hasCategoryAccess($cat, $module))
+			return false;
+	}
 
-	$parents = array_diff_assoc(array_reverse(CategoryUtil::getParentCategories($cat['id']), true),array_reverse(CategoryUtil::getParentCategories($mainCat),true));
+	$mainCat = $registeredCats[$property];
+
+	$parents = array_diff_assoc(array_reverse(CategoryUtil :: getParentCategories($cat['id']), true), array_reverse(CategoryUtil :: getParentCategories($mainCat), true));
 
 	return $parents;
 }
