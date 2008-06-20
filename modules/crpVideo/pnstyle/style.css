@@ -53,6 +53,14 @@ li.crpvideo-even {
 .pages-bread li a:hover {}
 .pages-bread li:hover {}
 
+/* position styles */ 
+.crpvideo-float-right {
+	float: right;
+	position: relative;
+	display: inline;
+	margin: 4px 4px 4px 4px;
+}
+
 /* styles to ensure that control elements inside the floated div directly above
 don't themselves float*/
 div.crpvideo-formrow div input, div.crpvideo-formrow div textarea,
