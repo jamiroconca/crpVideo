@@ -125,3 +125,46 @@ form.crpvideo-form button {
  	padding: 0px;
  	margin: 0px;
  }
+ 
+/* gallery css */
+#video_gallery {
+	position: relative;
+	overflow: hidden;
+	width: 610px;
+	height: 86px;
+	background: #000;
+}
+
+#video_gallery_frame {position: relative;}
+#video_gallery_previous {position: absolute; top:0; left:0; height:86px;}
+#video_gallery_next {position: absolute; top:0; right:0; height:86px;}
+#video_gallery_content {
+	position: absolute;
+	top: 0;
+	margin-left: 20px;
+}
+
+#video_gallery_content, 
+#video_gallery_content li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+}
+
+#video_gallery_content {
+	width: 5418px;
+}
+
+#video_gallery ul li {
+		display: block;
+		float: left;
+		margin: 5px;
+		padding: 5px;
+		border: 1px solid #666;
+		background-color: #000;
+}
+
+#video_gallery ul li img {
+	display: block;
+}
