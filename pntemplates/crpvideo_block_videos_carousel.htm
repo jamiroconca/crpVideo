@@ -1,0 +1,50 @@
+<!--[pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/mootools.v1.1.js"]-->
+<!--[pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/iCarousel.js"]-->
+<!--[pnpageaddvar name=stylesheet value="modules/crpVideo/pnstyle/style.css"]-->
+
+<!--[if count($videos)]-->
+	<div id="video_gallery">
+		<ul id="video_gallery_content">
+		<strip>
+		<!--[foreach from=$videos item=video]-->			
+			
+			<!--[if $crpvideo_use_gd eq '1']-->
+			<!--[pnmodurl modname="crpVideo" type="user" func="get_thumbnail" videoid=$video.videoid width="86" assign=thumburl]-->
+			<!--[else]-->
+			<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$video.videoid assign=thumburl]-->
+			<!--[/if]-->
+			
+			<!--[pnmodurl modname=crpVideo func=display videoid=$video.videoid cat=$video.__CATEGORIES__.Main.id assign=imgurl]-->
+			<li class="video_gallery_item">
+				<a href="<!--[$imgurl|pnvarprepfordisplay]-->"><img src="<!--[$thumburl|pnvarprepfordisplay]-->" alt="<!--[$video.title|pnvarprepfordisplay]-->"/></a>
+			</li>
+		<!--[/foreach]-->
+		</strip>
+		</ul>
+		<div id="gallery_frame">
+			<img id="video_gallery_previous" src="modules/crpVideo/pnimages/previous.gif" alt="<!--[pnml name=_CRPVIDEO_LABEL_PREV_IMAGE html=1]-->" />
+			<img id="video_gallery_next" src="modules/crpVideo/pnimages/next.gif" alt="<!--[pnml name=_CRPVIDEO_LABEL_NEXT_IMAGE html=1]-->" />
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	//<!--
+	window.addEvent("domready", function() {
+		new iCarousel("video_gallery_content", {
+			idPrevious: "video_gallery_previous",
+			idNext: "video_gallery_next",
+			idToggle: "undefined",
+			item: {
+				klass: "video_gallery_item",
+				size: 86
+			},
+			animation: {
+				duration: 200,
+				amount: 1
+			}
+		});
+	});
+	//-->
+	</script>
+	
+<!--[/if]-->
