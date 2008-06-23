@@ -1,16 +1,17 @@
 <?php
+
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpvideo Support and documentation
- * @author Daniele Conca <jami at cremonapalloza dot org>
+ * @copyright (c) 2007-2008, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
 
-//
-define('_CRPVIDEO_MAXVIDEOS','Massimo numero di video');
+Loader :: includeOnce('modules/crpVideo/pnlang/ita/global_block.php');
+
 define('_CRPVIDEO_FROM_USER','Video dell\'utente');
 
 ?>
