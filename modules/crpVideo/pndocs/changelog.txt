@@ -3,6 +3,7 @@ v0.1.5 - ??? april 2008
 - added show videos block from a user
 - added templatized main page
 - fixed image caching problems
+- added carousel block choice
 v0.1.4 - 16 March 2008
 - added external url video submission
 - display embed code work only for not external videos
