@@ -4,6 +4,7 @@ INSTALL:
 - default module installation procedure
 - check module settings for size limit and other configuration variables (important: relative upload path)
 - upload path folder must be 777 chmodded
+- different styles are available for carousel blocks, check /pndocs/carousel files
 
 UPGRADE:
 - standard upgrade procedure
