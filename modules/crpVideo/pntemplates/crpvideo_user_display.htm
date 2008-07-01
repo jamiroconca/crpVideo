@@ -1,20 +1,31 @@
 <!--[ pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/swfobject.js" ]-->
 <!--[include file="crpvideo_user_menu.htm"]-->
 
+<!--[pnusergetvar name=uname uid=$cr_uid assign=cr_uname]-->
+<!--[pnmodurl modname=Profile func=view uname=$cr_uname assign=cr_profilelink]-->
+<!--[pnusergetvar name=uname uid=$lu_uid assign=lu_uname]-->
+<!--[pnmodurl modname=Profile func=view uname=$lu_uname assign=lu_profilelink]-->
+
 <!--[pnpagesetvar name=title value=$title]-->
 <div class="crpvideo_video_container">
 <h2><!--[$title|pnvarprephtmldisplay]--></h2>
-<h3><!--[pnml name=_CRPVIDEO_TAGS]--></strong>: <!--[$tags|replace:" ":" &middot; "]--></h3>
+<h3>
+	<!--[pnml name=_CRPVIDEO_BROUGHT_TO_YOU html=1]--> :
+	<!--[if pnModAvailable("Avatar") && pnUserGetVar('_YOURAVATAR',$cr_uid)]-->
+		<img src="<!--[pnmodgetvar module="Avatar" name="avatardir"]-->/<!--[pnusergetvar name=_YOURAVATAR uid=$cr_uid]-->" alt="Avatar" />
+	<!--[ elseif pnUserGetVar('_YOURAVATAR',$cr_uid) neq '']-->
+		<img src="images/avatar/<!--[pnusergetvar name=_YOURAVATAR uid=$cr_uid]-->" alt="Avatar" />
+	<!--[else]-->
+		<!--[pnimg modname=crpVideo altml=true src="blank.jpg" altml=true alt=_CRPVIDEO_NOAVATARSELECTED]-->
+	<!--[/if]-->
+	<!--[$cr_uname]-->
+</h3>
+<h3><!--[pnml name=_CRPVIDEO_TAGS html=1]--></strong>: <!--[$tags|replace:" ":" &middot; "]--></h3>
+
 <!--[if $displaywrapper]-->
 <div class="crpvideo_video_header">
 <ul>
-<!--[if $cr_uid]-->
-<!--[pnusergetvar name=uname uid=$cr_uid assign=cr_uname]-->
-<!--[pnmodurl modname=Profile func=view uname=$cr_uname assign=cr_profilelink]-->
 <li><!--[pnml name=_CREATEDBYON username="<a href='$cr_profilelink'>$cr_uname</a>" date=$cr_date|pndate_format html=true]--></li>
-<!--[/if]-->
-<!--[pnusergetvar name=uname uid=$lu_uid assign=lu_uname]-->
-<!--[pnmodurl modname=Profile func=view uname=$lu_uname assign=lu_profilelink]-->
 <li><!--[pnml name=_UPDATEDBYON username="<a href='$lu_profilelink'>$lu_uname</a>" date=$lu_date|pndate_format html=true]--></li>
 </ul>
 </div>
@@ -22,7 +33,7 @@
 
 <div style="clear:left;">&nbsp;</div>
 
-<div style="float:left;">
+<div style="float:left;padding: 5px;">
 
 <!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid assign=coverurl]-->
 <!--[if $source eq 'video']-->
