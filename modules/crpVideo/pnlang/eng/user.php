@@ -25,9 +25,11 @@ define('_CRPVIDEO_WELCOME', 'Welcome to the sections video for %sitename%.');
 
 // single display
 define('_CRPVIDEO_AUTHOR', 'Author');
+define('_CRPVIDEO_BROUGHT_TO_YOU','This video is brought to you by');
 define('_CRPVIDEO_EMBED_CODE','Embed with this code');
 define('_CRPVIDEO_IMAGE_RESIZE','Image would be resized to');
 define('_CRPVIDEO_INSERTION', 'Inserted on');
+define('_CRPVIDEO_NOAVATARSELECTED','No avatar selected');
 define('_CRPVIDEO_PRINT', 'Print page');
 define('_CRPVIDEO_READS', '%x% Reads');
 define('_CRPVIDEO_SECTION', 'Section: %title%');

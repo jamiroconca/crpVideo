@@ -25,9 +25,11 @@ define('_CRPVIDEO_WELCOME', 'Benvenuti nella sezione video di %sitename%.');
 
 // single display
 define('_CRPVIDEO_AUTHOR', 'Autore');
+define('_CRPVIDEO_BROUGHT_TO_YOU','Video messo a disposizione da');
 define('_CRPVIDEO_EMBED_CODE','Usate questo codice per includere il video');
 define('_CRPVIDEO_IMAGE_RESIZE','Le immagini saranno ridimensionate a');
 define('_CRPVIDEO_INSERTION', 'Inserito il');
+define('_CRPVIDEO_NOAVATARSELECTED','Nessun avatar selezionato');
 define('_CRPVIDEO_PRINT', 'Stampa pagina');
 define('_CRPVIDEO_READS', '%x% letture');
 define('_CRPVIDEO_SECTION', 'Sezione: %title%');
