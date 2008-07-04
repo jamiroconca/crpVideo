@@ -44,19 +44,24 @@ function crpVideo_userapi_create($args)
 	{
 		return LogUtil :: registerError(_MODULENOAUTH);
 	}
-
-	if (!DBUtil :: insertObject($args, 'crpvideos', 'videoid'))
+	
+	$object = DBUtil :: insertObject($args, 'crpvideos', 'videoid');
+	if (!$object)
 	{
 		return LogUtil :: registerError(_CREATEFAILED);
 	}
 
+	// notify by mail if not an admin
+	if (pnModGetVar('crpVideo', 'crpvideo_notification'))
+		crpVideo :: notifyByMail($args, $object['videoid']);
+
 	// Let any hooks know that we have created a new item.
-	pnModCallHooks('item', 'create', $args['videoid'], array (
+	pnModCallHooks('item', 'create', $object['videoid'], array (
 		'module' => 'crpVideo'
 	));
 
 	// Return the id of the newly created item to the calling process
-	return $args['videoid'];
+	return $object['videoid'];
 }
 
 /**
