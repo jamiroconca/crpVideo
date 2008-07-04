@@ -65,4 +65,7 @@ define('_CRPVIDEO_IMAGE_INVALID_TYPE','Formato di immagine non valido');
 define('_CRPVIDEO_VIDEO_INVALID_TYPE','Formato video non permesso');
 define('_CRPVIDEO_INVALID_URL','URL non valido');
 
+define('_CRPVIDEO_VIDEO_NOTIFICATION','Inserimento Video');
+define('_CRPVIDEO_NOTIFICATION','Notifica di creazione Video');
+define('_CRPVIDEO_DONOTREPLY','Non rispondere a questa email, serve semplicemente da notifica');
 ?>

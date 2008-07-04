@@ -49,6 +49,7 @@ define('_CRPVIDEO_IMAGES','Immagini');
 define('_CRPVIDEO_IMAGE_RESIZE','Le immagini saranno scalate alla larghezza di');
 define('_CRPVIDEO_MAIN_ITEMS','Elementi nell\'indice');
 define('_CRPVIDEO_MANDATORY_COVER','Cover obbligatoria');
+define('_CRPVIDEO_NOTIFICATION_MAIL','Notifiche di inserimenti degli utenti (nessuna se vuoto)');
 define('_CRPVIDEO_PLAYER','Player');
 define('_CRPVIDEO_PLAYER_HEIGHT','Altezza player');
 define('_CRPVIDEO_PLAYER_WIDTH','Larghezza player');
@@ -72,5 +73,6 @@ define('_CRPVIDEO_ERROR_VIDEO_NO_TITLE','Indicare un titolo per il video');
 define('_CRPVIDEO_IMAGE_INVALID_TYPE','Formato di immagine non valido');
 define('_CRPVIDEO_VIDEO_INVALID_TYPE','Formato video non permesso');
 define('_CRPVIDEO_INVALID_URL','URL non valido');
+define('_CRPVIDEO_INVALID_NOTIFICATION','E-mail per le notifiche in formato non valido');
 
 ?>

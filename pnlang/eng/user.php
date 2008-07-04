@@ -65,4 +65,8 @@ define('_CRPVIDEO_IMAGE_INVALID_TYPE','Image invalid type');
 define('_CRPVIDEO_VIDEO_INVALID_TYPE','Video invalid type');
 define('_CRPVIDEO_INVALID_URL','Invalid URL');
 
+// mail text
+define('_CRPVIDEO_VIDEO_NOTIFICATION','Notification of Video Creation');
+define('_CRPVIDEO_NOTIFICATION','Video creation');
+define('_CRPVIDEO_DONOTREPLY','Please do not reply to this email! This is just an automatical generated text...');
 ?>

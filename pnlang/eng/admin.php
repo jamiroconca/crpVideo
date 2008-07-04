@@ -49,6 +49,7 @@ define('_CRPVIDEO_IMAGES','Images');
 define('_CRPVIDEO_IMAGE_RESIZE','Image would be resized to a width of');
 define('_CRPVIDEO_MAIN_ITEMS','Main page elements');
 define('_CRPVIDEO_MANDATORY_COVER','Mandatory cover');
+define('_CRPVIDEO_NOTIFICATION_MAIL','Notification for user\'s creation (none if empty)');
 define('_CRPVIDEO_PLAYER','Player');
 define('_CRPVIDEO_PLAYER_HEIGHT','Player height');
 define('_CRPVIDEO_PLAYER_WIDTH','Player width');
@@ -72,5 +73,6 @@ define('_CRPVIDEO_ERROR_VIDEO_NO_TITLE','Title is required');
 define('_CRPVIDEO_IMAGE_INVALID_TYPE','Image invalid type');
 define('_CRPVIDEO_VIDEO_INVALID_TYPE','Video invalid type');
 define('_CRPVIDEO_INVALID_URL','Invalid URL');
+define('_CRPVIDEO_INVALID_NOTIFICATION','Invalid notification e-mail address');
 
 ?>
