@@ -138,6 +138,13 @@ class crpVideo
 		pnModSetVar('crpVideo', 'mandatory_cover', $mandatory_cover);
 		$main_items = (int) FormUtil :: getPassedValue('main_items', 3, 'POST');
 		pnModSetVar('crpVideo', 'main_items', $main_items);
+		$crpvideo_notification= FormUtil :: getPassedValue('crpvideo_notification', null, 'POST');
+		if ($crpvideo_notification && !pnVarValidate($crpvideo_notification,'email'))
+		{
+			LogUtil :: registerError(_CRPVIDEO_INVALID_NOTIFICATION);
+			return pnRedirect(pnModUrl('crpVideo', 'admin', 'modifyconfig'));
+		}
+		pnModSetVar('crpVideo', 'crpvideo_notification', $crpvideo_notification);
 
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
@@ -344,6 +351,32 @@ class crpVideo
 			echo $resizedImage;
 			pnShutDown();
 		}
+	}
+	
+	/**
+	* send an email notification
+	*/
+	function notifyByMail($inputValues= array(), $videoid=null)
+	{
+		// send the email
+		$pnRender= pnRender :: getInstance('crpVideo', false);
+		$pnRender->assign('inputValues', $inputValues);
+		$pnRender->assign('videoid', $videoid);
+		$body= $pnRender->fetch('crpvideo_user_notify_newvideo.htm');
+
+		$subject= _CRPVIDEO_VIDEO_NOTIFICATION;
+		$to= pnModGetVar('crpVideo', 'crpvideo_notification');;
+
+		$result= pnModAPIFunc('Mailer', 'user', 'sendmessage', array (
+			'toaddress' => $to,
+			'subject' => $subject,
+			'body' => $body,
+			'html' => true,
+			'fromname' => pnConfigGetVar('sitename'),
+			'fromaddress' => pnConfigGetVar('adminmail'),
+			'replytoname' => pnConfigGetVar('sitename'),
+			'replytoaddress' => pnConfigGetVar('adminmail')
+		));
 	}
 
 }
