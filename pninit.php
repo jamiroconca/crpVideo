@@ -55,6 +55,7 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'display_embed', false);
 	pnModSetVar('crpVideo', 'mandatory_cover', false);
 	pnModSetVar('crpVideo', 'main_items', 3);
+	pnModSetVar('crpVideo', 'crpvideo_notification', null);
 
 	// Initialisation successful
 	return true;
@@ -129,6 +130,11 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.1.5");
 			break;
 		case "0.1.5" :
+			pnModSetVar('crpVideo', 'crpvideo_notification', null);
+			
+			return crpVideo_upgrade("0.1.6");
+			break;
+		case "0.1.6" :			
 			break;
 	}
 	// Update successful
