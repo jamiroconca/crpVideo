@@ -137,7 +137,8 @@ class crpVideoDAO
 				'realm' => 0,
 				'component_left' => 'crpVideo',
 				'component_right' => 'Video',
-				'instance_left' => 'title',
+				'instance_left' => 'cr_uid',
+				'instance_center' => 'title',
 				'instance_right' => 'videoid',
 				'level' => ACCESS_READ
 			)
