@@ -1,0 +1,23 @@
+<!--[pnajaxheader modname="crpVideo" nobehaviour=true lightbox=true]-->
+<!--[pnpageaddvar name=stylesheet value="modules/crpVideo/pnstyle/style.css"]-->
+<!--[foreach from=$videos item=video]-->
+<div>
+<div class="crpvideo_image_thumb">
+  <a href="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$video.videoid]-->" title="<!--[$video.title]-->" rel="lightbox">
+	<!--[if $crpvideo_use_gd eq '1']-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_thumbnail" videoid=$video.videoid width=$userlist_width]-->" alt="<!--[$video.title]-->" title="<!--[$video.title]-->"/>
+	<!--[else]-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$video.videoid]-->" alt="<!--[$video.title]-->" title="<!--[$video.title]-->" width="<!--[$userlist_width]-->px"/>
+	<!--[/if]-->
+	</a>
+</div>
+<a href="<!--[pnmodurl modname=crpVideo func=display videoid=$video.videoid cat=$video.__CATEGORIES__.Main.id]-->">
+	<span><!--[$video.title|pnvarprephtmldisplay]--></span>
+</a>
+<div><!--[$video.content|truncate:"50"|pnvarprephtmldisplay]--></div>
+<div style="clear:left"></div>
+</div>
+<!--[/foreach]-->
+<!--[if empty($videos)]-->
+<!--[pnml name=_CRPVIDEO_BLOCK_NO_VIDEOS html=1]-->
+<!--[/if]-->
