@@ -15,7 +15,13 @@ define('_CRPVIDEO_BLOCK_CAROUSEL','Blocco carosello (Attenzione, orizzontale nec
 define('_CRPVIDEO_BLOCK_CAROUSEL_DIRECTION','Direzione scorrimento');
 define('_CRPVIDEO_BLOCK_CAROUSEL_HORIZONTAL','Orizzontale');
 define('_CRPVIDEO_BLOCK_CAROUSEL_VERTICAL','Verticale');
+define('_CRPVIDEO_BLOCK_NO_VIDEOS','Nessun video soddisfa i criteri del blocco');
+define('_CRPVIDEO_BLOCK_NO_UPLOADERS','Nessun uploader soddisfa i criteri del blocco');
 define('_CRPVIDEO_MAXVIDEOS','Numero massimo di video');
+define('_CRPVIDEO_MAXVIDEOS_INTERVAL','Creato negli ultimi');
+define('_CRPVIDEO_MAXUPLOADERS','Numero di top uploaders');
+define('_CRPVIDEO_MAXUPLOADERS_INTERVAL','Creati negli ultimi');
+define('_CRPVIDEO_NOAVATARSELECTED','Nessun avatar selezionato');
 
 // carousel define
 define('_CRPVIDEO_LABEL_NEXT_IMAGE','Immagine successiva');
