@@ -20,6 +20,6 @@ $modversion['license'] = 'pndocs/license.txt';
 $modversion['official'] = 1;
 $modversion['author'] = 'Daniele Conca - jami';
 $modversion['contact'] = 'conca.daniele@gmail.com';
-$modversion['securityschema'] = array ('crpVideo::Video' => 'Video title::Video ID');
+$modversion['securityschema'] = array ('crpVideo::Video' => 'AuthorID:VideoTitle:VideoID');
 
 ?>
