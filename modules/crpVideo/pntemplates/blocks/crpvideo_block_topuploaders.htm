@@ -1,0 +1,21 @@
+
+<!--[pnpageaddvar name=stylesheet value="modules/crpVideo/pnstyle/style.css"]-->
+<!--[foreach from=$uploaders item=user]-->
+<div style="clear:left;">&nbsp;</div>
+<div class="crpvideo-shadow">
+	<div class="crpvideo_image_thumb">
+	<!--[if pnModAvailable("Avatar") && pnUserGetVar('_YOURAVATAR',$user.cr_uid)]-->
+	<img src="<!--[pnmodgetvar module="Avatar" name="avatardir"]-->/<!--[pnusergetvar name=_YOURAVATAR uid=$user.cr_uid]-->" alt="Avatar" />
+	<!--[ elseif pnUserGetVar('_YOURAVATAR',$user.cr_uid) neq '']-->
+	<img src="images/avatar/<!--[pnusergetvar name=_YOURAVATAR uid=$user.cr_uid]-->" alt="Avatar" />
+	<!--[else]-->
+	<!--[pnimg modname=crpVideo altml=true src="blank.jpg" class="photo" altml=true alt=_CRPVIDEO_NOAVATARSELECTED]-->
+	<!--[/if]-->
+	</div>
+</div>
+<!--[pnmodurl modname=Profile func=view uid=$user.cr_uid assign=uploader_profilelink]-->
+<div style="clear:left"><a href="<!--[$uploader_profilelink]-->"><!--[pnusergetvar name='uname' uid=$user.cr_uid]--></a> (<!--[$user.counter]-->)</div>
+<!--[/foreach]-->
+<!--[if empty($uploaders)]-->
+<!--[pnml name=_CRPVIDEO_BLOCK_NO_UPLOADERS html=1]-->
+<!--[/if]-->
