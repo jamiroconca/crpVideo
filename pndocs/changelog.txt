@@ -1,6 +1,8 @@
 crpVideo
 v0.1.6 - ??? july 2008
 - added notification e-mail for user's submissions
+- added uploaders block
+- added time interval (if specified) for blocks content
 v0.1.5 - 27 june 2008
 - added show videos block from a user
 - added templatized main page
