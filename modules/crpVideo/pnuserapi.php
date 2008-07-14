@@ -86,6 +86,8 @@ function crpVideo_userapi_getall($args)
 		$args['active'] = 'A';
 	if (!isset ($args['uid']))
 		$args['uid'] = false;
+	if (!isset ($args['interval']))
+		$args['interval'] = null;
 
 	if (!is_numeric($args['startnum']) || !is_numeric($args['numitems']))
 	{
@@ -127,6 +129,11 @@ function crpVideo_userapi_getall($args)
 	{
 		$queryargs[] = "($videoscolumn[cr_uid]='" . DataUtil :: formatForStore($args['uid']) . "')";
 	}
+	if ($args['interval'])
+	{
+		$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
+		"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($args['interval']) . " DAY))";
+	}
 
 	$where = null;
 	if (count($queryargs) > 0)
@@ -140,7 +147,8 @@ function crpVideo_userapi_getall($args)
 			'realm' => 0,
 			'component_left' => 'crpVideo',
 			'component_right' => 'Video',
-			'instance_left' => 'title',
+			'instance_left' => 'cr_uid',
+			'instance_center' => 'title',
 			'instance_right' => 'videoid',
 			'level' => ACCESS_READ
 		)
@@ -150,7 +158,8 @@ function crpVideo_userapi_getall($args)
 	$orderby = "ORDER BY $videoscolumn[$orderColumn] $args[sortOrder]";
 
 	// get the objects from the db
-	$objArray = DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1, $args['numitems'], '', $permFilter, $catFilter);
+	$objArray = DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $args['startnum'] - 1,
+																					$args['numitems'], '', $permFilter, $catFilter);
 
 	// Check for an error with the database code, and if so set an appropriate
 	// error message and return
@@ -168,6 +177,78 @@ function crpVideo_userapi_getall($args)
 		ObjectUtil :: postProcessExpandedObjectArrayCategories($objArray, $args['mainCat']);
 	}
 
+	// Return the items
+	return $objArray;
+}
+
+
+/**
+ * get uploaders with conter
+ * @return mixed array of items, or false on failure
+ */
+function crpVideo_userapi_get_uploaders($args)
+{
+	if (!isset ($args['startnum']) || empty ($args['startnum']))
+		$args['startnum'] = 0;
+	if (!isset ($args['numitems']) || empty ($args['numitems']))
+		$args['numitems'] = -1;
+	if (!isset ($args['ignoreml']) || !is_bool($args['ignoreml']))
+		$args['ignoreml'] = false;
+	if (!isset ($args['category']))
+		$args['category'] = null;
+	if (!isset ($args['sortOrder']))
+		$args['sortOrder'] = 'ASC';
+	if (!isset ($args['orderBy']))
+		$args['orderBy'] = 'title';
+	if (!isset ($args['active']))
+		$args['active'] = 'A';
+	if (!isset ($args['uid']))
+		$args['uid'] = false;
+	if (!isset ($args['interval']))
+		$args['interval'] = null;
+		
+	$pntable = pnDBGetTables();
+	$videoscolumn = $pntable['crpvideos_column'];
+	
+	$queryargs = array ();
+	if (pnConfigGetVar('multilingual') == 1 && !$args['ignoreml'])
+	{
+		$queryargs[] = "($videoscolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' OR $videoscolumn[language]='')";
+	}
+	if ($args['active'])
+	{
+		$queryargs[] = "($videoscolumn[obj_status]='" . DataUtil :: formatForStore($args['active']) . "')";
+	}
+	if ($args['uid'])
+	{
+		$queryargs[] = "($videoscolumn[cr_uid]='" . DataUtil :: formatForStore($args['uid']) . "')";
+	}
+	if ($args['interval'])
+	{
+		$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
+		"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($args['interval']) . " DAY))";
+	}
+
+	$where = null;
+	if (count($queryargs) > 0)
+	{
+		$where = ' WHERE ' . implode(' AND ', $queryargs);
+	}
+	
+	$orderby= "GROUP BY $videoscolumn[cr_uid] ORDER BY $args[orderBy] $args[sortOrder]";
+		
+	$sqlStatement= "SELECT $videoscolumn[cr_uid] as cr_uid, " .
+		"COUNT(*) as counter " .
+		"FROM $pntable[crpvideos] " .
+		"$where $orderby";
+	
+	// get the objects from the db
+	$res= DBUtil :: executeSQL($sqlStatement, $args['startnum'] -1, $args['numitems'], true, true);
+
+	$objArray= DBUtil :: marshallObjects($res, array (
+		'cr_uid', 'counter'
+	), true);
+	
 	// Return the items
 	return $objArray;
 }
