@@ -123,6 +123,7 @@ function crpVideo_user_view($args)
 
 	$startnum = (int) FormUtil :: getPassedValue('startnum', isset ($args['startnum']) ? $args['startnum'] : 0, 'GET');
 	$cat = (string) FormUtil :: getPassedValue('cat', isset ($args['cat']) ? $args['cat'] : null, 'GET');
+	$uid = (int) FormUtil :: getPassedValue('uid', null, 'GET');
 
 	// defaults and input validation
 	if (!is_numeric($startnum) || $startnum < 0)
@@ -168,6 +169,7 @@ function crpVideo_user_view($args)
 	$items = pnModAPIFunc('crpVideo', 'user', 'getall', array (
 		'startnum' => $startnum,
 		'numitems' => $modvars['itemsperpage'],
+		'uid' => $uid,
 		'category' => (isset ($cat['id']
 	)) ? $cat['id'] : null));
 
