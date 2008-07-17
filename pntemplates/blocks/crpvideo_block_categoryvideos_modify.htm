@@ -3,8 +3,10 @@
 	<input id="videosblock_numitems" type="text" name="numitems" size="2" value="<!--[$numitems|pnvarprepfordisplay]-->" />
 </div>
 <div>
-	<label for="videosblock_carousel"><!--[pnml name=_CRPVIDEO_BLOCK_CAROUSEL]--></label>
-	<input id="videosblock_carousel" type="checkbox" name="carousel"<!--[if $carousel]--> checked="checked"<!--[/if]--> />
+	<label for="videosblock_carousel"><!--[pnml name=_CRPVIDEO_BLOCK_CAROUSEL html=1]--></label>
+	<input id="videosblock_carousel" type="radio" name="ajaxblock" value="carousel"<!--[if $ajaxblock eq 'carousel']--> checked="checked"<!--[/if]--> />
+	<label for="videosblock_protoflow"><!--[pnml name=_CRPVIDEO_BLOCK_PROTOFLOW html=1]--></label>
+	<input id="videosblock_protoflow" type="radio" name="ajaxblock" value="protoflow"<!--[if $ajaxblock eq 'protoflow']--> checked="checked"<!--[/if]--> />
 </div>
 <div>
 	<label for="videosblock_carousel_direction"><!--[pnml name=_CRPVIDEO_BLOCK_CAROUSEL_DIRECTION]--></label>
