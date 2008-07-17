@@ -1,0 +1,40 @@
+<!--[pnajaxheader modname="crpVideo" nobehaviour=true]-->
+<!--[pnpageaddvar name="stylesheet" value="modules/crpVideo/pnstyle/protoFlow.css"]-->
+<!--[pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/reflection.js"]-->
+<!--[pnpageaddvar name="javascript" value="modules/crpVideo/pnjavascript/protoFlow.js"]-->
+
+<!--[if empty($videos)]-->
+<!--[pnml name=_CRPVIDEO_BLOCK_NO_VIDEOS html=1]-->
+<!--[else]-->
+<div id="crpVideoCoverFlow">
+<!--[foreach from=$videos item=video]-->
+
+  <a href="<!--[pnmodurl modname=crpVideo func=display videoid=$video.videoid cat=$video.__CATEGORIES__.Main.id]-->" title="<!--[$video.title]-->">
+	<!--[if $crpvideo_use_gd eq '1']-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_thumbnail" videoid=$video.videoid width=120]-->" alt="<!--[$video.title]-->" title="<!--[$video.title]-->"/>
+	<!--[else]-->
+	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$video.videoid]-->" alt="<!--[$video.title]-->" title="<!--[$video.title]-->" width="120px"/>
+	<!--[/if]-->
+	</a>
+
+<!--[/foreach]-->
+</div>
+<script type="text/javascript">
+//<!--
+Event.observe(window, 'load', function(evnt)
+{
+        var ProtFlowExample = new ProtoFlow($("crpVideoCoverFlow"), {
+                startIndex: 3,  //which image do you want the flow
+                                                //to focus on by default
+                slider: true,   //show or hide slider?
+                captions: true, //show or hide captions, by default we hide it. 
+                                //So YOU MUST turn it on here
+                useReflection: true,   //Add reflection to your images. Please 
+                                //note that this will slow down rendering.
+                enableOnClickScroll: false //add NEW! if you wish to keep scrolling 
+                                //on click just set this to be true 
+        });
+});
+//-->
+</script>
+<!--[/if]-->

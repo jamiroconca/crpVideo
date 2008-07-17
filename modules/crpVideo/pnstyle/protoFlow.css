@@ -1,0 +1,54 @@
+		#bodyWrap {
+			width: 800px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		
+		#overlay {
+			background: url('../pnimages/resources/trans.png') repeat-y;
+		}
+
+		#crpVideoCoverFlowContainer {
+			border: 5px solid #444444;
+			/*width: 600px;*/
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#crpVideoCoverFlow {
+			width: auto;
+			/*height: 400px;*/
+			height: 300px;
+			border: 0px solid red;
+				
+		}
+
+
+		
+		.sliderTrack {
+			background:transparent url('../pnimages/resources/track_fill_left.png') no-repeat scroll left top;
+			height:15px;
+			position:relative;
+			text-align:left;
+			width:137px;
+		}
+
+		.sliderHandle {
+			background:transparent url('../pnimages/resources/knob.png') no-repeat scroll left top;
+			cursor:pointer;
+			height:16px;
+			margin-left:-2px;
+			position:absolute;
+			top:-5px;
+			width:16px;
+		}
+
+		.protoCaptions {
+			display: none;
+		}
+
+		.captionHolder {
+			font-size: 130%;
+			font-weight: bold;
+			color: black;
+		}
