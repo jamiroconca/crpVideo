@@ -83,10 +83,14 @@ function crpVideo_categoryvideosblock_display($blockinfo)
 	$pnRender->assign('videos', $items);
 	$pnRender->assign($modvars);
 
-	if ($vars['carousel'])
+	if ($vars['ajaxblock']=='carousel')
 	{
 		$pnRender->assign('direction', $vars['carousel_direction']);
 		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos_carousel.htm');
+	}
+	elseif ($vars['ajaxblock']=='protoflow')
+	{
+		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos_protoflow.htm');
 	}
 	else
 		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos.htm');
@@ -108,9 +112,15 @@ function crpVideo_categoryvideosblock_modify($blockinfo)
 	// Defaults
 	if (!isset ($vars['numitems']))
 		$vars['numitems'] = 5;
-	if (!isset ($vars['carousel']))
-		$vars['carousel'] = false;
-	if (isset ($vars['carousel']) && !isset ($vars['carousel_direction']))
+	if (!isset ($vars['ajaxblock']))
+	{
+		$carousel = false;
+		$protoflow = false;
+	}
+	elseif ($vars['ajaxblock']=='carousel') $carousel = true;
+	elseif ($vars['ajaxblock']=='protoflow') $protoflow = true;
+	
+	if (isset ($carousel) && !isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = 'horizontal';
 	elseif (!isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = null;
@@ -147,8 +157,9 @@ function crpVideo_categoryvideosblock_update($blockinfo)
 	// alter the corresponding variable
 	$vars['numitems'] = (int) FormUtil :: getPassedValue('numitems', null, 'POST');
 	$vars['videos_category'] = FormUtil :: getPassedValue('videos_category', null);
-	$vars['carousel'] = (bool) FormUtil :: getPassedValue('carousel', false, 'POST');
-	$vars['carousel_direction'] = FormUtil :: getPassedValue('carousel_direction', ($vars['carousel'])?'horizontal':false, 'POST');
+	$vars['ajaxblock'] = FormUtil :: getPassedValue('ajaxblock', false, 'POST');
+	$vars['carousel_direction'] = FormUtil :: getPassedValue('carousel_direction', null, 'POST');
+	($vars['ajaxblock']=='carousel' && !$vars['carousel_direction'])?$vars['carousel_direction']='horizontal':'';
 	
 	// write back the new contents
 	$blockinfo['content'] = pnBlockVarsToContent($vars);
@@ -157,6 +168,7 @@ function crpVideo_categoryvideosblock_update($blockinfo)
 	$pnRender = pnRender :: getInstance('crpVideo');
 	$pnRender->clear_cache('blocks/crpvideo_block_videos.htm');
 	$pnRender->clear_cache('blocks/crpvideo_block_videos_carousel.htm');
+	$pnRender->clear_cache('blocks/crpvideo_block_videos_protoflow.htm');
 
 	return $blockinfo;
 }
