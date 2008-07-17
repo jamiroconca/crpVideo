@@ -12,11 +12,12 @@
 
 //
 define('_CRPVIDEO_BLOCK_CAROUSEL','Blocco carosello (Attenzione, orizzontale necessita di spazio adeguato)');
-define('_CRPVIDEO_BLOCK_CAROUSEL_DIRECTION','Direzione scorrimento');
+define('_CRPVIDEO_BLOCK_CAROUSEL_DIRECTION','Direzione scorrimento(solo carousel)');
 define('_CRPVIDEO_BLOCK_CAROUSEL_HORIZONTAL','Orizzontale');
 define('_CRPVIDEO_BLOCK_CAROUSEL_VERTICAL','Verticale');
 define('_CRPVIDEO_BLOCK_NO_VIDEOS','Nessun video soddisfa i criteri del blocco');
 define('_CRPVIDEO_BLOCK_NO_UPLOADERS','Nessun uploader soddisfa i criteri del blocco');
+define('_CRPVIDEO_BLOCK_PROTOFLOW','protoFlow (a la CoverFlow)');
 define('_CRPVIDEO_MAXVIDEOS','Numero massimo di video');
 define('_CRPVIDEO_MAXVIDEOS_INTERVAL','Creato negli ultimi');
 define('_CRPVIDEO_MAXUPLOADERS','Numero di top uploaders');
