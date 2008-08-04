@@ -75,4 +75,13 @@ define('_CRPVIDEO_VIDEO_INVALID_TYPE','Formato video non permesso');
 define('_CRPVIDEO_INVALID_URL','URL non valido');
 define('_CRPVIDEO_INVALID_NOTIFICATION','E-mail per le notifiche in formato non valido');
 
+// RSS define
+define('_CRPVIDEO_ATOM','ATOM');
+define('_CRPVIDEO_RSS','crpVideo feed');
+define('_CRPVIDEO_RSS1','RSS 1.0');
+define('_CRPVIDEO_RSS2','RSS 2.0');
+define('_CRPVIDEO_ENABLE_RSS','Abilita feed RSS');
+define('_CRPVIDEO_SHOW_RSS','Mostra link al feed RSS');
+define('_CRPVIDEO_USE_RSS','Formato Feed');
+
 ?>

@@ -69,4 +69,11 @@ define('_CRPVIDEO_INVALID_URL','Invalid URL');
 define('_CRPVIDEO_VIDEO_NOTIFICATION','Notification of Video Creation');
 define('_CRPVIDEO_NOTIFICATION','Video creation');
 define('_CRPVIDEO_DONOTREPLY','Please do not reply to this email! This is just an automatical generated text...');
+
+// hook defines
+define('_CRPVIDEO_HOOK_VIDEO','Embed a video');
+define('_CRPVIDEO_CONTENTENTTYPE_VIDEOTITLE','Video\'s title');
+
+//RSS define
+define('_CRPVIDEO_RSS','crpVideo feed');
 ?>
