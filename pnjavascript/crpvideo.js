@@ -63,3 +63,73 @@ function crpVideoConfigInit(gd_version)
 		$('crpvideo_use_browser').removeClassName('pn-hide')
 	}
 }
+
+function crpVideoContentLoad(){
+	Event.observe('videoid_category', 'change', function(){
+		category_video();
+	}, false);
+}
+
+// 
+function category_video(){
+	var pars = "module=crpVideo&func=getCategorizedVideo&" +
+	'&category=' +
+	$F('videoid_category');
+	
+	var myAjax = new Ajax.Request("ajax.php", {
+		method: 'get',
+		parameters: pars,
+		onComplete: category_video_response
+	});
+}
+
+function category_video_response(req){
+	if (req.status != 200) {
+		pnshowajaxerror(req.responseText);
+		showinfo();
+		return;
+	}
+	
+	var videoSelect = $('contentVideo');
+	
+	var i;
+	for (i = videoSelect.length - 1; i >= 0; i--) {
+		videoSelect.remove(i);
+	}
+	
+	var jsonArray = pndejsonize(req.responseText);
+	
+	for (i in jsonArray) {
+		if (isNumeric(i)) {
+			var optNew = document.createElement('option');
+			optNew.text = jsonArray[i].name;
+			optNew.value = jsonArray[i].id;
+			try {
+				videoSelect.add(optNew, null);
+			} 
+			catch (ex) {
+				videoSelect.add(optNew);
+			}
+		}
+	}
+}
+
+// key verification
+function isNumeric(strString)//  check for valid numeric strings
+{
+	var strValidChars = "0123456789.-";
+	var strChar;
+	var blnResult = true;
+	
+	if (strString.length == 0) 
+		return false;
+	
+	//  test strString consists of valid characters listed above
+	for (k = 0; k < strString.length && blnResult == true; k++) {
+		strChar = strString.charAt(k);
+		if (strValidChars.indexOf(strChar) == -1) {
+			blnResult = false;
+		}
+	}
+	return blnResult;
+}
