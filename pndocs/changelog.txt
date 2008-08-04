@@ -1,5 +1,8 @@
 crpVideo
-v0.1.6 - ??? july 2008
+v0.1.7 - ??? august 2008
+- added categorized rss feed
+v0.1.6 - 23 july 2008
+- added protoflow block choice
 - added notification e-mail for user's submissions
 - added uploaders block
 - added time interval (if specified) for blocks content
