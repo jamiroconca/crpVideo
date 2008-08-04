@@ -55,6 +55,23 @@ class crpVideoUI
 	
 		return $cache_gd_version;
 	}
+	
+	/**
+	 * Draw rss feed
+	 * 
+	 * @param array $data feed values
+	 * @param array $list elements
+	 * 
+	 * @return string xml
+	 */
+	function drawFeed($data, $list)
+	{
+		$pnRender = pnRender::getInstance('crpVideo', false);
+		$pnRender->assign('data', $data);
+		$pnRender->assign('list', $list);
+
+		return $pnRender->fetch('crpvideo_user_getfeed.htm');
+	}
 
 }
 ?>
