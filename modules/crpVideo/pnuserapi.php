@@ -181,6 +181,25 @@ function crpVideo_userapi_getall($args)
 	return $objArray;
 }
 
+/**
+ * Retrieve list of events, filtered as specified, for form use
+ */
+function crpVideo_userapi_getall_formlist($navigationValues)
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::Video', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+	
+	$video = new crpVideo();
+
+	return $video->dao->formList($navigationValues['startnum'], $navigationValues['category'],
+																		$navigationValues['clear'], $navigationValues['ignoreml'],
+																		$navigationValues['modvars'], $navigationValues['mainCat'], 'A',
+																		$navigationValues['interval'], $navigationValues['sortOrder']);
+}
+
 
 /**
  * get uploaders with conter
@@ -260,6 +279,11 @@ function crpVideo_userapi_get_uploaders($args)
  */
 function crpVideo_userapi_get($args)
 {
+	// optional arguments
+  if (isset($args['objectid'])) {
+     $args['videoid'] = $args['objectid'];
+  }
+  
 	// Argument check
 	if ((!isset ($args['videoid']) || !is_numeric($args['videoid'])) && !isset ($args['title']))
 	{
