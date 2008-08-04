@@ -68,4 +68,11 @@ define('_CRPVIDEO_INVALID_URL','URL non valido');
 define('_CRPVIDEO_VIDEO_NOTIFICATION','Inserimento Video');
 define('_CRPVIDEO_NOTIFICATION','Notifica di creazione Video');
 define('_CRPVIDEO_DONOTREPLY','Non rispondere a questa email, serve semplicemente da notifica');
+
+// hook defines
+define('_CRPVIDEO_HOOK_VIDEO','Includi un video');
+define('_CRPVIDEO_CONTENTENTTYPE_VIDEOTITLE','Titolo video');
+
+//RSS define
+define('_CRPVIDEO_RSS','crpVideo feed');
 ?>
