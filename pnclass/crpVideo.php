@@ -145,7 +145,14 @@ class crpVideo
 			return pnRedirect(pnModUrl('crpVideo', 'admin', 'modifyconfig'));
 		}
 		pnModSetVar('crpVideo', 'crpvideo_notification', $crpvideo_notification);
-
+		// RSS
+		$crpvideo_enable_rss = (bool) FormUtil :: getPassedValue('crpvideo_enable_rss', false, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_enable_rss', $crpvideo_enable_rss);
+		$crpvideo_show_rss = (bool) FormUtil :: getPassedValue('crpvideo_show_rss', false, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_show_rss', $crpvideo_show_rss);
+		$crpvideo_rss = (string) FormUtil :: getPassedValue('crpvideo_rss', false, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_rss', $crpvideo_rss);
+		
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
 			'module' => 'crpVideo'
@@ -351,6 +358,97 @@ class crpVideo
 			echo $resizedImage;
 			pnShutDown();
 		}
+	}
+	
+	/**
+	 * Display RSS content
+	 * 
+	 * */
+	function getFeed()
+	{
+		$result = '';
+
+		// Return if not enabled
+		if (!pnModGetVar('crpVideo', 'crpvideo_enable_rss'))
+			return $result;
+		//	header("Content-Type: text/plain\n\n");	//debug
+
+		$rssinfo = $this->loadRSS('crpVideo', 'videos', pnUserGetLang());
+
+		$feedfunc = "crpVideo_videos_rss_feed";
+		$list = array ();
+		if (function_exists($feedfunc))
+			$list = $feedfunc ();
+
+		$data['xml_lang'] = substr(pnUserGetLang(), 0, 2);
+		$data['publ_date'] = date('Y-m-d H:i:s', time());
+		$selfurl = pnModUrl('crpVideo', 'user', 'getfeed');
+		$data['selfurl'] = $selfurl;
+		$data['format'] = pnModGetVar('crpVideo', 'crpvideo_rss');
+		$sitename = pnConfigGetVar('sitename');
+
+		Header("Content-Disposition: inline; filename=" . $sitename . "_videos.xml");
+		if ($data['format'] == _CRPVIDEO_ATOM)
+			header("Content-Type: application/atom+xml\n\n");
+		else
+			header("Content-Type: application/rss+xml\n\n");
+		//	header("Content-Type: text/xml\n\n");
+
+		$result = $this->ui->drawFeed($data, $list);
+		echo $result;
+		pnShutDown();
+	}
+	
+	/**
+	 * Retrieve info about a rss module plugin 
+	 *
+	 * */
+	function loadRSS($modname, $modrss, $id_lang = '')
+	{
+		$result = false;
+
+		$modinfo = pnModGetInfo(pnModGetIdFromName($modname));
+		$moddir = 'modules/' . pnVarPrepForOS($modinfo['directory']) . '/pnrss';
+		$langdir = 'modules/' . pnVarPrepForOS($modinfo['directory']) . '/pnlang';
+		$infofunc = "{$modname}_{$modrss}rss_info";
+
+		if (!$id_lang)
+			$id_lang = pnUserGetLang();
+
+		// Load the rss
+		$incfile = $modrss . '.php';
+		$filepath = $moddir . '/' . pnVarPrepForOS($incfile);
+		if (!file_exists($filepath))
+			return false;
+
+		include_once $filepath;
+
+		// Load the RSS language files
+		$currentlangfile = $langdir . '/' . pnVarPrepForOS($id_lang) . '/' . pnVarPrepForOS($incfile);
+		$defaultlangfile = $langdir . '/' . pnVarPrepForOS(pnConfigGetVar('language')) . '/' . pnVarPrepForOS($incfile);
+		if (file_exists($currentlangfile))
+			include_once $currentlangfile;
+		elseif (file_exists($defaultlangfile)) include_once $defaultlangfile;
+
+		// get the rss info
+		if (function_exists($infofunc) && ($info = $infofunc ()) && ($info !== false))
+		{
+			// set the module and keys for the new rss
+			if (!isset ($info['module']))
+				$info['module'] = $modname;
+			$info['mid'] = pnModGetIDFromName($$modname);
+
+			// Initialise rss if required (new-style)
+			$initfunc = "{$modname}_{$modrss}rss_init";
+			if (function_exists($initfunc))
+			{
+				pnModLangLoad($modname);
+				$initfunc ();
+			}
+			$result = $info;
+		}
+		//
+		return $result;
 	}
 	
 	/**
