@@ -128,6 +128,111 @@ class crpVideoDAO
 		// Return the items
 		return $objArray;
 	}
+	
+	/**
+	 * Return form list of events
+	 * 
+	 * @param int $startnum pager offset
+	 * @param int $category current category if specified
+	 * @param bool $ignoreml ignore multilanguage
+	 * @param array $modvars module's variables
+	 * @param int $mainCat main module's category
+	 * 
+	 * @return array element list
+	 */
+	function formList($startnum= 1, $category= null, $clear= false, $ignoreml= true, $modvars= array (), $mainCat, $active= null, $interval= null, $sortOrder= 'DESC')
+	{
+		if (!is_numeric($startnum) || !is_numeric($modvars['itemsperpage']))
+		{
+			return LogUtil :: registerError(_MODARGSERROR);
+		}
+
+		$catFilter= array ();
+		if (is_array($category))
+			$catFilter= $category;
+		else
+			if ($category)
+			{
+				$catFilter['Main']= $category;
+				$catFilter['__META__']['module']= 'crpVideo';
+			}
+
+		$items= array ();
+
+		// Security check
+		if (!SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_READ))
+		{
+			return $items;
+		}
+
+		$pntable= pnDBGetTables();
+		$crpvideocolumn= $pntable['crpvideos_column'];
+		$queryargs= array ();
+		if (pnConfigGetVar('multilingual') == 1 && !$ignoreml)
+		{
+			$queryargs[]= "($crpvideocolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' " .
+			"OR $crpvideocolumn[language]='')";
+		}
+
+		if ($active)
+		{
+			$queryargs[]= "($crpvideocolumn[obj_status]='" . DataUtil :: formatForStore($active) . "')";
+		}
+
+		if ($interval)
+		{
+			$queryargs[]= "($crpvideocolumn[cr_date] < NOW() " .
+			"AND $crpvideocolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($interval) . " DAY))";
+		}
+
+		$where= null;
+		if (count($queryargs) > 0)
+		{
+			$where= ' WHERE ' . implode(' AND ', $queryargs);
+		}
+
+		// define the permission filter to apply
+		$permFilter= array (
+			array (
+				'realm' => 0,
+				'component_left' => 'crpVideo',
+				'component_right' => 'Video',
+				'instance_left' => 'cr_uid',
+				'instance_center' => 'title',
+				'instance_right' => 'videoid',
+				'level' => ACCESS_READ
+			)
+		);
+
+		$orderby= "ORDER BY $crpvideocolumn[title] $sortOrder";
+
+		$columnArray= array (
+			'videoid',
+			'title'
+		);
+
+		// get the objects from the db
+		$objArray= DBUtil :: selectObjectArray('crpvideos', $where, $orderby, $startnum -1, '9999', '', $permFilter, $catFilter, $columnArray);
+
+		// Check for an error with the database code, and if so set an appropriate
+		// error message and return
+		if ($objArray === false)
+		{
+			return LogUtil :: registerError(_GETFAILED);
+		}
+
+		foreach ($objArray as $kObj => $vObj)
+		{
+			$formArray[]= array (
+				'id' => $vObj['videoid'],
+				'name' => $vObj['title']
+			);
+		}
+
+		// Return the items
+		return $formArray;
+	}
+
 
 	function getData($args = array ())
 	{
