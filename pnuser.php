@@ -456,4 +456,22 @@ function crpVideo_user_get_thumbnail()
 	$imageObj = new crpVideo();
 	return $imageObj->getThumbnail();
 }
+
+/**
+ * feed items
+ * 
+ * @return string HTML output
+ */
+function crpVideo_user_getfeed()
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+
+	$videoObj = new crpVideo();
+	return $videoObj->getFeed();
+}
+
 ?>
