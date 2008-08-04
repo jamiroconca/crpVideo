@@ -56,6 +56,9 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'mandatory_cover', false);
 	pnModSetVar('crpVideo', 'main_items', 3);
 	pnModSetVar('crpVideo', 'crpvideo_notification', null);
+	pnModSetVar('crpVideo', 'crpvideo_enable_rss', true);
+	pnModSetVar('crpVideo', 'crpvideo_show_rss', true);
+	pnModSetVar('crpVideo', 'crpvideo_rss', 'rss2');
 
 	// Initialisation successful
 	return true;
@@ -131,10 +134,16 @@ function crpVideo_upgrade($oldversion)
 			break;
 		case "0.1.5" :
 			pnModSetVar('crpVideo', 'crpvideo_notification', null);
-			
+
 			return crpVideo_upgrade("0.1.6");
 			break;
-		case "0.1.6" :			
+		case "0.1.6" :
+				pnModSetVar('crpVideo', 'crpvideo_enable_rss', true);
+				pnModSetVar('crpVideo', 'crpvideo_show_rss', true);
+				pnModSetVar('crpVideo', 'crpvideo_rss', 'rss2');
+				return crpVideo_upgrade("0.1.7");
+			break;
+		case "0.1.7" :
 			break;
 	}
 	// Update successful
