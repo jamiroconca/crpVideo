@@ -39,20 +39,20 @@
 <!--[if $source eq 'video']-->
 <p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
 <script type="text/javascript">
-	var so = new SWFObject('modules/crpVideo/pnincludes/flvplayer.swf','player','<!--[pnmodgetvar module=crpVideo name=playerwidth]-->','<!--[pnmodgetvar module=crpVideo name=playerheight]-->','7');
+	var so = new SWFObject('modules/crpVideo/pnincludes/flvplayer.swf','player','<!--[$playerwidth]-->','<!--[$playerheight]-->','7');
 	so.addParam("allowfullscreen","false");
 	so.addVariable("title","<!--[$title]-->");
 	so.addVariable("file","<!--[$urlvideo]-->");
-	so.addVariable("displayheight","<!--[pnmodgetvar module=crpVideo name=displayheight]-->");
+	so.addVariable("displayheight","<!--[$displayheight]-->");
 	so.addVariable("overstretch","false");
 	so.addVariable("author","<!--[$author]-->");
 	so.write('player');
 </script>
 <!--[elseif $source eq 'external']-->
-<object width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=playerheight]-->">
+<object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
 	<param name="movie" value="<!--[$external|pnvarprepfordisplay]-->"></param>
 	<param name="wmode" value="transparent"></param>
-	<embed src="<!--[$external|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=playerheight]-->"></embed>
+	<embed src="<!--[$external|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->"></embed>
 </object>
 <!--[/if]-->
 </div>
@@ -66,9 +66,9 @@
 <p>
 	<label for="embed_code"><!--[pnml name=_CRPVIDEO_EMBED_CODE]--></label>
 	<textarea id="embed_code" readonly="readonly" cols="80" rows="8">
-	<object width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=displayheight]-->">
+	<object width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->">
 	<param name="movie" value="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->"></param>
-	<param name="wmode" value="transparent"></param><embed src="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[pnmodgetvar module=crpVideo name=playerwidth]-->" height="<!--[pnmodgetvar module=crpVideo name=displayheight]-->"></embed>
+	<param name="wmode" value="transparent"></param><embed src="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->"></embed>
 	</object>
 	</textarea>
 </p>
