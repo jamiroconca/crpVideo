@@ -1,10 +1,18 @@
 <!--[pngetstatusmsg]-->
+<!--[crpvideo_feeds]-->
 
 <div class="crpvideo-box">
-	<h1><!--[sitename]--> <!--[pnml name="_CRPVIDEO"]--></h1>
+	<h1>
+		<!--[sitename]--> <!--[pnml name="_CRPVIDEO"]-->
+		<!--[if $crpvideo_show_rss]-->
+		<a href="<!--[pnmodurl modname="crpVideo" type="user" func="getfeed"]-->">
+			<!--[pnimg modname=crpVideo src=rss_button.gif alt="_CRPVIDEO_RSS" altml=true]-->
+		</a>
+		<!--[/if]-->	
+	</h1>
 	<div class="pn-menu">
 	[&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user"]-->"><!--[pnml name="_CRPVIDEO_INDEX"]--></a>&nbsp;|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;]
-	
+		
 	<!--[if $enablecategorization and $category]-->
 	<!--[breadcrumbcategorymenu modname="crpVideo" tablename ="crpvideos" category=$category lang=$lang]-->
 	<!--[/if]-->

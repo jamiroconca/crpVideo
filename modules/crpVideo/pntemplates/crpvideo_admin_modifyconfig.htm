@@ -92,6 +92,24 @@
 		</div>
 	</fieldset>
 	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_RSS html=1]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_enable_rss"><!--[pnml name="_CRPVIDEO_ENABLE_RSS" html=1]--></label>
+			<input id="crpvideo_enable_rss" type="checkbox" name="crpvideo_enable_rss"<!--[if $crpvideo_enable_rss]--> checked="checked"<!--[/if]--> />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_show_rss"><!--[pnml name="_CRPVIDEO_SHOW_RSS" html=1]--></label>
+			<input id="crpvideo_show_rss" type="checkbox" name="crpvideo_show_rss"<!--[if $crpvideo_show_rss]--> checked="checked"<!--[/if]--> />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_rss"><!--[pnml name="_CRPVIDEO_USE_RSS" html=1]--></label>
+			<div id ="crpvideo_rss">
+				<input id="crpvideo_rss_1" type="radio" name="crpvideo_rss" value="rss1"<!--[if $crpvideo_rss eq "rss1"]--> checked="checked"<!--[/if]--> /> <!--[pnml name="_CRPVIDEO_RSS1" html=1]-->
+				<input id="crpvideo_rss_2" type="radio" name="crpvideo_rss" value="rss2"<!--[if $crpvideo_rss eq "rss2"]--> checked="checked"<!--[/if]--> /> <!--[pnml name="_CRPVIDEO_RSS2" html=1]-->
+				<input id="crpvideo_rss_atom" type="radio" name="crpvideo_rss" value="atom"<!--[if $crpvideo_rss eq "atom"]--> checked="checked"<!--[/if]--> /> <!--[pnml name="_CRPVIDEO_ATOM" html=1]-->
+		</div>
+	</fieldset>
+	<fieldset>
 		<legend><!--[pnml name=_PERMALINKS]--></legend>
 		<div class="pn-adminformrow">
 			<label for="crpvideo_addcategorytitletopermalink"><!--[pnml name="_ADDCATEGORYTITLETOPERMALINK"]--></label>
