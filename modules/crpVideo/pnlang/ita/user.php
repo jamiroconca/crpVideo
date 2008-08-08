@@ -14,6 +14,9 @@ define('_CRPVIDEO', 'crpVideo');
 
 // main list
 define('_CRPVIDEO_AVAILABLESECTIONS', 'Le categorie disponibili sono:');
+define('_CRPVIDEO_ADDED_DIFF','Aggiunto');
+define('_CRPVIDEO_AGO','fa');
+define('_CRPVIDEO_HOURS','ore');
 define('_CRPVIDEO_INDEX','Indice');
 define('_CRPVIDEO_LIST_NONE','Nessun video in elenco');
 define('_CRPVIDEO_MOSTRECENT_VIDEOS','Ultimi inserimenti');
@@ -21,6 +24,7 @@ define('_CRPVIDEO_MOSTVIEWED_VIDEOS','Video popolari');
 define('_CRPVIDEO_VIDEO', 'Video');
 define('_CRPVIDEO_VIDEOSINSECTION', 'I video pubblicati in questa sezione sono le seguenti:');
 define('_CRPVIDEO_VIEW', 'Elenco video');
+define('_CRPVIDEO_YESTERDAY', 'ieri');
 define('_CRPVIDEO_WELCOME', 'Benvenuti nella sezione video di %sitename%.');
 
 // single display
