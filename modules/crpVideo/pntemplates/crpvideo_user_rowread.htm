@@ -14,13 +14,14 @@
 
 <div>
 	<a href="<!--[pnmodurl modname="crpVideo" func="display" videoid=$videoid]-->"><!--[$title|pnvarprephtmldisplay]--></a>
+	<!--[$cr_date|videodatediff]-->
 </div>
 
 <div>
-<!--[pnml name="_CRPVIDEO_AUTHOR"]-->: <!--[$author|pnvarprephtmldisplay]-->
+<!--[pnml name="_CRPVIDEO_AUTHOR" html=1]-->: <!--[$author|pnvarprephtmldisplay]-->
 </div>
 <div>
-( <!--[pnml name="_CRPVIDEO_INSERTION"]--> <!--[$cr_date|pndate_format:"%d/%m/%Y"]--> - <!--[pnml name=_CRPVIDEO_READS x=$counter]-->)
+( <!--[pnml name="_CRPVIDEO_INSERTION" html=1]--> <!--[$cr_date|pndate_format:"%d/%m/%Y"]--> - <!--[pnml name=_CRPVIDEO_READS html=1 x=$counter]-->)
 </div>
 
 <div style="clear:left;">&nbsp;</div>
