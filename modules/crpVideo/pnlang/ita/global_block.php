@@ -27,5 +27,10 @@ define('_CRPVIDEO_NOAVATARSELECTED','Nessun avatar selezionato');
 // carousel define
 define('_CRPVIDEO_LABEL_NEXT_IMAGE','Immagine successiva');
 define('_CRPVIDEO_LABEL_PREV_IMAGE','Immagine precedente');
+//
+define('_CRPVIDEO_ADDED_DIFF','Aggiunto');
+define('_CRPVIDEO_AGO','fa');
+define('_CRPVIDEO_HOURS','ore');
+define('_CRPVIDEO_YESTERDAY','ieri');
 
 ?>
