@@ -4,58 +4,61 @@
 <div class="pn-admincontainer">
 <div class="pn-adminpageicon"><!--[pnimg modname=core src=filenew.gif set=icons/large alt=$templatetitle]--></div>
 <h2><!--[$templatetitle]--></h2>
-<form class="pn-adminform" action="<!--[pnmodurl modname="crpVideo" type="admin" func="create"]-->" method="post" enctype="multipart/form-data">
+<!--[pnml name="_CRPVIDEO_REQUIRED"]--> <!--[pnml name="_CRPVIDEO_REQUIRED_EXT"]-->
+<form class="pn-form" action="<!--[pnmodurl modname="crpVideo" type="admin" func="create"]-->" method="post" enctype="multipart/form-data">
 <div>
 	<input type="hidden" name="authid" value="<!--[pnsecgenauthkey module="crpVideo"]-->" />
-	<div class="pn-adminformrow">
+	<fieldset class="pn-form-fieldset">
+  <legend><!--[pnml name=_CONTENT]--></legend>
+	<div class="pn-formrow">
 		<label for="video_title"><!--[pnml name="_TITLE"]--> <!--[pnml name="_CRPVIDEO_REQUIRED"]--></label>
-		<input id="video_title" name="video[title]" type="text" size="32" maxlength="255" />
+		<input id="video_title" class="pn-form-text" name="video[title]" type="text" size="32" maxlength="255" />
 	</div>
-  <div class="pn-adminformrow">
-       <label for="video_urltitle"><!--[pnml name="_PERMALINKTITLE"]--></label>
-       <input id="video_urltitle" name="video[urltitle]" type="text" size="32" maxlength="255" />
-	<!--[pnml name=_PERMALINKTITLEBLANK]-->
+  <div class="pn-formrow">
+  	<label for="video_urltitle"><!--[pnml name="_PERMALINKTITLE"]--></label>
+    <input id="video_urltitle" class="pn-form-text" name="video[urltitle]" type="text" size="32" maxlength="255" />
+		<span class="pn-sub"><!--[pnml name=_PERMALINKTITLEBLANK]--></span>
   </div>
-  <div class="pn-adminformrow">
-       <label for="video_author"><!--[pnml name="_CRPVIDEO_AUTHOR"]--> <!--[pnml name="_CRPVIDEO_REQUIRED"]--></label>
-       <input id="video_author" name="video[author]" type="text" size="32" maxlength="255" />
+  <div class="pn-formrow">
+  	<label for="video_author"><!--[pnml name="_CRPVIDEO_AUTHOR"]--> <!--[pnml name="_CRPVIDEO_REQUIRED"]--></label>
+    <input id="video_author" class="pn-form-text" name="video[author]" type="text" size="32" maxlength="255" />
   </div>
-  <div class="pn-adminformrow">
+  <div class="pn-formrow">
     <label for="crpvideo_image"><!--[pnml name="_CRPVIDEO_IMAGE"]--> <!--[pnmodgetvar module=crpVideo name=cover_dimension]--> bytes <!--[if $mandatory_cover]--><!--[pnml name="_CRPVIDEO_REQUIRED"]--><!--[/if]--></label>
-	<input id="crpvideo_image" name="video_image" type="file" size="32"/>
-	<!--[pnml name="_CRPVIDEO_IMAGE_RESIZE"]--> <!--[pnmodgetvar module=crpVideo name=image_width]--> px
+		<input id="crpvideo_image" name="video_image" type="file" size="32"/>
+		<span class="pn-sub"><!--[pnml name="_CRPVIDEO_IMAGE_RESIZE"]--> <!--[pnmodgetvar module=crpVideo name=image_width]--> px</span>
   </div>
-  <div class="pn-adminformrow">
-    <label for="crpvideo_file"><!--[pnml name="_CRPVIDEO_FILE"]--></label>
+  <div class="pn-formrow">
+    <label for="crpvideo_file"><!--[pnml name="_CRPVIDEO_FILE"]--> <!--[pnmodgetvar module=crpVideo name=file_dimension]--> bytes</label>
     <input type="radio" name="video[source]" value="video" id="videosource" checked="checked"/>
 		<input type="hidden" name="MAX_FILE_SIZE" value="<!--[pnmodgetvar module=crpVideo name=file_dimension]-->"/>
 		<input id="crpvideo_file" name="video_file" type="file" size="32"/>		
   </div>
-  <div class="pn-adminformrow">
+  <div class="pn-formrow">
   	<label for="video_external"><!--[pnml name="_CRPVIDEO_EXTERNAL"]--></label>
   	<input type="radio" name="video[source]" value="external" id="videosource"/>
     <input id="video_external" name="video[external]" type="text" size="32" maxlength="255" />
   </div>
 	<!--[if $enablecategorization]-->
-	<div class="pn-adminformrow">
+	<div class="pn-formrow">
 		<label for="video_category_cat_val"><!--[pnml name="_CATEGORY"]--> <!--[pnml name="_CRPVIDEO_REQUIRED"]--></label>
 		<!--[ pnml assign="lblDef" name="_CHOOSECATEGORY" ]-->
 		<!--[ selector_category category=$mainCategory name="video[__CATEGORIES__][Main]" field="id" defaultValue="0" defaultText="$lblDef" ]-->
 	</div>
 	<!--[/if]-->
-	<div class="pn-adminformrow">
+	<div class="pn-formrow">
 		<label for="video_language"><!--[pnml name="_LANGUAGE"]--></label>
 		<!--[html_select_languages id=video_language name=video[language] all=true installed=true]-->
 	</div>
-	<div class="pn-adminformrow">
+	<div class="pn-formrow">
 		<label for="video_displaywrapper"><!--[pnml name="_CRPVIDEO_DISPLAYWRAPPER"]--></label>
-        <input id="video_displaywrapper" type="checkbox" name="video[displaywrapper]" value="1" checked="checked" />
+    <input id="video_displaywrapper" type="checkbox" name="video[displaywrapper]" value="1" checked="checked" />
 	</div>
-	<div class="pn-adminformrow">
+	<div class="pn-formrow">
 		<label for="video_content"><!--[pnml name="_CONTENT"]--> <!--[pnml name="_CRPVIDEO_REQUIRED"]--></label>
-		<textarea id="video_content" name="video[content]" rows="10" cols="50"></textarea>
+		<textarea id="video_content" class="pn-form-text" name="video[content]" rows="10" cols="50"></textarea>
 	</div>
-	<div class="pn-adminformrow">
+	<div class="pn-formrow">
 		<label for="crpvideo_event_status"><!--[pnml name="_CRPVIDEO_STATUS"]--></label>
 		<select id="crpvideo_event_status" name="video[obj_status]">
 			<option value="A"<!--[if $obj_status eq 'A']--> selected="selected"<!--[/if]-->><!--[pnml name="_ACTIVE"]--></option>
@@ -63,11 +66,12 @@
 			<option value="R"<!--[if $obj_status eq 'R']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_REJECTED"]--></option>
 		</select>
 	</div>
-    <!--[pnmodcallhooks hookobject=item hookaction=new module=crpVideo]-->
-    <div class="pn-adminformrow pn-adminformbuttons">
-    <a href="<!--[pnmodurl modname=crpVideo type=admin func=view]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small altml=true titleml=true alt="_CANCEL" title="_CANCEL"]--></a>
-    <!--[pnbutton src=button_ok.gif set=icons/small alt="_CREATE" title="_CREATE"]-->
-    </div>
+  <!--[pnmodcallhooks hookobject=item hookaction=new module=crpVideo]-->
+  </fieldset>	
+  <div class="pn-formrow pn-formbuttons">
+	  <a href="<!--[pnmodurl modname=crpVideo type=admin func=view]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small altml=true titleml=true alt="_CANCEL" title="_CANCEL"]--></a>
+	  <!--[pnbutton src=button_ok.gif set=icons/small alt="_CREATE" title="_CREATE"]-->
+  </div>
 </div>
 </form>
 </div>
