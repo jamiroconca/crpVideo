@@ -11,7 +11,8 @@
 		<!--[/if]-->	
 	</h1>
 	<div class="pn-menu">
-	[&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user"]-->"><!--[pnml name="_CRPVIDEO_INDEX"]--></a>&nbsp;|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;]
+	<!--[securityutil_checkpermission component="crpCalendar::" instance="::" level="ACCESS_COMMENT" assign="can_submit"]-->
+	[&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user"]-->"><!--[pnml name="_CRPVIDEO_INDEX"]--></a>&nbsp;<!--[if $can_submit]-->|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;<!--[/if]-->]
 		
 	<!--[if $enablecategorization and $category]-->
 	<!--[breadcrumbcategorymenu modname="crpVideo" tablename ="crpvideos" category=$category lang=$lang]-->
