@@ -21,13 +21,13 @@ function crpVideo_adminapi_getall($navigationValues)
 	{
 		return LogUtil::registerPermissionError();
 	}
-	
+
 	$video = new crpVideo();
 
 	return $video->dao->adminList($navigationValues['startnum'], $navigationValues['category'],
 																		$navigationValues['clear'], $navigationValues['ignoreml'],
 																		$navigationValues['modvars'], $navigationValues['mainCat'],
-																		$navigationValues['active']);
+																		$navigationValues['active'], $navigationValues['sortOrder']);
 }
 
 /**
@@ -89,7 +89,7 @@ function crpVideo_adminapi_delete($args)
 	}
 
 	// Check item exists before attempting deletion
-	$videoObj = new crpVideo();	
+	$videoObj = new crpVideo();
 	$oldData = $videoObj->dao->getData($args);
 
 	if ($oldData == false)
@@ -107,7 +107,7 @@ function crpVideo_adminapi_delete($args)
 	{
 		return LogUtil :: registerError(_DELETEFAILED);
 	}
-	
+
 	// remove cover
 	$item = $videoObj->dao->getFile($args['videoid'], 'image');
 	if ($item)
@@ -115,9 +115,9 @@ function crpVideo_adminapi_delete($args)
 		if (!DBUtil::deleteObjectByID('crpvideo_covers', $item['id'], 'id'))
       	return LogUtil::registerError (_DELETEFAILED);
 	}
-  // remove file from filesystem    
+  // remove file from filesystem
 	unlink($oldData['pathvideo']);
-	
+
 	// Let any hooks know that we have deleted an item.
 	pnModCallHooks('item', 'delete', $args['videoid'], array (
 		'module' => 'crpVideo'
@@ -233,7 +233,7 @@ function crpVideo_adminapi_getlinks()
 
 /**
  * modify item status
- * 
+ *
  * @return string HTML output
  */
 function crpVideo_adminapi_change_status($args=array())
@@ -243,15 +243,15 @@ function crpVideo_adminapi_change_status($args=array())
 	{
 		return LogUtil::registerPermissionError();
 	}
-	
+
 	$video = new crpVideo();
-	
+
 	if ($args['status']=='P' || $args['status']=='A')
 	{
 		($args['status']=='A')?$args['status']='P':$args['status']='A';
-		$video->dao->updateStatus($args['videoid'], $args['status']); 
-	}	
-	
+		$video->dao->updateStatus($args['videoid'], $args['status']);
+	}
+
 	return;
 }
 ?>
