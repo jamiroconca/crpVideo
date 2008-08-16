@@ -12,4 +12,6 @@
 
 Loader :: includeOnce('modules/crpVideo/pnlang/ita/global_block.php');
 
+define('_CRPVIDEO_VIDEOS_UPLOADED','%videos% video caricati');
+
 ?>
