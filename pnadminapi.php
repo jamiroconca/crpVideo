@@ -27,7 +27,8 @@ function crpVideo_adminapi_getall($navigationValues)
 	return $video->dao->adminList($navigationValues['startnum'], $navigationValues['category'],
 																		$navigationValues['clear'], $navigationValues['ignoreml'],
 																		$navigationValues['modvars'], $navigationValues['mainCat'],
-																		$navigationValues['active'], $navigationValues['sortOrder']);
+																		$navigationValues['active'], $navigationValues['interval'],
+																		$navigationValues['sortOrder']);
 }
 
 /**
