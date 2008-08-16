@@ -22,7 +22,7 @@ function crpVideo_topuploadersblock_init()
 
 /**
  * get information on block
- * 
+ *
  */
 function crpVideo_topuploadersblock_info()
 {
@@ -73,7 +73,7 @@ function crpVideo_topuploadersblock_display($blockinfo)
 
 	// call the api
 	$items = pnModAPIFunc('crpVideo', 'user', 'get_uploaders', $apiargs);
-//echo '<pre>'.print_r($items,1).'</pre>';
+
 	// check for an empty return
 	if (empty ($items))
 		return;
@@ -85,7 +85,7 @@ function crpVideo_topuploadersblock_display($blockinfo)
 	$pnRender->assign($modvars);
 
 	$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_topuploaders.htm');
-		
+
 	return pnBlockThemeBlock($blockinfo);
 }
 
@@ -105,7 +105,7 @@ function crpVideo_topuploadersblock_modify($blockinfo)
 		$vars['numitems'] = 5;
 	if (!isset ($vars['interval']))
 		$vars['interval'] = null;
-		
+
 	// Create output object
 	$pnRender = pnRender :: getInstance('crpVideo', false);
 

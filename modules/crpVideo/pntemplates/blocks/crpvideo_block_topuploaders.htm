@@ -14,7 +14,7 @@
 	</div>
 </div>
 <!--[pnmodurl modname=Profile func=view uid=$user.cr_uid assign=uploader_profilelink]-->
-<div style="clear:left"><a href="<!--[$uploader_profilelink]-->"><!--[pnusergetvar name='uname' uid=$user.cr_uid]--></a> (<!--[$user.counter]-->)</div>
+<div style="clear:left"><a href="<!--[$uploader_profilelink]-->"><!--[pnusergetvar name='uname' uid=$user.cr_uid]--></a> (<!--[pnml name=_CRPVIDEO_VIDEOS_UPLOADED html=1 videos=$user.counter]-->)</div>
 <!--[/foreach]-->
 <!--[if empty($uploaders)]-->
 <!--[pnml name=_CRPVIDEO_BLOCK_NO_UPLOADERS html=1]-->
