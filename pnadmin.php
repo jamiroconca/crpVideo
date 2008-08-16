@@ -384,7 +384,8 @@ function crpVideo_admin_view()
 		'ignoreml' => true,
 		'category' => $category,
 		'mainCat' => $mainCat,
-		'active' => $active
+		'active' => $active,
+		'sortOrder' => 'ASC'
 	));
 
 	if (!$items)
@@ -489,7 +490,7 @@ function crpVideo_admin_updateconfig()
  * delete item's file
  *
  * @param int $videoid item identifier
- * 
+ *
  * @return mixed string HTML output if no confirmation otherwise true
  */
 function crpVideo_admin_delete_image($args)
@@ -512,7 +513,7 @@ function crpVideo_admin_delete_image($args)
 
 /**
  * modify item status
- * 
+ *
  * @return string HTML output
  */
 function crpVideo_admin_change_status()
