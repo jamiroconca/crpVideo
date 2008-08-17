@@ -22,7 +22,7 @@ function crpVideo_categoryvideosblock_init()
 
 /**
  * get information on block
- * 
+ *
  */
 function crpVideo_categoryvideosblock_info()
 {
@@ -66,7 +66,7 @@ function crpVideo_categoryvideosblock_display($blockinfo)
 	$apiargs['startnum'] = 1;
 	$apiargs['category'] = $vars['videos_category'];
 	$apiargs['active'] = 'A';
-	$apiargs['numitems'] = $vars['numitems'];
+	$apiargs['itemsperpage'] = $vars['numitems'];
 	$apiargs['orderBy'] = 'cr_date';
 	$apiargs['sortOrder'] = 'DESC';
 
@@ -94,7 +94,7 @@ function crpVideo_categoryvideosblock_display($blockinfo)
 	}
 	else
 		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos.htm');
-		
+
 	return pnBlockThemeBlock($blockinfo);
 }
 
@@ -119,12 +119,12 @@ function crpVideo_categoryvideosblock_modify($blockinfo)
 	}
 	elseif ($vars['ajaxblock']=='carousel') $carousel = true;
 	elseif ($vars['ajaxblock']=='protoflow') $protoflow = true;
-	
+
 	if (isset ($carousel) && !isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = 'horizontal';
 	elseif (!isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = null;
-		
+
 	// load the category registry util
 	if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
 		pn_exit('Unable to load class [CategoryRegistryUtil] ...');
@@ -160,7 +160,7 @@ function crpVideo_categoryvideosblock_update($blockinfo)
 	$vars['ajaxblock'] = FormUtil :: getPassedValue('ajaxblock', false, 'POST');
 	$vars['carousel_direction'] = FormUtil :: getPassedValue('carousel_direction', null, 'POST');
 	($vars['ajaxblock']=='carousel' && !$vars['carousel_direction'])?$vars['carousel_direction']='horizontal':'';
-	
+
 	// write back the new contents
 	$blockinfo['content'] = pnBlockVarsToContent($vars);
 

@@ -42,16 +42,16 @@ function crpVideo_user_main()
 		$pnRender->assign('shorturls', pnConfigGetVar('shorturls'));
 		$pnRender->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
 	}
-	
+
 	$popvideos=array();
-	$popvideos = pnModAPIFunc('crpVideo', 'user', 'getall', 
+	$popvideos = pnModAPIFunc('crpVideo', 'user', 'getall',
 		array('startnum' => 1,
 				'active' => 'A',
-				'numitems'=> $modvars['main_items'],
+				'itemsperpage'=> $modvars['main_items'],
 				'orderBy' => 'counter',
 				'sortOrder' => 'DESC'
 				));
-				
+
 	// Loop through each item and display it.
 	$mostviewedvideos = array ();
 	foreach ($popvideos as $item)
@@ -69,16 +69,16 @@ function crpVideo_user_main()
 			}
 		}
 	}
-	
+
 	$newvideos=array();
-	$newvideos = pnModAPIFunc('crpVideo', 'user', 'getall', 
+	$newvideos = pnModAPIFunc('crpVideo', 'user', 'getall',
 		array('startnum' => 1,
 				'active' => 'A',
-				'numitems'=> $modvars['main_items'],
+				'itemsperpage'=> $modvars['main_items'],
 				'orderBy' => 'cr_date',
 				'sortOrder' => 'DESC'
 				));
-				
+
 	// Loop through each item and display it.
 	$recentvideos = array ();
 	foreach ($newvideos as $item)
@@ -96,7 +96,7 @@ function crpVideo_user_main()
 			}
 		}
 	}
-	
+
 	// assign the item output to the template
 	$pnRender->assign('parents', $parents);
 	$pnRender->assign('category', $rootCat);
@@ -168,7 +168,7 @@ function crpVideo_user_view($args)
 	// Get all matching pages
 	$items = pnModAPIFunc('crpVideo', 'user', 'getall', array (
 		'startnum' => $startnum,
-		'numitems' => $modvars['itemsperpage'],
+		'itemsperpage' => $modvars['itemsperpage'],
 		'uid' => $uid,
 		'category' => (isset ($cat['id']
 	)) ? $cat['id'] : null));
@@ -437,7 +437,7 @@ function crpVideo_user_create()
 
 /**
  * get video's image
- * 
+ *
  * @return blob image
  */
 function crpVideo_user_get_image()
@@ -448,7 +448,7 @@ function crpVideo_user_get_image()
 
 /**
  * get event's thumbnail thru gd library
- * 
+ *
  * @return blob image
  */
 function crpVideo_user_get_thumbnail()
@@ -459,7 +459,7 @@ function crpVideo_user_get_thumbnail()
 
 /**
  * feed items
- * 
+ *
  * @return string HTML output
  */
 function crpVideo_user_getfeed()
@@ -472,6 +472,40 @@ function crpVideo_user_getfeed()
 
 	$videoObj = new crpVideo();
 	return $videoObj->getFeed();
+}
+
+/**
+ * get uploaders list
+ *
+ * @return html
+ */
+function crpVideo_user_view_uploaders()
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+
+	$video = new crpVideo();
+	return $video->listUploaders();
+}
+
+/**
+ * get uploads details
+ *
+ * @return html
+ */
+function crpVideo_user_view_uploads()
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+
+	$video = new crpVideo();
+	return $video->listUploads();
 }
 
 ?>

@@ -22,7 +22,7 @@ function crpVideo_videosblock_init()
 
 /**
  * get information on block
- * 
+ *
  */
 function crpVideo_videosblock_info()
 {
@@ -65,7 +65,7 @@ function crpVideo_videosblock_display($blockinfo)
 
 	$apiargs['startnum'] = 1;
 	$apiargs['active'] = 'A';
-	$apiargs['numitems'] = $vars['numitems'];
+	$apiargs['itemsperpage'] = $vars['numitems'];
 	$apiargs['orderBy'] = 'cr_date';
 	$apiargs['sortOrder'] = 'DESC';
 
@@ -81,7 +81,7 @@ function crpVideo_videosblock_display($blockinfo)
 
 	$pnRender->assign('videos', $items);
 	$pnRender->assign($modvars);
-	
+
 	if ($vars['ajaxblock']=='carousel')
 	{
 		$pnRender->assign('direction', $vars['carousel_direction']);
@@ -93,7 +93,7 @@ function crpVideo_videosblock_display($blockinfo)
 	}
 	else
 		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos.htm');
-		
+
 	return pnBlockThemeBlock($blockinfo);
 }
 
@@ -118,12 +118,12 @@ function crpVideo_videosblock_modify($blockinfo)
 	}
 	elseif ($vars['ajaxblock']=='carousel') $carousel = true;
 	elseif ($vars['ajaxblock']=='protoflow') $protoflow = true;
-	
+
 	if (isset ($carousel) && !isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = 'horizontal';
 	elseif (!isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = null;
-		
+
 	// Create output object
 	$pnRender = pnRender :: getInstance('crpVideo', false);
 
@@ -151,7 +151,7 @@ function crpVideo_videosblock_update($blockinfo)
 	$vars['ajaxblock'] = FormUtil :: getPassedValue('ajaxblock', false, 'POST');
 	$vars['carousel_direction'] = FormUtil :: getPassedValue('carousel_direction', null, 'POST');
 	($vars['ajaxblock']=='carousel' && !$vars['carousel_direction'])?$vars['carousel_direction']='horizontal':'';
-	
+
 	// write back the new contents
 	$blockinfo['content'] = pnBlockVarsToContent($vars);
 

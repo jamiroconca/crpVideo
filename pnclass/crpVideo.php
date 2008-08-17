@@ -29,10 +29,10 @@ class crpVideo
 
 	/**
 	 * update a cover
-	 * 
+	 *
 	 * @param int $videoid item identifier
 	 * @param array $inputValues array of updated values
-	 * 
+	 *
 	 * @return string html
 	 */
 	function createCover($video = array ())
@@ -52,10 +52,10 @@ class crpVideo
 
 	/**
 	 * Change item status
-	 * 
+	 *
 	 * @param int $eventid item identifier
 	 * @param string $obj_status active or pending
-	 * 
+	 *
 	 * @return string html
 	 */
 	function changeStatus()
@@ -152,7 +152,7 @@ class crpVideo
 		pnModSetVar('crpVideo', 'crpvideo_show_rss', $crpvideo_show_rss);
 		$crpvideo_rss = (string) FormUtil :: getPassedValue('crpvideo_rss', false, 'POST');
 		pnModSetVar('crpVideo', 'crpvideo_rss', $crpvideo_rss);
-		
+
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
 			'module' => 'crpVideo'
@@ -166,7 +166,7 @@ class crpVideo
 
 	/**
 	 * Generate thumbnail for image
-	 * 
+	 *
 	 * @param int id doc
 	 * @param string width doc
 	 * @return nothing
@@ -359,10 +359,10 @@ class crpVideo
 			pnShutDown();
 		}
 	}
-	
+
 	/**
 	 * Display RSS content
-	 * 
+	 *
 	 * */
 	function getFeed()
 	{
@@ -398,9 +398,9 @@ class crpVideo
 		echo $result;
 		pnShutDown();
 	}
-	
+
 	/**
-	 * Retrieve info about a rss module plugin 
+	 * Retrieve info about a rss module plugin
 	 *
 	 * */
 	function loadRSS($modname, $modrss, $id_lang = '')
@@ -450,7 +450,7 @@ class crpVideo
 		//
 		return $result;
 	}
-	
+
 	/**
 	* send an email notification
 	*/
@@ -475,6 +475,124 @@ class crpVideo
 			'replytoname' => pnConfigGetVar('sitename'),
 			'replytoaddress' => pnConfigGetVar('adminmail')
 		));
+	}
+
+	/**
+	 * List overall uploaders
+	 */
+	function listUploaders()
+	{
+		$navigationValues = $this->collectNavigationFromInput();
+
+		$items = pnModAPIFunc('crpVideo', 'user', 'get_uploaders', $navigationValues);
+
+		$rows = array ();
+		$exports = array ();
+		foreach ($items as $kevent => $item)
+		{
+			$options = array ();
+			$options[] = array (
+				'url' => pnModURL('crpVideo', 'user', 'view_uploads', array (
+					'uid' => $item['cr_uid']
+				)),
+				'image' => 'folder_inbox.gif',
+				'title' => pnML('_CRPVIDEO_VIDEOS_UPLOADED', array('videos' => $item['counter']), true)
+			);
+
+			$options[] = array (
+				'url' => pnModURL('Profile', 'user', 'view', array (
+					'uid' => $item['cr_uid']
+				)),
+				'image' => 'personal.gif',
+				'title' => _VIEW
+			);
+
+			// Add the calculated menu options to the item array
+			$item['options'] = $options;
+			$rows[] = $item;
+		}
+
+		return $this->ui->uploadersList($rows, $navigationValues['category'], $navigationValues['mainCat'],
+																		$navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'],
+																		$navigationValues['active']);
+	}
+
+	/**
+	 * List uploads by a user
+	 */
+	function listUploads()
+	{
+		$navigationValues = $this->collectNavigationFromInput();
+
+		$items = pnModAPIFunc('crpVideo', 'user', 'getall', $navigationValues);
+
+		// Create output object
+		$pnRender = pnRender :: getInstance('crpVideo', false);
+		$pnRender->assign($navigationValues['modvars']);
+		// Loop through each item and display it.
+		$videos = array ();
+		foreach ($items as $item)
+		{
+			$pnRender->assign($item);
+			$videos[] = $pnRender->fetch('crpvideo_user_rowread.htm', $item['videoid']);
+		}
+
+		return $this->ui->uploadsList($videos, $navigationValues['category'], $navigationValues['mainCat'],
+																	$navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'],
+																	$navigationValues['uid'], $navigationValues['active']);
+	}
+
+	/**
+	 * Collect navigation input value
+	 *
+	 * @param int $startnum pager offset
+	 * @param int $category current category if specified
+	 * @param bool clear clean category
+	 * @param bool $ignoreml ignore multilanguage
+	 *
+	 * @return array input values
+	 */
+	function collectNavigationFromInput()
+	{
+		// Get parameters from whatever input we need.
+		$startnum = (int) FormUtil :: getPassedValue('startnum', isset ($args['startnum']) ? $args['startnum'] : 0, 'GET');
+		$cat = (string) FormUtil :: getPassedValue('cat', isset ($args['cat']) ? $args['cat'] : null, 'GET');
+		$uid = (int) FormUtil :: getPassedValue('uid', null, 'GET');
+		$active = FormUtil :: getPassedValue('active', 'A');
+		$clear = FormUtil :: getPassedValue('clear');
+
+		// defaults and input validation
+		if (!is_numeric($startnum) || $startnum < 0)
+		{
+			$startnum = 1;
+		}
+
+		if ($clear)
+		{
+			$active = null;
+			$cat = null;
+		}
+
+		$ignoreml = FormUtil :: getPassedValue('ignoreml', true);
+		$sortOrder = FormUtil :: getPassedValue('sortOrder', 'ASC');
+		$orderBy = FormUtil :: getPassedValue('orderBy', 'title');
+
+		// load the category registry util
+		if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
+			pn_exit('Unable to load class [CategoryRegistryUtil] ...');
+		if (!($class = Loader :: loadClass('CategoryUtil')))
+			pn_exit('Unable to load class [CategoryUtil] ...');
+
+		$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideos', 'Main', '/__SYSTEM__/Modules/crpVideo');
+		$rootCat = CategoryUtil :: getCategoryByID($mainCat);
+		$cats = CategoryUtil :: getCategoriesByParentID($mainCat);
+
+		// get all module vars for later use
+		$modvars = pnModGetVar('crpVideo');
+
+		$data = compact('startnum', 'category', 'active', 'clear', 'ignoreml', 'mainCat', 'rootCat', 'cats', 'modvars', 'sortOrder', 'orderBy', 'uid');
+
+		return $data;
 	}
 
 }

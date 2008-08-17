@@ -21,7 +21,7 @@ function crpVideo_videos_rss_init()
 
 /**
  * get information on rss
- * 
+ *
  */
 function crpVideo_videos_rss_info()
 {
@@ -57,7 +57,7 @@ function crpVideo_videos_rss_feed($rssinfo)
 	// Break out options from our content field
 	$apiargs['startnum'] = 1;
 	$apiargs['active'] = 'A';
-	$apiargs['numitems'] = '10';
+	$apiargs['itemsperpage'] = '10';
 	$apiargs['orderBy'] = 'cr_date';
 	$apiargs['sortOrder'] = 'DESC';
 
@@ -68,7 +68,7 @@ function crpVideo_videos_rss_feed($rssinfo)
 			pn_exit('Unable to load class [CategoryRegistryUtil] ...');
 		if (!($class= Loader :: loadClass('CategoryUtil')))
 			pn_exit('Unable to load class [CategoryUtil] ...');
-		
+
 		$mainCat= CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideos', 'Main', '/__SYSTEM__/Modules/crpVideo');
 		$category= (int) FormUtil :: getPassedValue('videos_category', null, 'GET');
 		if ($category)
@@ -77,7 +77,7 @@ function crpVideo_videos_rss_feed($rssinfo)
 			$apiargs['category'] = $category;
 		}
 	}
-	
+
 	// call the api
 	$items = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
 

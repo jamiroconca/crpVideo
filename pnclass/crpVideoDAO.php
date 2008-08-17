@@ -32,13 +32,13 @@ class crpVideoDAO
 
 	/**
 	 * Return administrative list of videos
-	 * 
+	 *
 	 * @param int $startnum pager offset
 	 * @param int $category current category if specified
 	 * @param bool $ignoreml ignore multilanguage
 	 * @param array $modvars module's variables
 	 * @param int $mainCat main module's category
-	 * 
+	 *
 	 * @return array element list
 	 */
 	function adminList($startnum = 1, $category = null, $clear = false, $ignoreml = true, $modvars = array (), $mainCat, $active = null, $interval = null, $sortOrder = 'DESC', $orderBy = 'title')
@@ -74,7 +74,7 @@ class crpVideoDAO
 		$queryargs = array ();
 		if (pnConfigGetVar('multilingual') == 1 && !$ignoreml)
 		{
-			$queryargs[] = "($crpvideocolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' 
+			$queryargs[] = "($crpvideocolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "'
 															OR $crpvideocolumn[language]='')";
 		}
 
@@ -128,16 +128,16 @@ class crpVideoDAO
 		// Return the items
 		return $objArray;
 	}
-	
+
 	/**
 	 * Return form list of events
-	 * 
+	 *
 	 * @param int $startnum pager offset
 	 * @param int $category current category if specified
 	 * @param bool $ignoreml ignore multilanguage
 	 * @param array $modvars module's variables
 	 * @param int $mainCat main module's category
-	 * 
+	 *
 	 * @return array element list
 	 */
 	function formList($startnum= 1, $category= null, $clear= false, $ignoreml= true, $modvars= array (), $mainCat, $active= null, $interval= null, $sortOrder= 'DESC')
@@ -286,10 +286,10 @@ class crpVideoDAO
 
 	/**
 	 * get a specific event date
-	 * 
+	 *
 	 * @param int $videoid item identifier
 	 * @param int $dateType date type
-	 * 
+	 *
 	 * @return string item value
 	 */
 	function getVideoDate($videoid = null, $dateType = null)
@@ -320,10 +320,10 @@ class crpVideoDAO
 
 	/**
 	 * Update video status
-	 * 
+	 *
 	 * @param int $videoid item identifier
 	 * @param string $obj_status active or pending
-	 * 
+	 *
 	 * @return bool true on succes
 	 */
 	function updateStatus($videoid = null, $obj_status = null)
@@ -426,9 +426,9 @@ class crpVideoDAO
 
 	/**
 	 * Get image for an event
-	 * 
+	 *
 	 * @param int $eventid event identifier
-	 * 
+	 *
 	 */
 	function getImage()
 	{
@@ -498,7 +498,7 @@ class crpVideoDAO
 
 	/**
 	 * delete file
-	 * 
+	 *
 	 * @param int $file_type file identifier
 	 * @param int $eventid event identifier
 	 */
@@ -520,10 +520,10 @@ class crpVideoDAO
 
 	/**
 	 * Verify binary existence
-	 * 
+	 *
 	 * @param int $eventid event identifier
 	 * @param string $documentType tipe of file
-	 * 
+	 *
 	 * @return int count
 	 */
 	function existFile($videoid = null)
@@ -535,7 +535,7 @@ class crpVideoDAO
 
 	/**
 	 * Validate submitted data
-	 * 
+	 *
 	 * @param array data submitted data
 	 * @return boolean true if data are OK
 	 */
@@ -618,6 +618,56 @@ class crpVideoDAO
 		}
 
 		return $validateOK;
+	}
+
+	function getUploaders($startnum=1, $category= null, $clear= false, $ignoreml= true, $modvars= array (), $mainCat,
+												$active= 'A', $interval = null,	$sortOrder= 'ASC', $orderBy = 'title', $uid = false)
+	{
+
+		$pntable = pnDBGetTables();
+		$videoscolumn = $pntable['crpvideos_column'];
+
+		$queryargs = array ();
+		if (pnConfigGetVar('multilingual') == 1 && !$ignoreml)
+		{
+			$queryargs[] = "($videoscolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' OR $videoscolumn[language]='')";
+		}
+		if ($active)
+		{
+			$queryargs[] = "($videoscolumn[obj_status]='" . DataUtil :: formatForStore($active) . "')";
+		}
+		if ($uid)
+		{
+			$queryargs[] = "($videoscolumn[cr_uid]='" . DataUtil :: formatForStore($uid) . "')";
+		}
+		if ($interval)
+		{
+			$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
+			"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($interval) . " DAY))";
+		}
+
+		$where = null;
+		if (count($queryargs) > 0)
+		{
+			$where = ' WHERE ' . implode(' AND ', $queryargs);
+		}
+
+		$orderby= "GROUP BY $videoscolumn[cr_uid] ORDER BY $videoscolumn[$orderBy] $sortOrder";
+
+		$sqlStatement= "SELECT $videoscolumn[cr_uid] as cr_uid, " .
+			"COUNT(*) as counter " .
+			"FROM $pntable[crpvideos] " .
+			"$where $orderby";
+
+		// get the objects from the db
+		$res= DBUtil :: executeSQL($sqlStatement, $startnum-1, $modvars['itemsperpage'], true, true);
+
+		$objArray= DBUtil :: marshallObjects($res, array (
+			'cr_uid', 'counter'
+		), true);
+
+		// Return the items
+		return $objArray;
 	}
 }
 ?>
