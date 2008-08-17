@@ -65,11 +65,10 @@ function crpVideo_topuploadersblock_display($blockinfo)
 
 	$apiargs['startnum'] = 1;
 	$apiargs['active'] = 'A';
-	$apiargs['numitems'] = $vars['numitems'];
+	$apiargs['modvars']['itemsperpage'] = $vars['numitems'];
 	$apiargs['orderBy'] = 'counter';
 	$apiargs['sortOrder'] = 'DESC';
 	$apiargs['interval'] = $vars['interval'];
-	$apiargs['uploaders'] = true;
 
 	// call the api
 	$items = pnModAPIFunc('crpVideo', 'user', 'get_uploaders', $apiargs);

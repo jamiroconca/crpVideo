@@ -22,7 +22,7 @@ function crpVideo_mostviewedvideosblock_init()
 
 /**
  * get information on block
- * 
+ *
  */
 function crpVideo_mostviewedvideosblock_info()
 {
@@ -65,7 +65,7 @@ function crpVideo_mostviewedvideosblock_display($blockinfo)
 
 	$apiargs['startnum'] = 1;
 	$apiargs['active'] = 'A';
-	$apiargs['numitems'] = $vars['numitems'];
+	$apiargs['itemsperpage'] = $vars['numitems'];
 	$apiargs['orderBy'] = 'counter';
 	$apiargs['sortOrder'] = 'DESC';
 	$apiargs['interval'] = $vars['interval'];
@@ -94,7 +94,7 @@ function crpVideo_mostviewedvideosblock_display($blockinfo)
 	}
 	else
 		$blockinfo['content'] = $pnRender->fetch('blocks/crpvideo_block_videos.htm');
-		
+
 	return pnBlockThemeBlock($blockinfo);
 }
 
@@ -121,12 +121,12 @@ function crpVideo_mostviewedvideosblock_modify($blockinfo)
 	}
 	elseif ($vars['ajaxblock']=='carousel') $carousel = true;
 	elseif ($vars['ajaxblock']=='protoflow') $protoflow = true;
-	
+
 	if (isset ($carousel) && !isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = 'horizontal';
 	elseif (!isset ($vars['carousel_direction']))
 		$vars['carousel_direction'] = null;
-		
+
 	// Create output object
 	$pnRender = pnRender :: getInstance('crpVideo', false);
 
@@ -155,7 +155,7 @@ function crpVideo_mostviewedvideosblock_update($blockinfo)
 	$vars['ajaxblock'] = FormUtil :: getPassedValue('ajaxblock', false, 'POST');
 	$vars['carousel_direction'] = FormUtil :: getPassedValue('carousel_direction', null, 'POST');
 	($vars['ajaxblock']=='carousel' && !$vars['carousel_direction'])?$vars['carousel_direction']='horizontal':'';
-	
+
 	// write back the new contents
 	$blockinfo['content'] = pnBlockVarsToContent($vars);
 

@@ -1,0 +1,31 @@
+<!--[pnajaxheader modname="crpVideo" nobehaviour=true lightbox=true]-->
+<!--[include file="crpvideo_user_menu.htm"]-->
+
+<div>
+	<!--[if pnModAvailable("Avatar") && pnUserGetVar('_YOURAVATAR',$uid)]-->
+	<img class="photo" src="<!--[pnmodgetvar module="Avatar" name="avatardir"]-->/<!--[pnusergetvar name=_YOURAVATAR uid=$uid]-->" alt="Avatar" />
+	<!--[ elseif pnUserGetVar('_YOURAVATAR',$uid) neq '']-->
+	<img class="photo" src="images/avatar/<!--[pnusergetvar name=_YOURAVATAR uid=$uid]-->" alt="Avatar" />
+	<!--[else]-->
+	<!--[pnimg modname=crpVideo altml=true src="blank.jpg" class="photo" altml=true alt=_CRPVIDEO_NOAVATARSELECTED]-->
+	<!--[/if]-->
+	<br />
+	<span class="fn n"><strong class="nickname"><!--[pnusergetvar name=uname uid=$uid]--></strong></span><br />
+	<span class="adr">
+	 	<!--[if pnUserGetVar('_YLOCATION',$uid)]--><span class="locality"><!--[pnusergetvar name=_YLOCATION uid=$uid]--></span><br /><!--[/if]-->
+	</span>
+	<!--[if pnUserGetVar('_UFAKEMAIL',$uid)]--><!--[pnml name="_UFAKEMAIL" html=1]-->: <a class="email" href="mailto:<!--[pnusergetvar name=_UFAKEMAIL uid=$uid]-->"><!--[pnusergetvar name=_UFAKEMAIL uid=$uid]--></a><br /><!--[/if]-->
+	<!--[if pnUserGetVar('_YOURHOMEPAGE',$uid)]--><!--[pnml name="_YOURHOMEPAGE" html=1]-->: <a class="url" href="<!--[pnusergetvar name=_YOURHOMEPAGE uid=$uid]-->"><!--[pnusergetvar name=_YOURHOMEPAGE uid=$uid]--></a><br /><!--[/if]-->
+</div>
+			
+<!--[if $videos]-->
+<ul class="crpvideo-list">
+<!--[foreach item=video from=$videos]-->
+<li class="<!--[cycle values="crpvideo-odd,crpvideo-even"]-->"><!--[$video]--></li>
+<!--[/foreach]-->
+</ul>
+<!--[elseif $category.id neq $mainCat]-->
+<!--[pnml name=_CRPVIDEO_LIST_NONE html=1]-->
+<!--[/if]-->
+
+<!--[pager rowcount=$pager.numitems limit=$pager.itemsperpage posvar=startnum shift=1 img_prev=images/icons/extrasmall/previous.gif img_next=images/icons/extrasmall/next.gif]-->

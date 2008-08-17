@@ -18,7 +18,8 @@
 	<!--[else]-->
 		<!--[pnimg modname=crpVideo altml=true src="blank.jpg" altml=true alt=_CRPVIDEO_NOAVATARSELECTED]-->
 	<!--[/if]-->
-	<!--[$cr_uname]-->
+	<!--[pnmodurl modname=crpVideo func=view_uploads uid=$cr_uid assign=uploader_profilelist]-->
+	<a href="<!--[$uploader_profilelist]-->"><!--[$cr_uname]--></a>
 </h3>
 
 <!--[$cr_date|videodatediff]-->
