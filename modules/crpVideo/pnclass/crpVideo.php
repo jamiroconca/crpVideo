@@ -484,6 +484,9 @@ class crpVideo
 	{
 		$navigationValues = $this->collectNavigationFromInput();
 
+		// sort by
+		$navigationValues['orderBy'] = 'uploads';
+		$navigationValues['sortOrder'] = 'DESC';
 		$items = pnModAPIFunc('crpVideo', 'user', 'get_uploaders', $navigationValues);
 
 		$rows = array ();
@@ -582,7 +585,7 @@ class crpVideo
 
 		return $data;
 	}
-	
+
 	/**
 	 * build an array link by define
 	 *
