@@ -491,13 +491,7 @@ class crpVideo
 		foreach ($items as $kevent => $item)
 		{
 			$options = array ();
-			$options[] = array (
-				'url' => pnModURL('crpVideo', 'user', 'view_uploads', array (
-					'uid' => $item['cr_uid']
-				)),
-				'image' => 'folder_inbox.gif',
-				'title' => pnML('_CRPVIDEO_VIDEOS_UPLOADED', array('videos' => $item['counter']), true)
-			);
+			$options[] = crpVideo::buildLinkArray("_CRPVIDEO_VIDEOS_UPLOADED", $item, 'user');
 
 			$options[] = array (
 				'url' => pnModURL('Profile', 'user', 'view', array (
@@ -530,14 +524,8 @@ class crpVideo
 		$pnRender = pnRender :: getInstance('crpVideo', false);
 		$pnRender->assign($navigationValues['modvars']);
 		// Loop through each item and display it.
-		$videos = array ();
-		foreach ($items as $item)
-		{
-			$pnRender->assign($item);
-			$videos[] = $pnRender->fetch('crpvideo_user_rowread.htm', $item['videoid']);
-		}
 
-		return $this->ui->uploadsList($videos, $navigationValues['category'], $navigationValues['mainCat'],
+		return $this->ui->uploadsList($items, $navigationValues['category'], $navigationValues['mainCat'],
 																	$navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'],
 																	$navigationValues['uid'], $navigationValues['active']);
 	}
@@ -593,6 +581,37 @@ class crpVideo
 		$data = compact('startnum', 'category', 'active', 'clear', 'ignoreml', 'mainCat', 'rootCat', 'cats', 'modvars', 'sortOrder', 'orderBy', 'uid');
 
 		return $data;
+	}
+	
+	/**
+	 * build an array link by define
+	 *
+	 * @param string $mlname link define
+	 * @param array $item values
+	 * @param string $actiontype user level action
+	 *
+	 * @return array link
+	 */
+	function buildLinkArray($mlname = null, $item = array (), $actiontype = null)
+	{
+
+		switch ($mlname)
+		{
+			case "_CRPVIDEO_VIDEOS_UPLOADED" :
+					$linkArray =	array (
+					'url' => pnModURL('crpVideo', 'user', 'view_uploads', array (
+						'uid' => $item['cr_uid']
+					)),
+					'image' => 'folder_inbox.gif',
+					'title' => pnML('_CRPVIDEO_VIDEOS_UPLOADED', array('videos' => $item['counter']), true)
+				);
+				break;
+			default :
+				$linkArray = "";
+				break;
+		}
+
+		return $linkArray;
 	}
 
 }
