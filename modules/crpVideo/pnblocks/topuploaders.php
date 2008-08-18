@@ -66,7 +66,7 @@ function crpVideo_topuploadersblock_display($blockinfo)
 	$apiargs['startnum'] = 1;
 	$apiargs['active'] = 'A';
 	$apiargs['modvars']['itemsperpage'] = $vars['numitems'];
-	$apiargs['orderBy'] = 'counter';
+	$apiargs['orderBy'] = 'uploads';
 	$apiargs['sortOrder'] = 'DESC';
 	$apiargs['interval'] = $vars['interval'];
 
