@@ -22,23 +22,29 @@ function crpVideo_accountapi_getall($args)
         } else {
             $uname = pnUserGetVar('uname');
         }
-    }		
-		
+    }
+
 	// Security check
 	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_COMMENT))
 		$uname = null;
-	  
+
   // Create an array of links to return
-  if ($uname != null) 
+  if ($uname != null)
   {
   	pnModLangLoad('crpVideo');
-    $items = array(array('url'     => pnModURL('crpVideo', 'user', 'new'),
+    $items[] = array('url'     => pnModURL('crpVideo', 'user', 'new'),
                          'module'  => 'crpVideo',
                          'set'     => 'pnimages',
                          'title'   => _CRPVIDEO_SUBMIT,
-                         'icon'    => 'admin.gif'));
-  } 
-  else 
+                         'icon'    => 'admin.gif');
+
+    $items[] = array('url'     => pnModURL('crpVideo', 'user', 'view_uploads',array('uid'=>pnUserGetVar('uid'))),
+                         'module'  => 'crpVideo',
+                         'set'     => 'pnimages',
+                         'title'   => _CRPVIDEO_VIEW,
+                         'icon'    => 'folder_video.gif');
+  }
+  else
   	$items = null;
 
   // Return the items
