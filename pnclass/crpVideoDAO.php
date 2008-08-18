@@ -652,10 +652,11 @@ class crpVideoDAO
 			$where = ' WHERE ' . implode(' AND ', $queryargs);
 		}
 
-		$orderby= "GROUP BY $videoscolumn[cr_uid] ORDER BY $videoscolumn[$orderBy] $sortOrder";
+		($orderBy!='uploads')?$orderBy=$videoscolumn[$orderBy]:'';
+		$orderby= "GROUP BY $videoscolumn[cr_uid] ORDER BY $orderBy $sortOrder";
 
 		$sqlStatement= "SELECT $videoscolumn[cr_uid] as cr_uid, " .
-			"COUNT(*) as counter " .
+			"COUNT(*) as uploads " .
 			"FROM $pntable[crpvideos] " .
 			"$where $orderby";
 
@@ -663,7 +664,7 @@ class crpVideoDAO
 		$res= DBUtil :: executeSQL($sqlStatement, $startnum-1, $modvars['itemsperpage'], true, true);
 
 		$objArray= DBUtil :: marshallObjects($res, array (
-			'cr_uid', 'counter'
+			'cr_uid', 'uploads'
 		), true);
 
 		// Return the items
