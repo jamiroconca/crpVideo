@@ -17,6 +17,7 @@ define('_CRPVIDEO_AVAILABLESECTIONS', 'Le categorie disponibili sono:');
 define('_CRPVIDEO_ADDED_DIFF','Aggiunto');
 define('_CRPVIDEO_AGO','fa');
 define('_CRPVIDEO_HOURS','ore');
+define('_CRPVIDEO_HOOKS','Info');
 define('_CRPVIDEO_INDEX','Indice');
 define('_CRPVIDEO_LIST_NONE','Nessun video in elenco');
 define('_CRPVIDEO_MOSTRECENT_VIDEOS','Ultimi inserimenti');
