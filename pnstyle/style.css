@@ -17,19 +17,21 @@ div.crpvideo_video_footer {
 	padding: 5px;
 }
 
-ul.crpvideo-list {
-	list-style: none;
-	padding: 8px 0 0 0;
+/* style for column width */
+.crpvideo_w1 {
+	width: 5%;
 }
 
-li.crpvideo-odd {
-  display: inline;
-  position: relative;
+.crpvideo_w2 {
+	width: 10%;
 }
 
-li.crpvideo-even {
-  display: inline;
-  position: relative;
+.crpvideo_w3 {
+	width: 15%;
+}
+
+.crpvideo_w4 {
+	width: 50%;
 }
 
 .pages-bread ul {
