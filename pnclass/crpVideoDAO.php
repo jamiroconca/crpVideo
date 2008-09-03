@@ -459,6 +459,7 @@ class crpVideoDAO
 		$file = DBUtil :: selectObject('crpvideo_covers', $where, $columnArray);
 		$modifiedDate = $this->getVideoDate($videoid, 'lu_date');
 
+		while (@ob_end_clean());
 		// credits to Mediashare by Jorn Lind-Nielsen
 		if (pnConfigGetVar('UseCompression') == 1)
 			header("Content-Encoding: identity");

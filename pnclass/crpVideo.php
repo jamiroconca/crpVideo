@@ -186,7 +186,7 @@ class crpVideo
 		$params['width'] = $width; //	$params['append_ghosted']=1;
 		$params['modifiedDate'] = $modifiedDate;
 
-		crpVideo :: imageGetThumbnail($file['binary_data'], $file['filename'], $file['content_type'], $params);
+		crpVideo :: imageGetThumbnail($file['binary_data'], $file['name'], $file['content_type'], $params);
 	}
 
 	function imageGetThumbnail(& $pSrcImage, $filename, $content_type, $params = array ())
@@ -259,6 +259,7 @@ class crpVideo
 
 			}
 
+			while (@ob_end_clean());
 			//save output to a buffer
 			ob_start();
 
