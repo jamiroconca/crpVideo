@@ -39,8 +39,6 @@ function crpVideo_user_main()
 		$pnRender->assign('categories', $cats);
 		$pnRender->assign('lang', pnUserGetLang());
 		$pnRender->assign(pnModGetVar('crpVideo'));
-		$pnRender->assign('shorturls', pnConfigGetVar('shorturls'));
-		$pnRender->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
 	}
 
 	$popvideos=array();
@@ -125,10 +123,6 @@ function crpVideo_user_view($args)
 
 	}
 
-	$pnRender->assign('lang', pnUserGetLang());
-	$pnRender->assign('shorturls', pnConfigGetVar('shorturls'));
-	$pnRender->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
-
 	// Get all matching pages
 	$items = pnModAPIFunc('crpVideo', 'user', 'getall', array (
 		'startnum' => $startnum,
@@ -143,8 +137,6 @@ function crpVideo_user_view($args)
 	$pnRender->assign('mainCat', $mainCat);
 	$pnRender->assign('lang', pnUserGetLang());
 	$pnRender->assign($modvars);
-	$pnRender->assign('shorturls', pnConfigGetVar('shorturls'));
-	$pnRender->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
 
 	// assign the item output to the template
 	$pnRender->assign('videos', $items);
@@ -249,8 +241,6 @@ function crpVideo_user_display($args)
 
 	$pnRender->assign('lang', pnUserGetLang());
 	$pnRender->assign(pnModGetVar('crpVideo'));
-	$pnRender->assign('shorturls', pnConfigGetVar('shorturls'));
-	$pnRender->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
 
 	// determine which template to render this page with
 	// A specific template may exist for this page (based on video id)
@@ -269,20 +259,8 @@ function crpVideo_user_display($args)
 		return $pnRender->fetch($template);
 	}
 
-	// Explode the review into an array of seperate pages
-	$allpages = explode('<!--pagebreak-->', $item['content']);
-
-	// Set the item bodytext to be the required page
-	// nb arrays start from zero pages from one
-	$item['video'] = $allpages[$video -1];
-
 	// Assign details of the item.
 	$pnRender->assign($item);
-
-	// Now lets assign the informatation to create a pager for the review
-	$pnRender->assign('pager', array (
-		'numitems' => count($allpages
-	), 'itemsperpage' => 1));
 
 	return $pnRender->fetch($template);
 }
