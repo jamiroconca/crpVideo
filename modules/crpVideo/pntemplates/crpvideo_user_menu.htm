@@ -23,11 +23,7 @@
 		<h3><!--[pnml name=_CATEGORIES]--></h3>
 		<ul>
 			<!--[foreach from=$categories item=category]-->
-			<!--[if $shorturls and $shorturlstype eq 0]-->
-			<li><a href="<!--[pnmodurl modname=crpVideo func=view cat=$category.path|replace:$rootCat.path:'']-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
-			<!--[else]-->
 			<li><a href="<!--[pnmodurl modname=crpVideo func=view cat=$category.id]-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
-			<!--[/if]-->		
 			<!--[/foreach]-->
 		</ul>
 	</div>
