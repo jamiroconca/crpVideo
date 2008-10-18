@@ -90,6 +90,8 @@ function crpVideo_userapi_getall($args)
 		$args['uid'] = false;
 	if (!isset ($args['interval']))
 		$args['interval'] = null;
+	if (!isset ($args['extension']))
+		$args['extension'] = null;
 
 	if (!is_numeric($args['startnum']) || !is_numeric($args['itemsperpage']))
 	{
@@ -135,6 +137,10 @@ function crpVideo_userapi_getall($args)
 	{
 		$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
 		"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($args['interval']) . " DAY))";
+	}
+	if ($args['extension'])
+	{
+		$queryargs[] = "($videoscolumn[pathvideo] LIKE '%." . DataUtil :: formatForStore($args['extension']) . "')";
 	}
 
 	$where = null;
