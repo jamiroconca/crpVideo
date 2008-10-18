@@ -399,6 +399,23 @@ function crpVideo_user_getfeed()
 }
 
 /**
+ * feed items
+ *
+ * @return string HTML output
+ */
+function crpVideo_user_getpodcast()
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+
+	$videoObj = new crpVideo();
+	return $videoObj->getPodcast();
+}
+
+/**
  * get uploaders list
  *
  * @return html
