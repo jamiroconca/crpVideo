@@ -5,6 +5,11 @@ INSTALL:
 - check module settings for size limit and other configuration variables (important: relative upload path)
 - upload path folder must be 777 chmodded
 - different styles are available for carousel blocks, check /pndocs/carousel files
+- add into .htaccess in modules directory for enable mp3 access:
+	...
+	SetEnvIf Request_URI "\.mp3$" object_is_mp3=mp3
+	...
+	Allow from env=object_is_mp3
 
 UPGRADE:
 - standard upgrade procedure
