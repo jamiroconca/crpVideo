@@ -14,10 +14,10 @@
     <pubDate><!--[$data.publ_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></pubDate>
     <lastBuildDate><!--[$data.publ_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></lastBuildDate>    
     
-    <itunes:author><!--[sitename|pnvarprephtmldisplay]--></itunes:author>
-    <itunes:subtitle><!--[slogan|pnvarprephtmldisplay]--></itunes:subtitle>
-    <itunes:summary><!--[$crpvideo_podcast_description|pnvarprephtmldisplay]--></itunes:summary>
-    <itunes:keywords><!--[keywords|pnvarprephtmldisplay]--></itunes:keywords>
+    <itunes:author><!--[sitename|pnvarprepfordisplay]--></itunes:author>
+    <itunes:subtitle><!--[slogan|pnvarprepfordisplay]--></itunes:subtitle>
+    <itunes:summary><!--[$crpvideo_podcast_description|pnvarprepfordisplay]--></itunes:summary>
+    <itunes:keywords><!--[keywords|pnvarprepfordisplay]--></itunes:keywords>
     <itunes:explicit>no</itunes:explicit>
     <itunes:image href="<!--[pngetbaseurl]-->images/<!--[pnconfiggetvar name="site_logo"]-->" />
     <itunes:owner>
@@ -29,15 +29,15 @@
 		
 		<!--[foreach item=podcast from=$list]-->
 		<item>
-      <title><!--[$podcast.title|pnvarprephtmldisplay]--></title>
-      <link><!--[pngetbaseurl]-->/<!--[pnmodurl modname="crpVideo" func="display" videoid=$podcast.videoid|pnvarprephtmldisplay]--></link>
-      <description><![CDATA[<!--[$podcast.title]-->]]></description>
+      <title><!--[$podcast.title|pnvarprepfordisplay]--></title>
+      <link><!--[pngetbaseurl]-->/<!--[pnmodurl modname="crpVideo" func="display" videoid=$podcast.videoid|pnvarprepfordisplay]--></link>
+      <description><![CDATA[<!--[$podcast.title|pnvarprephtmldisplay]-->]]></description>
       <pubDate><!--[$podcast.cr_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></pubDate>
       <enclosure url="<!--[$podcast.urlvideo]-->" type="audio/mpeg" />
       <guid isPermaLink="false">podcast-<!--[$podcast.videoid]--></guid>
-      <itunes:author><!--[$podcast.author]--></itunes:author>
-      <itunes:subtitle><!--[$podcast.content]--></itunes:subtitle>
-      <itunes:summary><!--[$podcast.content]--></itunes:summary>
+      <itunes:author><!--[$podcast.author|pnvarprepfordisplay]--></itunes:author>
+      <itunes:subtitle><!--[$podcast.content|pnvarprepfordisplay|strip_tags]--></itunes:subtitle>
+      <itunes:summary><!--[$podcast.content|pnvarprepfordisplay|strip_tags]--></itunes:summary>
       <itunes:explicit>no</itunes:explicit>
    </item>
    <!--[/foreach]-->   
