@@ -28,6 +28,8 @@ class crpVideoDAO
 		$this->VideoTypes[] = 'video/x-flv';
 		$this->VideoTypes[] = 'application/x-shockwave-flash';
 		$this->VideoTypes[] = 'application/octet-stream';
+		// audio allowed
+		$this->VideoTypes[] = 'audio/mpeg';
 	}
 
 	/**
