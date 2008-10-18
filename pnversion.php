@@ -12,7 +12,7 @@
 $modversion['name'] = _CRPVIDEO_NAME;
 $modversion['displayname'] = _CRPVIDEO_DISPLAYNAME;
 $modversion['description'] = _CRPVIDEO_DESCRIPTION;
-$modversion['version'] = '0.1.7';
+$modversion['version'] = '0.1.8';
 $modversion['credits'] = 'pndocs/credits.txt';
 $modversion['help'] = 'pndocs/install.txt';
 $modversion['changelog'] = 'pndocs/changelog.txt';
