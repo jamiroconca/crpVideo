@@ -110,6 +110,21 @@
 		</div>
 	</fieldset>
 	<fieldset>
+		<legend><!--[pnml name=_CRPVIDEO_PODCAST html=1]--></legend>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_enable_podcast"><!--[pnml name="_CRPVIDEO_ENABLE_PODCAST" html=1]--></label>
+			<input id="crpvideo_enable_podcast" type="checkbox" name="crpvideo_enable_podcast"<!--[if $crpvideo_enable_podcast]--> checked="checked"<!--[/if]--> />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_podcast_category"><!--[pnml name="_CRPVIDEO_PODCAST_CATEGORY" html=1]--></label>
+  		<!--[ selector_category category=$mainCategory name="crpvideo_podcast_category" selectedValue=$crpvideo_podcast_category defaultValue="0" ]-->
+  	</div>
+  	<div class="pn-adminformrow">
+			<label for="crpvideo_podcast_description"><!--[pnml name="_CRPVIDEO_PODCAST_DESCRIPTION" html=1]--></label>
+  		<textarea id="crpvideo_podcast_description" name="crpvideo_podcast_description" rows="4" cols="48"><!--[$crpvideo_podcast_description]--></textarea>
+  	</div>
+	</fieldset>
+	<fieldset>
 		<legend><!--[pnml name=_PERMALINKS]--></legend>
 		<div class="pn-adminformrow">
 			<label for="crpvideo_addcategorytitletopermalink"><!--[pnml name="_ADDCATEGORYTITLETOPERMALINK"]--></label>
