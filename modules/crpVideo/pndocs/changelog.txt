@@ -1,7 +1,7 @@
 crpVideo
 v0.1.8 - 18 october 2008
 - added mp3 mime as accepted media file
-- added podcast management
+- added podcast management (BEWARE! external videos in podcast category break the feed)
 v0.1.7 - 8 august 2008
 - added categorized rss feed
 - added modifier for date counter
