@@ -84,4 +84,7 @@ define('_CRPVIDEO_CONTENTENTTYPE_VIDEOTITLE','Video\'s title');
 
 //RSS define
 define('_CRPVIDEO_RSS','crpVideo feed');
+
+// PodCast
+define('_CRPVIDEO_PODCAST','crpVideo podcast');
 ?>
