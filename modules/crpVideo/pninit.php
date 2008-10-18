@@ -59,6 +59,9 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'crpvideo_enable_rss', true);
 	pnModSetVar('crpVideo', 'crpvideo_show_rss', true);
 	pnModSetVar('crpVideo', 'crpvideo_rss', 'rss2');
+	pnModSetVar('crpVideo', 'crpvideo_enable_podcast', false);
+	pnModSetVar('crpVideo', 'crpvideo_podcast_category', null);
+	pnModSetVar('crpVideo', 'crpvideo_podcast_description', null);
 
 	// Initialisation successful
 	return true;
@@ -144,6 +147,12 @@ function crpVideo_upgrade($oldversion)
 				return crpVideo_upgrade("0.1.7");
 			break;
 		case "0.1.7" :
+			pnModSetVar('crpVideo', 'crpvideo_enable_podcast', false);
+			pnModSetVar('crpVideo', 'crpvideo_podcast_category', null);
+			pnModSetVar('crpVideo', 'crpvideo_podcast_description', null);
+			return crpVideo_upgrade("0.1.8");
+			break;
+		case "0.1.8" :
 			break;
 	}
 	// Update successful
