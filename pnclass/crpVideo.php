@@ -85,7 +85,13 @@ class crpVideo
 		// get all module vars
 		$modvars = pnModGetVar('crpVideo');
 
-		return $this->ui->modifyConfig($modvars, $this->gd);
+		// load the category registry util
+		if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
+			pn_exit('Unable to load class [CategoryRegistryUtil] ...');
+
+		$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideo', 'Main', '/__SYSTEM__/Modules/crpVideo');
+
+		return $this->ui->modifyConfig($modvars, $this->gd, $mainCat);
 	}
 
 	/**
@@ -152,6 +158,13 @@ class crpVideo
 		pnModSetVar('crpVideo', 'crpvideo_show_rss', $crpvideo_show_rss);
 		$crpvideo_rss = (string) FormUtil :: getPassedValue('crpvideo_rss', false, 'POST');
 		pnModSetVar('crpVideo', 'crpvideo_rss', $crpvideo_rss);
+		// PODCAST
+		$crpvideo_enable_podcast = (bool) FormUtil :: getPassedValue('crpvideo_enable_podcast', false, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_enable_podcast', $crpvideo_enable_podcast);
+		$crpvideo_podcast_category = FormUtil :: getPassedValue('crpvideo_podcast_category', null, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_podcast_category', $crpvideo_podcast_category);
+		$crpvideo_podcast_description = FormUtil :: getPassedValue('crpvideo_podcast_description', null, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_podcast_description', $crpvideo_podcast_description);
 
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
@@ -450,6 +463,46 @@ class crpVideo
 		}
 		//
 		return $result;
+	}
+
+	/**
+	 * Display Podcast content
+	 *
+	 * */
+	function getPodcast()
+	{
+		$result = '';
+
+		// Return if not enabled
+		if (!pnModGetVar('crpVideo', 'crpvideo_enable_podcast'))
+			return $result;
+		//	header("Content-Type: text/plain\n\n");	//debug
+
+		$data['xml_lang'] = substr(pnUserGetLang(), 0, 2);
+		$data['publ_date'] = date('Y-m-d H:i:s', time());
+		$data['selfurl'] = pnModUrl('crpVideo', 'user', 'getpodcast');
+
+		$sitename = pnConfigGetVar('sitename');
+
+		Header("Content-Disposition: inline; filename=" . $sitename . "_podcasts.xml");
+		header("Content-Type: application/rss+xml\n\n");
+		//	header("Content-Type: text/xml\n\n");
+
+		$modvars = pnModGetVar('crpVideo');
+
+		$apiargs['startnum'] = 1;
+		$apiargs['category'] = $modvars['crpvideo_podcast_category'];
+		$apiargs['active'] = 'A';
+		$apiargs['orderBy'] = 'cr_date';
+		$apiargs['sortOrder'] = 'DESC';
+		//$apiargs['extension'] = 'mp3';
+
+		// call the api
+		$list = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
+
+		$result = $this->ui->drawPodcast($data, $list, $modvars);
+		echo $result;
+		pnShutDown();
 	}
 
 	/**
