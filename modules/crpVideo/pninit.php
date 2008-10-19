@@ -62,6 +62,8 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'crpvideo_enable_podcast', false);
 	pnModSetVar('crpVideo', 'crpvideo_podcast_category', null);
 	pnModSetVar('crpVideo', 'crpvideo_podcast_description', null);
+	pnModSetVar('crpVideo', 'crpvideo_podcast_editor', null);
+	pnModSetVar('crpVideo', 'crpvideo_podcast_icategory', null);
 
 	// Initialisation successful
 	return true;
@@ -153,6 +155,11 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.1.8");
 			break;
 		case "0.1.8" :
+			pnModSetVar('crpVideo', 'crpvideo_podcast_editor', null);
+			pnModSetVar('crpVideo', 'crpvideo_podcast_icategory', null);
+			return crpVideo_upgrade("0.1.9");
+			break;
+		case "0.1.9" :
 			break;
 	}
 	// Update successful
