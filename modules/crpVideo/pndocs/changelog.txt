@@ -1,4 +1,6 @@
 crpVideo
+v0.1.9 - 19 october 2008
+- added podcast additional field settings
 v0.1.8 - 18 october 2008
 - added mp3 mime as accepted media file
 - added podcast management (BEWARE! external videos in podcast category break the feed)
