@@ -31,8 +31,8 @@ define('_CRPVIDEO_DELETE_FILE','Delete file');
 define('_CRPVIDEO_FILE','Video file (.flv o .mp3) - Max');
 define('_CRPVIDEO_EXTERNAL','URL esterno (http://)');
 define('_CRPVIDEO_FILEBLANK','(deve essere il nome del video flv in pnmedia/video)');
-define('_CRPVIDEO_IMAGE','Immagine evento (.gif, .jpg, .png) - Max');
-define('_CRPVIDEO_IMAGE_WIDTH','Larghezza delle immagini per gli eventi');
+define('_CRPVIDEO_IMAGE','Immagine video (.gif, .jpg, .png) - Max');
+define('_CRPVIDEO_IMAGE_WIDTH','Larghezza delle immagini per i video');
 define('_CRPVIDEO_REQUIRED','(*)');
 define('_CRPVIDEO_REQUIRED_EXT','Campo obbligatorio');
 define('_CRPVIDEO_SHOW_FILE','Visualizza file');
@@ -89,5 +89,7 @@ define('_CRPVIDEO_PODCAST','crpVideo podcast');
 define('_CRPVIDEO_ENABLE_PODCAST','Abilita podcasting');
 define('_CRPVIDEO_PODCAST_CATEGORY','Categoria podcast');
 define('_CRPVIDEO_PODCAST_DESCRIPTION','Descrizione Podcast');
+define('_CRPVIDEO_PODCAST_EDITOR','Editor');
+define('_CRPVIDEO_PODCAST_ICATEGORY','Sescrizione di categoria');
 
 ?>

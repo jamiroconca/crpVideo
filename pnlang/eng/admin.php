@@ -89,5 +89,7 @@ define('_CRPVIDEO_PODCAST','crpVideo podcast');
 define('_CRPVIDEO_ENABLE_PODCAST','Enable podcasting');
 define('_CRPVIDEO_PODCAST_CATEGORY','Podcast category');
 define('_CRPVIDEO_PODCAST_DESCRIPTION','Podcast description');
+define('_CRPVIDEO_PODCAST_EDITOR','Managing editor');
+define('_CRPVIDEO_PODCAST_ICATEGORY','Category description');
 
 ?>
