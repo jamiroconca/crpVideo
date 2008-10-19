@@ -8,11 +8,11 @@
     <description><!--[$crpvideo_podcast_description]--></description>
     <generator>crpVideo <!--[pnmodurl modname="crpVideo" func=getpodcast]--></generator>
     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-    <language><!--[$data.xml_lang|pnvarprepfordisplay]--></language>
+    <language><!--[$data.xml_lang]--></language>
     <copyright><!--[sitename]--></copyright>
-    <managingEditor>Dan Oliver</managingEditor>
-    <pubDate><!--[$data.publ_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></pubDate>
-    <lastBuildDate><!--[$data.publ_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></lastBuildDate>    
+    <managingEditor><!--[$crpvideo_podcast_editor]--></managingEditor>
+    <pubDate><!--[$data.publ_date|pndate_format:"%a, %d"|@ucfirst]--> <!--[$data.publ_date|pndate_format:"%b %Y %H:%M:%S"|@ucfirst]--> <!--[$data.timezone]--></pubDate>
+    <lastBuildDate><!--[$data.publ_date|pndate_format:"%a, %d"|@ucfirst]--> <!--[$data.publ_date|pndate_format:"%b %Y %H:%M:%S"|@ucfirst]--> <!--[$data.timezone]--></lastBuildDate>    
     
     <itunes:author><!--[sitename|pnvarprepfordisplay]--></itunes:author>
     <itunes:subtitle><!--[slogan|pnvarprepfordisplay]--></itunes:subtitle>
@@ -24,23 +24,25 @@
       <itunes:email><!--[pnconfiggetvar name="adminmail"|pnvarprephtmldisplay]--></itunes:email>
     </itunes:owner>
 		<itunes:block>no</itunes:block>
-		<itunes:category text="Technology" />
+		<itunes:category text="<!--[$crpvideo_podcast_icategory]-->" />
 		<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" href="<!--[pnmodurl modname="crpVideo" func=getpodcast]-->" type="application/rss+xml" />
 		
 		<!--[foreach item=podcast from=$list]-->
 		<item>
       <title><!--[$podcast.title|pnvarprepfordisplay]--></title>
-      <link><!--[pngetbaseurl]-->/<!--[pnmodurl modname="crpVideo" func="display" videoid=$podcast.videoid|pnvarprepfordisplay]--></link>
+      <link><!--[pngetbaseurl]--><!--[pnmodurl modname="crpVideo" func="display" videoid=$podcast.videoid|pnvarprepfordisplay]--></link>
       <description><![CDATA[<!--[$podcast.title|pnvarprephtmldisplay]-->]]></description>
-      <pubDate><!--[$podcast.cr_date|pndate_format:"%a, %d %B %Y %H:%M:%S"]--></pubDate>
+      <pubDate><!--[$podcast.cr_date|pndate_format:"%a, %d"|@ucfirst]--> <!--[$podcast.cr_date|pndate_format:"%b %Y %H:%M:%S"|@ucfirst]--> <!--[$data.timezone]--></pubDate>
       <enclosure url="<!--[$podcast.urlvideo]-->" type="audio/mpeg" />
       <guid isPermaLink="false">podcast-<!--[$podcast.videoid]--></guid>
-      <itunes:author><!--[$podcast.author|pnvarprepfordisplay]--></itunes:author>
+      <itunes:author><!--[$podcast.author|pnvarprepfordisplay]--></itunes:author>			
       <itunes:subtitle><!--[$podcast.content|pnvarprepfordisplay|strip_tags]--></itunes:subtitle>
       <itunes:summary><!--[$podcast.content|pnvarprepfordisplay|strip_tags]--></itunes:summary>
       <itunes:explicit>no</itunes:explicit>
+			<itunes:image><!--[pngetbaseurl]--><!--[pnmodurl modname="crpVideo" func="get_thumbnail" videoid=$podcast.videoid width=$userlist_width|pnvarprepfordisplay]--></itunes:image>
    </item>
    <!--[/foreach]-->   
 
   </channel>
 </rss>
+
