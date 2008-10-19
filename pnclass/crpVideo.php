@@ -165,6 +165,10 @@ class crpVideo
 		pnModSetVar('crpVideo', 'crpvideo_podcast_category', $crpvideo_podcast_category);
 		$crpvideo_podcast_description = FormUtil :: getPassedValue('crpvideo_podcast_description', null, 'POST');
 		pnModSetVar('crpVideo', 'crpvideo_podcast_description', $crpvideo_podcast_description);
+		$crpvideo_podcast_editor = FormUtil :: getPassedValue('crpvideo_podcast_editor', null, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_podcast_editor', $crpvideo_podcast_editor);
+		$crpvideo_podcast_icategory = FormUtil :: getPassedValue('crpvideo_podcast_icategory', null, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_podcast_icategory', $crpvideo_podcast_icategory);
 
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
@@ -478,9 +482,11 @@ class crpVideo
 			return $result;
 		//	header("Content-Type: text/plain\n\n");	//debug
 
-		$data['xml_lang'] = substr(pnUserGetLang(), 0, 2);
+		$data['xml_lang'] = str_replace('_','-',strtolower(_LOCALE));
 		$data['publ_date'] = date('Y-m-d H:i:s', time());
 		$data['selfurl'] = pnModUrl('crpVideo', 'user', 'getpodcast');
+		$data['timezone'] = (pnConfigGetVar('timezone_offset') >= 0)?'+':'-';
+		$data['timezone'] .= str_pad(abs(pnConfigGetVar('timezone_offset'))*100, 4, '0',STR_PAD_LEFT);
 
 		$sitename = pnConfigGetVar('sitename');
 
