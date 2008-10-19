@@ -506,6 +506,9 @@ class crpVideo
 		// call the api
 		$list = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
 
+		// force time in en format
+		setlocale(LC_TIME, 'en_US');
+
 		$result = $this->ui->drawPodcast($data, $list, $modvars);
 		echo $result;
 		pnShutDown();
