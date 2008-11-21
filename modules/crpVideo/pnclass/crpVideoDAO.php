@@ -611,7 +611,7 @@ class crpVideoDAO
 		{
 			LogUtil :: registerError(_CRPVIDEO_ERROR_VIDEO_NO_CONTENT);
 		}
-		elseif (empty ($data['__CATEGORIES__']['Main']))
+		elseif (empty ($data['__CATEGORIES__']['Main']) && pnModGetVar('crpVideo','enablecategorization'))
 		{
 			LogUtil :: registerError(_CRPVIDEO_ERROR_VIDEO_NO_CATEGORY);
 		}
