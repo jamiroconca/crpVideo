@@ -17,13 +17,13 @@
 	</h1>
 	<div class="pn-menu">
 	<!--[securityutil_checkpermission component="crpCalendar::" instance="::" level="ACCESS_COMMENT" assign="can_submit"]-->
-	[&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user"]-->"><!--[pnml name="_CRPVIDEO_INDEX"]--></a>&nbsp;|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" func="view_uploaders"]-->"><!--[pnml name="_CRPVIDEO_UPLOADERS"]--></a>&nbsp;<!--[if $can_submit]-->|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;<!--[/if]-->]
+	[&nbsp;<a href="<!--[if $enablecategorization]--><!--[pnmodurl modname="crpVideo" type="user"]--><!--[else]--><!--[pnmodurl modname="crpVideo" type="user" func=view]--><!--[/if]-->"><!--[pnml name="_CRPVIDEO_INDEX"]--></a>&nbsp;|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" func="view_uploaders"]-->"><!--[pnml name="_CRPVIDEO_UPLOADERS"]--></a>&nbsp;<!--[if $can_submit]-->|&nbsp;<a href="<!--[pnmodurl modname="crpVideo" type="user" func="new"]-->"><!--[pnml name="_CRPVIDEO_SUBMIT"]--></a>&nbsp;<!--[/if]-->]
 		
 	<!--[if $enablecategorization and $category]-->
 	<!--[breadcrumbcategorymenu modname="crpVideo" tablename ="crpvideos" category=$category lang=$lang]-->
 	<!--[/if]-->
 	
-	<!--[if $categories]-->
+	<!--[if $categories && $enablecategorization]-->
 	<div id="video-categories">
 		<h3><!--[pnml name=_CATEGORIES]--></h3>
 		<ul>
