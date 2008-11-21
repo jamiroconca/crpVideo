@@ -7,9 +7,7 @@
 	
 	<thead>
 	<tr>
-		<!--[if $crpvideo_userlist_image]-->
     <th class="crpvideo_w4"><!--[pnml name="_CRPVIDEO_VIEW" html=1]--></th>
-	  <!--[/if]-->
     <th class="crpvideo_w4"><!--[pnml name="_CRPVIDEO_HOOKS" html=1]--></th>
 	</tr>
 	</thead>
@@ -17,7 +15,7 @@
 	<!--[if $videos]-->
 	<!--[foreach item=video from=$videos]-->
 	<tr class="<!--[cycle values="odd,even"]-->">
-		<td style="padding:8px;><!--[include file="crpvideo_user_rowread.htm"]--></td>
+		<td style="padding:8px;"><!--[include file="crpvideo_user_rowread.htm"]--></td>
 		<td>
 			<div>
 			<!--[$video.cr_date|videodatediff]-->
