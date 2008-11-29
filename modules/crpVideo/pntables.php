@@ -16,7 +16,7 @@ function crpVideo_pntables()
 
     // Full table definition
     $pntable['crpvideos'] = DBUtil::getLimitedTablename('crpvideos');
-    
+
     $pntable['crpvideos_column'] = array ('videoid'         => 'pn_videoid',
                                       'title'          => 'pn_title',
                                       'urltitle'       => 'pn_urltitle',
@@ -30,7 +30,7 @@ function crpVideo_pntables()
                                       'counter'        => 'pn_counter',
                                       'displaywrapper' => 'pn_displaywrapper',
                                       'language'       => 'pn_language');
-                                      
+
     $pntable['crpvideos_column_def'] = array('videoid'         => 'I AUTOINCREMENT PRIMARY',
                                          'title'          => "X NOTNULL DEFAULT ''",
                                          'urltitle'       => "X NOTNULL DEFAULT ''",
@@ -41,10 +41,10 @@ function crpVideo_pntables()
                                          'author'       	=> "C(255) NOTNULL DEFAULT ''",
                                          'tags'           => "C(48) NOTNULL DEFAULT ''",
                                          'content'        => "X NOTNULL DEFAULT ''",
-                                         'counter'        => "I NOTNULL DEFAULT '0'",
-                                         'displaywrapper' => "L NOTNULL DEFAULT '1'",
+                                         'counter'        => "I NOTNULL DEFAULT 0",
+                                         'displaywrapper' => "I1 NOTNULL DEFAULT '1'",
                                          'language'       => "C(30) NOTNULL DEFAULT ''");
-		
+
 		$pntable['crpvideo_covers'] = DBUtil :: getLimitedTablename('crpvideo_covers');
 		$pntable['crpvideo_covers_column'] = array (
 				'id'						=> 'pn_id',
@@ -56,14 +56,14 @@ function crpVideo_pntables()
 				'binary_data'		=> 'pn_binary_data');
 		$pntable['crpvideo_covers_column_def'] = array (
 			'id' 						=> 'I(11) AUTOINCREMENT PRIMARY',
-			'videoid' 			=> "I(11) NOTNULL DEFAULT '0'",
+			'videoid' 			=> "I(11) NOTNULL DEFAULT 0",
 			'document_type' => "C(255) NOTNULL DEFAULT ''",
 			'name' 					=> "C(255) NOTNULL DEFAULT ''",
 			'content_type'	=> "C(255) NOTNULL DEFAULT ''",
-			'size' 					=> "I NOTNULL DEFAULT '0'",
+			'size' 					=> "I NOTNULL DEFAULT 0",
 			'binary_data' 	=> "B NOTNULL DEFAULT ''"
 		);
-	
+
     // Enable categorization services
     $pntable['crpvideos_db_extra_enable_categorization'] = pnModGetVar('crpVideo', 'enablecategorization');
     $pntable['crpvideos_primary_key_column'] = 'videoid';

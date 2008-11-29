@@ -160,6 +160,7 @@ class crpVideoDAO
 			}
 
 		$items= array ();
+		$nowDate = DateUtil::getDatetime();
 
 		// Security check
 		if (!SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_READ))
@@ -183,8 +184,10 @@ class crpVideoDAO
 
 		if ($interval)
 		{
-			$queryargs[]= "($crpvideocolumn[cr_date] < NOW() " .
-			"AND $crpvideocolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($interval) . " DAY))";
+			$intervaltime = time() - $interval * 86400;
+			$intervalDate = DateUtil :: getDatetime($intervaltime);
+			$queryargs[]= "($crpvideocolumn[cr_date] < '" . DataUtil :: formatForStore($nowDate) . "' " .
+			"AND $crpvideocolumn[cr_date] > '" . DataUtil :: formatForStore($intervalDate) . "')";
 		}
 
 		$where= null;
@@ -629,6 +632,7 @@ class crpVideoDAO
 
 		$pntable = pnDBGetTables();
 		$videoscolumn = $pntable['crpvideos_column'];
+		$nowDate = DateUtil::getDatetime();
 
 		$queryargs = array ();
 		if (pnConfigGetVar('multilingual') == 1 && !$ignoreml)
@@ -645,8 +649,10 @@ class crpVideoDAO
 		}
 		if ($interval)
 		{
-			$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
-			"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($interval) . " DAY))";
+			$intervaltime = time() - $interval * 86400;
+			$intervalDate = DateUtil :: getDatetime($intervaltime);
+			$queryargs[]= "($videoscolumn[cr_date] < '" . DataUtil :: formatForStore($nowDate) . "' " .
+			"AND $videoscolumn[cr_date] > '" . DataUtil :: formatForStore($intervalDate) . "')";
 		}
 
 		$where = null;

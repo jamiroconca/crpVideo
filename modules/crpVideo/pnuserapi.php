@@ -121,6 +121,8 @@ function crpVideo_userapi_getall($args)
 	$pntable = pnDBGetTables();
 	$videoscolumn = $pntable['crpvideos_column'];
 	$queryargs = array ();
+	$nowDate = DateUtil::getDatetime();
+
 	if (pnConfigGetVar('multilingual') == 1 && !$args['ignoreml'])
 	{
 		$queryargs[] = "($videoscolumn[language]='" . DataUtil :: formatForStore(pnUserGetLang()) . "' OR $videoscolumn[language]='')";
@@ -135,8 +137,10 @@ function crpVideo_userapi_getall($args)
 	}
 	if ($args['interval'])
 	{
-		$queryargs[]= "($videoscolumn[cr_date] < NOW() " .
-		"AND $videoscolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($args['interval']) . " DAY))";
+		$intervaltime = time() - $args['interval'] * 86400;
+			$intervalDate = DateUtil :: getDatetime($intervaltime);
+		$queryargs[]= "($videoscolumn[cr_date] < '" . DataUtil :: formatForStore($nowDate) . "' " .
+		"AND $videoscolumn[cr_date] > '" . DataUtil :: formatForStore($intervalDate) . "')";
 	}
 	if ($args['extension'])
 	{
@@ -262,6 +266,7 @@ function crpVideo_userapi_countitems($args)
 	$crpvideocolumn = $pntable['crpvideos_column'];
 
 	$where = '';
+	$nowDate = DateUtil::getDatetime();
 
 	$catFilter = array ();
 	if (is_array($args['category']))
@@ -288,8 +293,10 @@ function crpVideo_userapi_countitems($args)
 	}
 	if ($args['interval'])
 	{
-		$queryargs[]= "($crpvideocolumn[cr_date] < NOW() " .
-		"AND $crpvideocolumn[cr_date] > DATE_SUB(NOW(), INTERVAL " . DataUtil :: formatForStore($args['interval']) . " DAY))";
+		$intervaltime = time() - $args['interval'] * 86400;
+		$intervalDate = DateUtil :: getDatetime($intervaltime);
+		$queryargs[]= "($crpvideocolumn[cr_date] < '" . DataUtil :: formatForStore($nowDate) . "' " .
+		"AND $crpvideocolumn[cr_date] > '" . DataUtil :: formatForStore($intervalDate) . "')";
 	}
 
 	$where = null;
