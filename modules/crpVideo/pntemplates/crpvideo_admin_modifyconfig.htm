@@ -81,16 +81,31 @@
 		</div>
 		<div class="pn-adminformrow">
 			<label for="crpvideo_enable_playlist"><!--[pnml name="_CRPVIDEO_ENABLE_PLAYLIST"]--></label>
-			<input id="crpvideo_enable_playlist" type="checkbox" name="enable_playlist"<!--[if $enable_playlist]--> checked="checked"<!--[/if]--> />
+			<input id="crpvideo_enable_playlist" type="checkbox" name="crpvideo_enable_playlist"<!--[if $crpvideo_enable_playlist]--> checked="checked"<!--[/if]--> />
 		</div>
 		<div class="pn-adminformrow">
 			<label for="crpvideo_playlist_type"><!--[pnml name="_CRPVIDEO_PLAYLIST_TYPE" html=1]--></label>
-			<select id="crpvideo_playlist_type" name="playlist_type">
-				<option value="category"<!--[if $playlist_type eq 'category']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_CATEGORY" html=1]--></option>
-				<option value="views"<!--[if $playlist_type eq 'views']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_VIEWS" html=1]--></option>
-				<option value="uploader"<!--[if $playlist_type eq 'uploader']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_UPLOADER"]--></option>
-				<option value="date"<!--[if $playlist_type eq 'date']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_DATE" html=1]--></option>
+			<select id="crpvideo_playlist_type" name="crpvideo_playlist_type">
+				<option value="category"<!--[if $crpvideo_playlist_type eq 'category']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_CATEGORY" html=1]--></option>
+				<option value="views"<!--[if $crpvideo_playlist_type eq 'views']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_VIEWS" html=1]--></option>
+				<option value="uploader"<!--[if $crpvideo_playlist_type eq 'uploader']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_UPLOADER"]--></option>
+				<option value="date"<!--[if $crpvideo_playlist_type eq 'date']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_BY_DATE" html=1]--></option>
 			</select>
+		</div>		
+		<div class="pn-adminformrow">
+			<label for="crpvideo_playlist_position"><!--[pnml name="_CRPVIDEO_PLAYLIST_POSITION" html=1]--></label>
+			<select id="crpvideo_playlist_position" name="crpvideo_playlist_position">
+				<option value="right"<!--[if $crpvideo_playlist_position eq 'right']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_POSITION_RIGHT" html=1]--></option>
+				<option value="bottom"<!--[if $crpvideo_playlist_position eq 'bottom']--> selected="selected"<!--[/if]-->><!--[pnml name="_CRPVIDEO_PLAYLIST_POSITION_BOTTOM" html=1]--></option>
+			</select>
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_playlist_size"><!--[pnml name="_CRPVIDEO_PLAYLIST_SIZE" html=1]--></label>
+			<input id="crpvideo_playlist_size" type="text" name="crpvideo_playlist_size" maxlength="3" size="4" value="<!--[$crpvideo_playlist_size|pnvarprepfordisplay]-->" />
+		</div>
+		<div class="pn-adminformrow">
+			<label for="crpvideo_playlist_items"><!--[pnml name="_CRPVIDEO_PLAYLIST_ITEMS" html=1]--></label>
+			<input id="crpvideo_playlist_items" type="text" name="crpvideo_playlist_items" maxlength="2" size="4" value="<!--[$crpvideo_playlist_items|pnvarprepfordisplay]-->" />
 		</div>
 	</fieldset>
 	<fieldset>

@@ -3,7 +3,7 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2008, Daniele Conca
+ * @copyright (c) 2007-2009, Daniele Conca
  * @link http://code.zikula.org/projects/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
@@ -25,6 +25,47 @@ class crpVideo
 		$this->dao = new crpVideoDAO();
 
 		(function_exists('gd_info')) ? $this->gd = gd_info() : $this->gd = array ();
+	}
+
+	function userDisplay()
+	{
+		$videoid = FormUtil :: getPassedValue('videoid', isset ($args['videoid']) ? $args['videoid'] : null, 'REQUEST');
+		$title = FormUtil :: getPassedValue('title', isset ($args['title']) ? $args['title'] : null, 'REQUEST');
+		$video = FormUtil :: getPassedValue('video', isset ($args['video']) ? $args['video'] : null, 'REQUEST');
+		$objectid = FormUtil :: getPassedValue('objectid', isset ($args['objectid']) ? $args['objectid'] : null, 'REQUEST');
+		if (!empty ($objectid))
+		{
+			$videoid = $objectid;
+		}
+
+		// Set the default page number
+		if (empty ($video))
+		{
+			$video = 1;
+		}
+
+		// Get the page
+		if (isset ($videoid) && is_numeric($videoid))
+		{
+			$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
+				'videoid' => $videoid
+			));
+		}
+		else
+		{
+			$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
+				'title' => $title
+			));
+			pnQueryStringSetVar('videoid', $item['videoid']);
+		}
+
+		// The return value of the function is checked here
+		if ($item == false || ($item['obj_status'] == 'P' && !SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_EDIT)))
+		{
+			return LogUtil :: registerError(_NOSUCHITEM, 404);
+		}
+
+		return $this->ui->userDisplay($videoid, $title, $video, $item);
 	}
 
 	/**
@@ -144,8 +185,8 @@ class crpVideo
 		pnModSetVar('crpVideo', 'mandatory_cover', $mandatory_cover);
 		$main_items = (int) FormUtil :: getPassedValue('main_items', 3, 'POST');
 		pnModSetVar('crpVideo', 'main_items', $main_items);
-		$crpvideo_notification= FormUtil :: getPassedValue('crpvideo_notification', null, 'POST');
-		if ($crpvideo_notification && !pnVarValidate($crpvideo_notification,'email'))
+		$crpvideo_notification = FormUtil :: getPassedValue('crpvideo_notification', null, 'POST');
+		if ($crpvideo_notification && !pnVarValidate($crpvideo_notification, 'email'))
 		{
 			LogUtil :: registerError(_CRPVIDEO_INVALID_NOTIFICATION);
 			return pnRedirect(pnModUrl('crpVideo', 'admin', 'modifyconfig'));
@@ -169,6 +210,17 @@ class crpVideo
 		pnModSetVar('crpVideo', 'crpvideo_podcast_editor', $crpvideo_podcast_editor);
 		$crpvideo_podcast_icategory = FormUtil :: getPassedValue('crpvideo_podcast_icategory', null, 'POST');
 		pnModSetVar('crpVideo', 'crpvideo_podcast_icategory', $crpvideo_podcast_icategory);
+		// PLAYLIST
+		$crpvideo_enable_playlist = (bool) FormUtil :: getPassedValue('crpvideo_enable_playlist', false, 'POST');
+		pnModSetVar('crpVideo', 'crpvideo_enable_playlist', $crpvideo_enable_playlist);
+		$crpvideo_playlist_type = ($crpvideo_enable_playlist) ? FormUtil :: getPassedValue('crpvideo_playlist_type', null, 'POST') : null;
+		pnModSetVar('crpVideo', 'crpvideo_playlist_type', $crpvideo_playlist_type);
+		$crpvideo_playlist_position = ($crpvideo_enable_playlist) ? FormUtil :: getPassedValue('crpvideo_playlist_position', null, 'POST') : null;
+		pnModSetVar('crpVideo', 'crpvideo_playlist_position', $crpvideo_playlist_position);
+		$crpvideo_playlist_size = ($crpvideo_enable_playlist) ? FormUtil :: getPassedValue('crpvideo_playlist_size', 180, 'POST') : null;
+		pnModSetVar('crpVideo', 'crpvideo_playlist_size', $crpvideo_playlist_size);
+		$crpvideo_playlist_items = ($crpvideo_enable_playlist) ? (int) FormUtil :: getPassedValue('crpvideo_playlist_items', 10, 'POST') : null;
+		pnModSetVar('crpVideo', 'crpvideo_playlist_items', $crpvideo_playlist_items);
 
 		// Let any other modules know that the modules configuration has been updated
 		pnModCallHooks('module', 'updateconfig', 'crpVideo', array (
@@ -276,7 +328,7 @@ class crpVideo
 
 			}
 
-			while (@ob_end_clean());
+			while (@ ob_end_clean());
 			//save output to a buffer
 			ob_start();
 
@@ -424,43 +476,58 @@ class crpVideo
 	function getPlaylist()
 	{
 		$result = '';
-/*
+
 		// Return if not enabled
-		if (!pnModGetVar('crpVideo', 'crpvideo_enable_rss'))
+		if (!pnModGetVar('crpVideo', 'crpvideo_enable_playlist'))
 			return $result;
 		//	header("Content-Type: text/plain\n\n");	//debug
-*/
+
+		$videoid = FormUtil :: getPassedValue('videoid', isset ($args['videoid']) ? $args['videoid'] : null, 'GET');
+
+		switch (pnModGetVar('crpVideo', 'crpvideo_playlist_type'))
+		{
+			case "category" :
+				// by category
+				$apiargs['category'] = FormUtil :: getPassedValue('id', isset ($args['id']) ? $args['id'] : null, 'GET');
+				$apiargs['orderBy'] = 'cr_date';
+				break;
+
+			case "views" :
+				// most viewed
+				$apiargs['orderBy'] = 'counter';
+				$apiargs['interval'] = '31';
+				break;
+
+			case "uploader" :
+				// by uploader
+				$apiargs['orderBy'] = 'cr_date';
+				$apiargs['uid'] = FormUtil :: getPassedValue('id', isset ($args['id']) ? $args['id'] : null, 'GET');
+				break;
+
+			case "date" :
+			default :
+				// by date
+				$apiargs['orderBy'] = 'cr_date';
+				break;
+		}
 
 		$apiargs['startnum'] = 1;
 		$apiargs['active'] = 'A';
-		$apiargs['itemsperpage'] = '10';
+		$apiargs['itemsperpage'] = pnModGetVar('crpVideo', 'crpvideo_playlist_items');
 		$apiargs['sortOrder'] = 'DESC';
-
-		/*
-		// by category
-		$apiargs['category'] = FormUtil :: getPassedValue('id', isset ($args['id']) ? $args['id'] : null, 'GET');
-		$apiargs['orderBy'] = 'cr_date';
-		*/
-
-		// most viewed
-		$apiargs['orderBy'] = 'counter';
-		$apiargs['interval'] = '10';
-
-		/*
-		// by uploader
-		$apiargs['orderBy'] = 'cr_date';
-		$apiargs['uid'] = FormUtil :: getPassedValue('uid', isset ($args['id']) ? $args['id'] : null, 'GET');
-		*/
-
-		/*
-		// by date
-		$apiargs['orderBy'] = 'cr_date';
-		*/
 
 		// call the api
 		$list = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
+		foreach ($list as $kvideo => $vvideo)
+		{
+			if (($vvideo['videoid'] == $videoid) || ($vvideo['source'] != 'video'))
+				unset ($list[$kvideo]);
+		}
 
-//die('<pre>'.print_r($list,1).'</pre>');
+		array_unshift($list, pnModAPIFunc('crpVideo', 'user', 'get', array (
+			'videoid' => $videoid
+		)));
+
 		Header("Content-Disposition: inline; filename=playlist_videos.xml");
 		Header("Content-Type: application/xml; charset={_CHARSET}\n\n");
 		//Header("Content-Type: text/xml; charset={_CHARSET}\n\n");
@@ -535,11 +602,11 @@ class crpVideo
 			return $result;
 		//	header("Content-Type: text/plain\n\n");	//debug
 
-		$data['xml_lang'] = str_replace('_','-',strtolower(_LOCALE));
+		$data['xml_lang'] = str_replace('_', '-', strtolower(_LOCALE));
 		$data['publ_date'] = date('Y-m-d H:i:s', time());
 		$data['selfurl'] = pnModUrl('crpVideo', 'user', 'getpodcast');
-		$data['timezone'] = (pnConfigGetVar('timezone_offset') >= 0)?'+':'-';
-		$data['timezone'] .= str_pad(abs(pnConfigGetVar('timezone_offset'))*100, 4, '0',STR_PAD_LEFT);
+		$data['timezone'] = (pnConfigGetVar('timezone_offset') >= 0) ? '+' : '-';
+		$data['timezone'] .= str_pad(abs(pnConfigGetVar('timezone_offset')) * 100, 4, '0', STR_PAD_LEFT);
 
 		$sitename = pnConfigGetVar('sitename');
 
@@ -570,18 +637,19 @@ class crpVideo
 	/**
 	* send an email notification
 	*/
-	function notifyByMail($inputValues= array(), $videoid=null)
+	function notifyByMail($inputValues = array (), $videoid = null)
 	{
 		// send the email
-		$pnRender= pnRender :: getInstance('crpVideo', false);
+		$pnRender = pnRender :: getInstance('crpVideo', false);
 		$pnRender->assign('inputValues', $inputValues);
 		$pnRender->assign('videoid', $videoid);
-		$body= $pnRender->fetch('crpvideo_user_notify_newvideo.htm');
+		$body = $pnRender->fetch('crpvideo_user_notify_newvideo.htm');
 
-		$subject= _CRPVIDEO_VIDEO_NOTIFICATION;
-		$to= pnModGetVar('crpVideo', 'crpvideo_notification');;
+		$subject = _CRPVIDEO_VIDEO_NOTIFICATION;
+		$to = pnModGetVar('crpVideo', 'crpvideo_notification');
+		;
 
-		$result= pnModAPIFunc('Mailer', 'user', 'sendmessage', array (
+		$result = pnModAPIFunc('Mailer', 'user', 'sendmessage', array (
 			'toaddress' => $to,
 			'subject' => $subject,
 			'body' => $body,
@@ -610,7 +678,7 @@ class crpVideo
 		foreach ($items as $kevent => $item)
 		{
 			$options = array ();
-			$options[] = crpVideo::buildLinkArray("_CRPVIDEO_VIDEOS_UPLOADED", $item, 'user');
+			$options[] = crpVideo :: buildLinkArray("_CRPVIDEO_VIDEOS_UPLOADED", $item, 'user');
 
 			$options[] = array (
 				'url' => pnModURL('Profile', 'user', 'view', array (
@@ -625,9 +693,7 @@ class crpVideo
 			$rows[] = $item;
 		}
 
-		return $this->ui->uploadersList($rows, $navigationValues['category'], $navigationValues['mainCat'],
-																		$navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'],
-																		$navigationValues['active']);
+		return $this->ui->uploadersList($rows, $navigationValues['category'], $navigationValues['mainCat'], $navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'], $navigationValues['active']);
 	}
 
 	/**
@@ -644,9 +710,7 @@ class crpVideo
 		$pnRender->assign($navigationValues['modvars']);
 		// Loop through each item and display it.
 
-		return $this->ui->uploadsList($items, $navigationValues['category'], $navigationValues['mainCat'],
-																	$navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'],
-																	$navigationValues['uid'], $navigationValues['active']);
+		return $this->ui->uploadsList($items, $navigationValues['category'], $navigationValues['mainCat'], $navigationValues['rootCat'], $navigationValues['cats'], $navigationValues['modvars'], $navigationValues['uid'], $navigationValues['active']);
 	}
 
 	/**
@@ -717,12 +781,14 @@ class crpVideo
 		switch ($mlname)
 		{
 			case "_CRPVIDEO_VIDEOS_UPLOADED" :
-					$linkArray =	array (
+				$linkArray = array (
 					'url' => pnModURL('crpVideo', 'user', 'view_uploads', array (
 						'uid' => $item['cr_uid']
 					)),
 					'image' => 'folder_inbox.gif',
-					'title' => pnML('_CRPVIDEO_VIDEOS_UPLOADED', array('videos' => $item['counter']), true)
+					'title' => pnML('_CRPVIDEO_VIDEOS_UPLOADED', array (
+						'videos' => $item['counter']
+					), true)
 				);
 				break;
 			default :

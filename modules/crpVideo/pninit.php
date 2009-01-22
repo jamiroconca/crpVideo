@@ -3,7 +3,7 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2008, Daniele Conca
+ * @copyright (c) 2007-2009, Daniele Conca
  * @link http://code.zikula.org/projects/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
@@ -67,7 +67,8 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'crpvideo_enable_playlist', false);
 	pnModSetVar('crpVideo', 'crpvideo_playlist_type', null);
 	pnModSetVar('crpVideo', 'crpvideo_playlist_position', null);
-	pnModSetVar('crpVideo', 'crpvideo_playlist_size', null);
+	pnModSetVar('crpVideo', 'crpvideo_playlist_size', 180);
+	pnModSetVar('crpVideo', 'crpvideo_playlist_items', 5);
 
 	// Initialisation successful
 	return true;
@@ -164,6 +165,14 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.1.9");
 			break;
 		case "0.1.9" :
+			pnModSetVar('crpVideo', 'crpvideo_enable_playlist', false);
+			pnModSetVar('crpVideo', 'crpvideo_playlist_type', null);
+			pnModSetVar('crpVideo', 'crpvideo_playlist_position', null);
+			pnModSetVar('crpVideo', 'crpvideo_playlist_size', 180);
+			pnModSetVar('crpVideo', 'crpvideo_playlist_items', 5);
+			return crpVideo_upgrade("0.2.0");
+			break;
+		case "0.2.0" :
 			break;
 	}
 	// Update successful
