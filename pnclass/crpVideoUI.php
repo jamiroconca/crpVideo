@@ -75,6 +75,22 @@ class crpVideoUI
 	}
 
 	/**
+	 * Draw rss feed
+	 *
+	 * @param array $data feed values
+	 * @param array $list elements
+	 *
+	 * @return string xml
+	 */
+	function drawPlaylist($list=array())
+	{
+		$pnRender = pnRender::getInstance('crpVideo', false);
+		$pnRender->assign('list', $list);
+
+		return $pnRender->fetch('crpvideo_user_getplaylist.htm');
+	}
+
+	/**
 	 * Draw podcast feed
 	 *
 	 * @param array $data feed values

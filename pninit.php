@@ -64,6 +64,10 @@ function crpVideo_init()
 	pnModSetVar('crpVideo', 'crpvideo_podcast_description', null);
 	pnModSetVar('crpVideo', 'crpvideo_podcast_editor', null);
 	pnModSetVar('crpVideo', 'crpvideo_podcast_icategory', null);
+	pnModSetVar('crpVideo', 'crpvideo_enable_playlist', false);
+	pnModSetVar('crpVideo', 'crpvideo_playlist_type', null);
+	pnModSetVar('crpVideo', 'crpvideo_playlist_position', null);
+	pnModSetVar('crpVideo', 'crpvideo_playlist_size', null);
 
 	// Initialisation successful
 	return true;
