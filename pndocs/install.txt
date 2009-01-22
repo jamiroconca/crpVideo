@@ -10,6 +10,7 @@ INSTALL:
 	SetEnvIf Request_URI "\.mp3$" object_is_mp3=mp3
 	...
 	Allow from env=object_is_mp3
+- videos from external sources are not included into playlist (you don't have the .flv file url...)
 
 UPGRADE:
 - standard upgrade procedure
