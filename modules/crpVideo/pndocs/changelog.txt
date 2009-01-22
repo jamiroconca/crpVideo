@@ -1,4 +1,7 @@
 crpVideo
+v0.2.0 - 22 january 2009
+- added playlist management
+- flv player update
 v0.1.9 - 19 october 2008
 - added podcast additional field settings
 v0.1.8 - 18 october 2008
