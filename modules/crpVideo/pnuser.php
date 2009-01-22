@@ -403,6 +403,23 @@ function crpVideo_user_getfeed()
  *
  * @return string HTML output
  */
+function crpVideo_user_getplaylist()
+{
+	// Security check
+	if (!SecurityUtil::checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil::registerPermissionError();
+	}
+
+	$videoObj = new crpVideo();
+	return $videoObj->getPlaylist();
+}
+
+/**
+ * feed items
+ *
+ * @return string HTML output
+ */
 function crpVideo_user_getpodcast()
 {
 	// Security check

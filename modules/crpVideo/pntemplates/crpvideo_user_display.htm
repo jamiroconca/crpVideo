@@ -40,13 +40,19 @@
 <!--[if $source eq 'video']-->
 <p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
 <script type="text/javascript">
-	var so = new SWFObject('modules/crpVideo/pnincludes/flvplayer.swf','player','<!--[$playerwidth]-->','<!--[$playerheight]-->','7');
-	so.addParam("allowfullscreen","false");
-	so.addVariable("title","<!--[$title]-->");
-	so.addVariable("file","<!--[$urlvideo]-->");
+	var so = new SWFObject("modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth+200]-->','<!--[$playerheight]-->','9.0.115');
+	var pl = new String("<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=getplaylist id=$category.id]-->");
+	/*var pl = new String("<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=getplaylist id=$cr_uid]-->");*/
+		
+	so.addParam("allowfullscreen","true");
+	so.addVariable("thumbsinplaylist", "true");
+	so.addVariable("file",pl.replace(/&amp;/g,'%26'));
+	/*so.addVariable("title","<!--[$title]-->");*/
 	so.addVariable("displayheight","<!--[$displayheight]-->");
 	so.addVariable("overstretch","false");
-	so.addVariable("author","<!--[$author]-->");
+	/*so.addVariable("author","<!--[$author]-->");*/
+	so.addVariable("playlist","right");
+	so.addVariable("playlistsize","200");
 	so.write('player');
 </script>
 <!--[elseif $source eq 'external']-->

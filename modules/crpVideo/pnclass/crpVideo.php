@@ -418,6 +418,59 @@ class crpVideo
 	}
 
 	/**
+	 * Display Playlist content
+	 *
+	 * */
+	function getPlaylist()
+	{
+		$result = '';
+/*
+		// Return if not enabled
+		if (!pnModGetVar('crpVideo', 'crpvideo_enable_rss'))
+			return $result;
+		//	header("Content-Type: text/plain\n\n");	//debug
+*/
+
+		$apiargs['startnum'] = 1;
+		$apiargs['active'] = 'A';
+		$apiargs['itemsperpage'] = '10';
+		$apiargs['sortOrder'] = 'DESC';
+
+		/*
+		// by category
+		$apiargs['category'] = FormUtil :: getPassedValue('id', isset ($args['id']) ? $args['id'] : null, 'GET');
+		$apiargs['orderBy'] = 'cr_date';
+		*/
+
+		// most viewed
+		$apiargs['orderBy'] = 'counter';
+		$apiargs['interval'] = '10';
+
+		/*
+		// by uploader
+		$apiargs['orderBy'] = 'cr_date';
+		$apiargs['uid'] = FormUtil :: getPassedValue('uid', isset ($args['id']) ? $args['id'] : null, 'GET');
+		*/
+
+		/*
+		// by date
+		$apiargs['orderBy'] = 'cr_date';
+		*/
+
+		// call the api
+		$list = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
+
+//die('<pre>'.print_r($list,1).'</pre>');
+		Header("Content-Disposition: inline; filename=playlist_videos.xml");
+		Header("Content-Type: application/xml; charset={_CHARSET}\n\n");
+		//Header("Content-Type: text/xml; charset={_CHARSET}\n\n");
+
+		$result = $this->ui->drawPlaylist($list);
+		echo $result;
+		pnShutDown();
+	}
+
+	/**
 	 * Retrieve info about a rss module plugin
 	 *
 	 * */
