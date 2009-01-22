@@ -90,6 +90,14 @@ define('_CRPVIDEO_ENABLE_PODCAST','Abilita podcasting');
 define('_CRPVIDEO_PODCAST_CATEGORY','Categoria podcast');
 define('_CRPVIDEO_PODCAST_DESCRIPTION','Descrizione Podcast');
 define('_CRPVIDEO_PODCAST_EDITOR','Editor');
-define('_CRPVIDEO_PODCAST_ICATEGORY','Sescrizione di categoria');
+define('_CRPVIDEO_PODCAST_ICATEGORY','Descrizione di categoria');
+
+// Playlist
+define('_CRPVIDEO_ENABLE_PLAYLIST','Abilita playlist');
+define('_CRPVIDEO_PLAYLIST_BY_CATEGORY','Per categoria');
+define('_CRPVIDEO_PLAYLIST_BY_DATE','Per data');
+define('_CRPVIDEO_PLAYLIST_BY_UPLOADER','Per uploader');
+define('_CRPVIDEO_PLAYLIST_BY_VIEWS','Per visualizzazioni');
+define('_CRPVIDEO_PLAYLIST_TYPE','Tipo di playlist');
 
 ?>

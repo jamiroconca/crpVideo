@@ -92,4 +92,11 @@ define('_CRPVIDEO_PODCAST_DESCRIPTION','Podcast description');
 define('_CRPVIDEO_PODCAST_EDITOR','Managing editor');
 define('_CRPVIDEO_PODCAST_ICATEGORY','Category description');
 
+// Playlist
+define('_CRPVIDEO_ENABLE_PLAYLIST','Enable playlist');
+define('_CRPVIDEO_PLAYLIST_BY_CATEGORY','By category');
+define('_CRPVIDEO_PLAYLIST_BY_DATE','By date');
+define('_CRPVIDEO_PLAYLIST_BY_UPLOADER','By uploader');
+define('_CRPVIDEO_PLAYLIST_BY_VIEWS','By views');
+define('_CRPVIDEO_PLAYLIST_TYPE','Kind of playlist');
 ?>
