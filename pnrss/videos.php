@@ -81,19 +81,20 @@ function crpVideo_videos_rss_feed($rssinfo)
 	// call the api
 	$items = pnModAPIFunc('crpVideo', 'user', 'getall', $apiargs);
 
-	//
 	$list = array ();
 	foreach ($items as $item)
 	{
 		$list[] = array (
+			'videoid' => $item['videoid'],
 			'title' => $item['title'],
+			'urlvideo' => $item['urlvideo'],
 			'link' => pnModURL('crpVideo',
 			'user',
 			'display',
 			array (
 				'videoid' => $item['videoid']
 			)
-		), 'descr' => $item['content'], 'author' => $item['author'], 'hits' => $item['hits'], 'publ_date' => $item['cr_date'], 'author_uid' => $item['cr_uid']);
+		), 'content' => $item['content'], 'author' => $item['author'], 'hits' => $item['hits'], 'publ_date' => $item['cr_date'], 'author_uid' => $item['cr_uid']);
 	}
 
 	//
