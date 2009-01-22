@@ -98,6 +98,12 @@ define('_CRPVIDEO_PLAYLIST_BY_CATEGORY','Per categoria');
 define('_CRPVIDEO_PLAYLIST_BY_DATE','Per data');
 define('_CRPVIDEO_PLAYLIST_BY_UPLOADER','Per uploader');
 define('_CRPVIDEO_PLAYLIST_BY_VIEWS','Per visualizzazioni');
+define('_CRPVIDEO_PLAYLIST_ITEMS','Elementi nella playlist');
+define('_CRPVIDEO_PLAYLIST_POSITION','Posizione');
+define('_CRPVIDEO_PLAYLIST_POSITION_BOTTOM','In basso');
+define('_CRPVIDEO_PLAYLIST_POSITION_OVER','In alto');
+define('_CRPVIDEO_PLAYLIST_POSITION_RIGHT','A destra');
+define('_CRPVIDEO_PLAYLIST_SIZE','Dimensione playlist (px)');
 define('_CRPVIDEO_PLAYLIST_TYPE','Tipo di playlist');
 
 ?>

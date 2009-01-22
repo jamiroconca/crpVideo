@@ -3,7 +3,7 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2008, Daniele Conca
+ * @copyright (c) 2007-2009, Daniele Conca
  * @link http://code.zikula.org/projects/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
@@ -170,99 +170,8 @@ function crpVideo_user_display($args)
 		return LogUtil :: registerPermissionError();
 	}
 
-	$videoid = FormUtil :: getPassedValue('videoid', isset ($args['videoid']) ? $args['videoid'] : null, 'REQUEST');
-	$title = FormUtil :: getPassedValue('title', isset ($args['title']) ? $args['title'] : null, 'REQUEST');
-	$video = FormUtil :: getPassedValue('video', isset ($args['video']) ? $args['video'] : null, 'REQUEST');
-	$objectid = FormUtil :: getPassedValue('objectid', isset ($args['objectid']) ? $args['objectid'] : null, 'REQUEST');
-	if (!empty ($objectid))
-	{
-		$videoid = $objectid;
-	}
-
-	// Set the default page number
-	if (empty ($video))
-	{
-		$video = 1;
-	}
-
-	// Get the page
-	if (isset ($videoid) && is_numeric($videoid))
-	{
-		$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
-			'videoid' => $videoid
-		));
-	}
-	else
-	{
-		$item = pnModAPIFunc('crpVideo', 'user', 'get', array (
-			'title' => $title
-		));
-		pnQueryStringSetVar('videoid', $item['videoid']);
-	}
-
-	// The return value of the function is checked here
-	if ($item == false || ($item['obj_status'] == 'P' && !SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_EDIT)))
-	{
-		return LogUtil :: registerError(_NOSUCHITEM, 404);
-	}
-
-	// Create output object
-	$pnRender = pnRender :: getInstance('crpVideo');
-
-	// Regardless of caching, we need to increment the read count and set the cache ID
-	if (isset ($videoid) && is_numeric($videoid))
-	{
-		$pnRender->cache_id = $videoid . $video;
-		$incrementresult = pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
-			'videoid' => $videoid
-		));
-	}
-	else
-	{
-		$pnRender->cache_id = $title . $video;
-		$incrementresult = pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
-			'title' => $title
-		));
-	}
-	if ($incrementresult == false)
-	{
-		return LogUtil :: registerError(_NOSUCHITEM, 404);
-	}
-
-	// load the categories system
-	if (pnModGetVar('crpVideo', 'enablecategorization'))
-	{
-		Loader :: loadClass('CategoryUtil');
-		$cat = CategoryUtil :: getCategoryByID($item['__CATEGORIES__']['Main']['id']);
-		$cats = CategoryUtil :: getCategoriesByParentID($cat['id']);
-		$pnRender->assign('categories', $cats);
-		$pnRender->assign('category', $cat);
-	}
-
-	$pnRender->assign('lang', pnUserGetLang());
-	$pnRender->assign(pnModGetVar('crpVideo'));
-
-	// determine which template to render this page with
-	// A specific template may exist for this page (based on video id)
-	if ($pnRender->template_exists("crpvideo_user_display_$videoid"))
-	{
-		$template = "crpvideo_user_display_$videoid";
-	}
-	else
-	{
-		$template = 'crpvideo_user_display.htm';
-	}
-
-	// check if the contents are cached.
-	if ($pnRender->is_cached($template))
-	{
-		return $pnRender->fetch($template);
-	}
-
-	// Assign details of the item.
-	$pnRender->assign($item);
-
-	return $pnRender->fetch($template);
+	$videoObj = new crpVideo();
+	return $videoObj->userDisplay();
 }
 
 /**

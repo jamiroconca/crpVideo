@@ -1,8 +1,9 @@
 <?php
+
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2008, Daniele Conca
+ * @copyright (c) 2007-2009, Daniele Conca
  * @link http://code.zikula.org/projects/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
@@ -12,7 +13,7 @@
 $modversion['name'] = _CRPVIDEO_NAME;
 $modversion['displayname'] = _CRPVIDEO_DISPLAYNAME;
 $modversion['description'] = _CRPVIDEO_DESCRIPTION;
-$modversion['version'] = '0.1.9';
+$modversion['version'] = '0.2.0';
 $modversion['credits'] = 'pndocs/credits.txt';
 $modversion['help'] = 'pndocs/install.txt';
 $modversion['changelog'] = 'pndocs/changelog.txt';

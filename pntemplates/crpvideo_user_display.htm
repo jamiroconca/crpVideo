@@ -34,25 +34,52 @@
 
 <div style="clear:left;">&nbsp;</div>
 
+<!--[if $crpvideo_enable_playlist && $source eq 'video']-->
+
+	<!--[if $crpvideo_playlist_position eq 'bottom']-->
+	<!--[assign var=playerheight value=$playerheight+$crpvideo_playlist_size]-->
+	<!--[elseif $crpvideo_playlist_position eq 'right']-->
+	<!--[assign var=playerwidth value=$playerwidth+$crpvideo_playlist_size]-->
+	<!--[/if]-->
+	
+	<!--[if $crpvideo_playlist_type eq 'category']-->
+	<!--[pnmodurl modname=crpVideo func=getplaylist videoid=$videoid id=$category.id assign=playlist_url]-->
+	<!--[elseif $crpvideo_playlist_type eq 'uploader']-->
+	<!--[pnmodurl modname=crpVideo func=getplaylist videoid=$videoid id=$cr_uid assign=playlist_url]-->
+	<!--[elseif ($crpvideo_playlist_type eq 'views') || ($crpvideo_playlist_type eq 'date')]-->
+	<!--[pnmodurl modname=crpVideo func=getplaylist videoid=$videoid assign=playlist_url]-->
+	<!--[/if]-->
+	
+<!--[/if]-->
+
 <div style="float:left;padding: 5px;">
 
 <!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid assign=coverurl]-->
 <!--[if $source eq 'video']-->
 <p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
 <script type="text/javascript">
-	var so = new SWFObject("modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth+200]-->','<!--[$playerheight]-->','9.0.115');
-	var pl = new String("<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=getplaylist id=$category.id]-->");
-	/*var pl = new String("<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=getplaylist id=$cr_uid]-->");*/
-		
+	var so = new SWFObject("modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth]-->','<!--[$playerheight]-->','9.0.115');
 	so.addParam("allowfullscreen","true");
+	
+	<!--[if $crpvideo_enable_playlist]-->
+	var pl = new String("<!--[pngetbaseurl]--><!--[$playlist_url]-->");
 	so.addVariable("thumbsinplaylist", "true");
-	so.addVariable("file",pl.replace(/&amp;/g,'%26'));
-	/*so.addVariable("title","<!--[$title]-->");*/
+	so.addVariable("file",pl.replace(/&/g,'%26'));
+	so.addVariable("playlist","<!--[$crpvideo_playlist_position]-->");
+	so.addVariable("playlistsize","<!--[$crpvideo_playlist_size]-->");
+	<!--[else]-->	
+	so.addVariable("file","<!--[$urlvideo]-->");
+	so.addVariable("title","<!--[$title]-->");
+	so.addVariable("author","<!--[$author]-->");
+	<!--[/if]-->
+	
 	so.addVariable("displayheight","<!--[$displayheight]-->");
 	so.addVariable("overstretch","false");
-	/*so.addVariable("author","<!--[$author]-->");*/
-	so.addVariable("playlist","right");
-	so.addVariable("playlistsize","200");
+	so.addVariable("backcolor","#CCCCCC");
+	so.addVariable("frontcolor","#000000");
+	so.addVariable("lightcolor","#467AA7");
+	so.addVariable("frontcolor","#000000");
+	
 	so.write('player');
 </script>
 <!--[elseif $source eq 'external']-->

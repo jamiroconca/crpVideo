@@ -2,10 +2,10 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007, Daniele Conca
- * @link http://noc.postnuke.com/projects/crpvideo Support and documentation
- * @author Daniele Conca <conca dot daniele at gmail dot com>
- * @license GNU/GPL - v.2
+ * @copyright (c) 2007-2009, Daniele Conca
+ * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @author Daniele Conca <conca.daniele@gmail.com>
+ * @license GNU/GPL - v.2.1
  * @package crpVideo
  */
 
@@ -98,5 +98,11 @@ define('_CRPVIDEO_PLAYLIST_BY_CATEGORY','By category');
 define('_CRPVIDEO_PLAYLIST_BY_DATE','By date');
 define('_CRPVIDEO_PLAYLIST_BY_UPLOADER','By uploader');
 define('_CRPVIDEO_PLAYLIST_BY_VIEWS','By views');
+define('_CRPVIDEO_PLAYLIST_ITEMS','Playlist items');
+define('_CRPVIDEO_PLAYLIST_POSITION','Position');
+define('_CRPVIDEO_PLAYLIST_POSITION_BOTTOM','Bottom');
+define('_CRPVIDEO_PLAYLIST_POSITION_OVER','Over');
+define('_CRPVIDEO_PLAYLIST_POSITION_RIGHT','Right');
+define('_CRPVIDEO_PLAYLIST_SIZE','Playlist size(px)');
 define('_CRPVIDEO_PLAYLIST_TYPE','Kind of playlist');
 ?>
