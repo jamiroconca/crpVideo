@@ -3,8 +3,8 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2008, Daniele Conca
- * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @copyright (c) 2007,2009 Daniele Conca
+ * @link http://code.zikula.org/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
@@ -15,12 +15,12 @@
  *
  * Example
  * <!--[crpvideostatus status="$status_flag" ]-->
- * 
+ *
  * @param array $params All attributes passed to this function from the template
  * @param object &$smarty Reference to the Smarty object
  * @param int $status status flag
  * @param int videoid item_identifier
- * 
+ *
  * @return string the results of the module function
  */
 function smarty_function_crpvideostatus($params, & $smarty)
@@ -36,10 +36,10 @@ function smarty_function_crpvideostatus($params, & $smarty)
 	if (!$params['fake'])
 	{
 		if (SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_ADD) && ($params['status'] == 'A' || $params['status'] == 'P'))
-			$statusimage .= '<a href="' . pnModUrl('crpVideo', 'admin', 'change_status', array (
+			$statusimage .= '<a href="' . DataUtil :: formatForDisplay(pnModUrl('crpVideo', 'admin', 'change_status', array (
 				'videoid' => $params['videoid'],
 				'obj_status' => $params['status']
-			)) . '" title="' . _CRPVIDEO_CHANGE_STATUS . '">' . "\n";
+			))) . '" title="' . _CRPVIDEO_CHANGE_STATUS . '">' . "\n";
 		else
 			$statusimage .= '';
 
