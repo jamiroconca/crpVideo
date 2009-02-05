@@ -1,9 +1,9 @@
-<!--[pnajaxheader modname="crpVideo" nobehaviour=true lightbox=true]-->
+<!--[pnajaxheader modname="crpVideo" nobehaviour=true noscriptaculous=true]-->
 <!--[pnpageaddvar name=stylesheet value="modules/crpVideo/pnstyle/style.css"]-->
 <!--[foreach from=$videos item=video]-->
 <div>
 <div class="crpvideo_image_thumb">
-  <a href="<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$video.videoid]-->" title="<!--[$video.title]-->" rel="lightbox">
+  <a href="<!--[pnmodurl modname="crpVideo" type="user" func="display" videoid=$video.videoid]-->" title="<!--[$video.title]-->">
 	<!--[if $crpvideo_use_gd eq '1']-->
 	<img src="<!--[pnmodurl modname="crpVideo" type="user" func="get_thumbnail" videoid=$video.videoid width=$userlist_width]-->" alt="<!--[$video.title]-->" title="<!--[$video.title]-->"/>
 	<!--[else]-->
