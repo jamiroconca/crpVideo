@@ -54,11 +54,10 @@
 
 <div style="float:left;padding: 5px;">
 
-<!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$videoid assign=coverurl]-->
 <!--[if $source eq 'video']-->
 <p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
 <script type="text/javascript">
-	var so = new SWFObject("modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth]-->','<!--[$playerheight]-->','9.0.115');
+	var so = new SWFObject("<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth]-->','<!--[$playerheight]-->','9.0.115');
 	so.addParam("allowfullscreen","true");
 	
 	<!--[if $crpvideo_enable_playlist]-->
@@ -91,9 +90,9 @@
 <!--[/if]-->
 </div>
 
-<p class="crpvideo_video_body">
-<!--[$content|nl2paragraphs|pnvarprephtmldisplay]-->
-</p>
+<div class="crpvideo_video_body">
+<!--[$content|nl2paragraphs|pnvarprephtmldisplay|makeParagraph]-->
+</div>
 <div style="clear:left;"></div>
 
 <!--[if $display_embed && $source eq 'video']-->
