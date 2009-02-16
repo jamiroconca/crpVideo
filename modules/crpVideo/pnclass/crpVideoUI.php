@@ -3,8 +3,8 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2009, Daniele Conca
- * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @copyright (c) 2007,2009 Daniele Conca
+ * @link http://code.zikula.org/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
@@ -30,10 +30,10 @@ class crpVideoUI
 	 *
 	 * @return string html
 	 */
-	function modifyConfig($modvars = array (), $gdArray = array (), $mainCat = null)
+	function modifyConfig($modvars= array (), $gdArray= array (), $mainCat= null)
 	{
 		// Create output object
-		$pnRender = pnRender :: getInstance('crpVideo', false);
+		$pnRender= pnRender :: getInstance('crpVideo', false);
 
 		$pnRender->assign($modvars);
 		$pnRender->assign('gd_version', $this->gd_version($gdArray['GD Version']));
@@ -43,19 +43,19 @@ class crpVideoUI
 		return $pnRender->fetch('crpvideo_admin_modifyconfig.htm');
 	}
 
-	function gd_version($fullstring = null)
+	function gd_version($fullstring= null)
 	{
-		$cache_gd_version = array ();
+		$cache_gd_version= array ();
 
 		if (eregi('bundled \((.+)\)$', $fullstring, $matches))
 		{
-			$cache_gd_version['string'] = $fullstring; // e.g. "bundled (2.0.15 compatible)"
-			$cache_gd_version['value'] = (float) $matches[1]; // e.g. "2.0" (not "bundled (2.0.15 compatible)")
+			$cache_gd_version['string']= $fullstring; // e.g. "bundled (2.0.15 compatible)"
+			$cache_gd_version['value']= (float) $matches[1]; // e.g. "2.0" (not "bundled (2.0.15 compatible)")
 		}
 		else
 		{
-			$cache_gd_version['string'] = $fullstring; // e.g. "1.6.2 or higher"
-			$cache_gd_version['value'] = (float) substr($fullstring, 0, 3); // e.g. "1.6" (not "1.6.2 or higher")
+			$cache_gd_version['string']= $fullstring; // e.g. "1.6.2 or higher"
+			$cache_gd_version['value']= (float) substr($fullstring, 0, 3); // e.g. "1.6" (not "1.6.2 or higher")
 		}
 
 		return $cache_gd_version;
@@ -71,23 +71,23 @@ class crpVideoUI
 	 *
 	 * @return string output
 	 */
-	function userDisplay($videoid=null,$title=null,$video=array(),$item=array())
+	function userDisplay($videoid= null, $title= null, $item= array ())
 	{
 		// Create output object
-		$pnRender = pnRender :: getInstance('crpVideo');
+		$pnRender= pnRender :: getInstance('crpVideo');
 
 		// Regardless of caching, we need to increment the read count and set the cache ID
 		if (isset ($videoid) && is_numeric($videoid))
 		{
-			$pnRender->cache_id = $videoid . $video;
-			$incrementresult = pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
+			$pnRender->cache_id= $videoid;
+			$incrementresult= pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
 				'videoid' => $videoid
 			));
 		}
 		else
 		{
-			$pnRender->cache_id = $title . $video;
-			$incrementresult = pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
+			$pnRender->cache_id= $title;
+			$incrementresult= pnModAPIFunc('crpVideo', 'user', 'incrementreadcount', array (
 				'title' => $title
 			));
 		}
@@ -100,8 +100,8 @@ class crpVideoUI
 		if (pnModGetVar('crpVideo', 'enablecategorization'))
 		{
 			Loader :: loadClass('CategoryUtil');
-			$cat = CategoryUtil :: getCategoryByID($item['__CATEGORIES__']['Main']['id']);
-			$cats = CategoryUtil :: getCategoriesByParentID($cat['id']);
+			$cat= CategoryUtil :: getCategoryByID($item['__CATEGORIES__']['Main']['id']);
+			$cats= CategoryUtil :: getCategoriesByParentID($cat['id']);
 			$pnRender->assign('categories', $cats);
 			$pnRender->assign('category', $cat);
 		}
@@ -113,11 +113,15 @@ class crpVideoUI
 		// A specific template may exist for this page (based on video id)
 		if ($pnRender->template_exists("crpvideo_user_display_$videoid"))
 		{
-			$template = "crpvideo_user_display_$videoid";
+			$template= "crpvideo_user_display_$videoid";
+		}
+		elseif ($pnRender->template_exists("crpvideo_user_display_$title"))
+		{
+			$template= "crpvideo_user_display_$title";
 		}
 		else
 		{
-			$template = 'crpvideo_user_display.htm';
+			$template= 'crpvideo_user_display.htm';
 		}
 
 		// check if the contents are cached.
@@ -140,9 +144,9 @@ class crpVideoUI
 	 *
 	 * @return string xml
 	 */
-	function drawFeed($data = array (), $list = array ())
+	function drawFeed($data= array (), $list= array ())
 	{
-		$pnRender = pnRender :: getInstance('crpVideo', false);
+		$pnRender= pnRender :: getInstance('crpVideo', false);
 		$pnRender->assign('data', $data);
 		$pnRender->assign('list', $list);
 
@@ -157,9 +161,9 @@ class crpVideoUI
 	 *
 	 * @return string xml
 	 */
-	function drawPlaylist($list = array ())
+	function drawPlaylist($list= array ())
 	{
-		$pnRender = pnRender :: getInstance('crpVideo', false);
+		$pnRender= pnRender :: getInstance('crpVideo', false);
 		$pnRender->assign('list', $list);
 
 		return $pnRender->fetch('crpvideo_user_getplaylist.htm');
@@ -173,9 +177,9 @@ class crpVideoUI
 	 *
 	 * @return string xml
 	 */
-	function drawPodcast($data = array (), $list = array (), $modvars = array ())
+	function drawPodcast($data= array (), $list= array (), $modvars= array ())
 	{
-		$pnRender = pnRender :: getInstance('crpVideo', false);
+		$pnRender= pnRender :: getInstance('crpVideo', false);
 		$pnRender->assign('data', $data);
 		$pnRender->assign('list', $list);
 		$pnRender->assign($modvars);
@@ -193,10 +197,10 @@ class crpVideoUI
 	 *
 	 * @return string html code
 	 */
-	function uploadersList($rows = array (), $category = null, $mainCat = null, $rootCat = null, $cats = null, $modvars = array (), $active = null)
+	function uploadersList($rows= array (), $category= null, $mainCat= null, $rootCat= null, $cats= null, $modvars= array (), $active= null)
 	{
 		// Create output object
-		$pnRender = pnRender :: getInstance('crpVideo');
+		$pnRender= pnRender :: getInstance('crpVideo');
 
 		// add Profile define
 		pnModLangLoad('Profile');
@@ -234,10 +238,10 @@ class crpVideoUI
 	 *
 	 * @return string html code
 	 */
-	function uploadsList($videos = array (), $category = null, $mainCat = null, $rootCat = null, $cats = null, $modvars = array (), $uid = null, $active = null)
+	function uploadsList($videos= array (), $category= null, $mainCat= null, $rootCat= null, $cats= null, $modvars= array (), $uid= null, $active= null)
 	{
 		// Create output object
-		$pnRender = pnRender :: getInstance('crpVideo');
+		$pnRender= pnRender :: getInstance('crpVideo');
 
 		// add Profile define
 		pnModLangLoad('Profile');

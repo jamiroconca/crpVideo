@@ -3,8 +3,8 @@
 /**
  * crpVideo
  *
- * @copyright (c) 2007-2009, Daniele Conca
- * @link http://code.zikula.org/projects/crpvideo Support and documentation
+ * @copyright (c) 2007,2009 Daniele Conca
+ * @link http://code.zikula.org/crpvideo Support and documentation
  * @author Daniele Conca <conca.daniele@gmail.com>
  * @license GNU/GPL - v.2.1
  * @package crpVideo
@@ -41,7 +41,6 @@ function crpVideo_init()
 	// Set default pages per page
 	pnModSetVar('crpVideo', 'itemsperpage', 25);
 	pnModSetVar('crpVideo', 'enablecategorization', true);
-	pnModSetVar('crpVideo', 'addcategorytitletopermalink', true);
 	pnModSetVar('crpVideo', 'cover_dimension', 35000);
 	pnModSetVar('crpVideo', 'image_width', 100);
 	pnModSetVar('crpVideo', 'playerwidth', 400);
@@ -76,7 +75,7 @@ function crpVideo_init()
 
 function crpVideo_upgrade($oldversion)
 {
-	$tables = pnDBGetTables();
+	$tables= pnDBGetTables();
 	switch ($oldversion)
 	{
 		case "0.1.0" :
@@ -106,14 +105,14 @@ function crpVideo_upgrade($oldversion)
 			pnModSetVar('crpVideo', 'crpvideo_userlist_image', false);
 			pnModSetVar('crpVideo', 'userlist_width', '64');
 
-			$sql = "ALTER TABLE $tables[crpvideos] ADD pn_pathvideo VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER pn_urlvideo";
+			$sql= "ALTER TABLE $tables[crpvideos] ADD pn_pathvideo VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER pn_urlvideo";
 			if (!DBUtil :: executeSQL($sql))
 				return LogUtil :: registerError(_UPDATETABLEFAILED);
 
 			return crpVideo_upgrade("0.1.2");
 			break;
 		case "0.1.2" :
-			$sql = "ALTER TABLE $tables[crpvideos] ADD pn_tags VARCHAR( 48 ) NOT NULL DEFAULT '' AFTER pn_author";
+			$sql= "ALTER TABLE $tables[crpvideos] ADD pn_tags VARCHAR( 48 ) NOT NULL DEFAULT '' AFTER pn_author";
 			if (!DBUtil :: executeSQL($sql))
 				return LogUtil :: registerError(_UPDATETABLEFAILED);
 
@@ -121,15 +120,15 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.1.3");
 			break;
 		case "0.1.3" :
-			$sql = "ALTER TABLE $tables[crpvideos] ADD pn_source VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER pn_urltitle";
+			$sql= "ALTER TABLE $tables[crpvideos] ADD pn_source VARCHAR( 32 ) NOT NULL DEFAULT '' AFTER pn_urltitle";
 			if (!DBUtil :: executeSQL($sql))
 				return LogUtil :: registerError(_UPDATETABLEFAILED);
 
-			$sql = "UPDATE $tables[crpvideos] SET pn_source='video' WHERE pn_urlvideo!=''";
+			$sql= "UPDATE $tables[crpvideos] SET pn_source='video' WHERE pn_urlvideo!=''";
 			if (!DBUtil :: executeSQL($sql))
 				return LogUtil :: registerError(_UPDATETABLEFAILED);
 
-			$sql = "ALTER TABLE $tables[crpvideos] ADD pn_external TEXT NOT NULL DEFAULT '' AFTER pn_urlvideo";
+			$sql= "ALTER TABLE $tables[crpvideos] ADD pn_external TEXT NOT NULL DEFAULT '' AFTER pn_urlvideo";
 			if (!DBUtil :: executeSQL($sql))
 				return LogUtil :: registerError(_UPDATETABLEFAILED);
 
@@ -148,10 +147,10 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.1.6");
 			break;
 		case "0.1.6" :
-				pnModSetVar('crpVideo', 'crpvideo_enable_rss', true);
-				pnModSetVar('crpVideo', 'crpvideo_show_rss', true);
-				pnModSetVar('crpVideo', 'crpvideo_rss', 'rss2');
-				return crpVideo_upgrade("0.1.7");
+			pnModSetVar('crpVideo', 'crpvideo_enable_rss', true);
+			pnModSetVar('crpVideo', 'crpvideo_show_rss', true);
+			pnModSetVar('crpVideo', 'crpvideo_rss', 'rss2');
+			return crpVideo_upgrade("0.1.7");
 			break;
 		case "0.1.7" :
 			pnModSetVar('crpVideo', 'crpvideo_enable_podcast', false);
@@ -173,6 +172,10 @@ function crpVideo_upgrade($oldversion)
 			return crpVideo_upgrade("0.2.0");
 			break;
 		case "0.2.0" :
+			pnModDelVar('crpVideo', 'addcategorytitletopermalink');
+			return crpVideo_upgrade("0.2.1");
+			break;
+		case "0.2.1" :
 			break;
 	}
 	// Update successful
@@ -207,13 +210,13 @@ function _crpVideo_createdefaultcategory()
 	Loader :: loadClassFromModule('Categories', 'CategoryRegistry');
 
 	// get the language file
-	$lang = pnUserGetLang();
+	$lang= pnUserGetLang();
 
 	// get the category path for which we're going to insert our place holder category
-	$rootcat = CategoryUtil :: getCategoryByPath('/__SYSTEM__/Modules');
+	$rootcat= CategoryUtil :: getCategoryByPath('/__SYSTEM__/Modules');
 
 	// create placeholder for all our migrated categories
-	$cat = new PNCategory();
+	$cat= new PNCategory();
 	$cat->setDataField('parent_id', $rootcat['id']);
 	$cat->setDataField('name', 'crpVideo');
 	$cat->setDataField('value', '-1');
@@ -235,10 +238,10 @@ function _crpVideo_createdefaultcategory()
 	$cat->update();
 
 	// get the category path for which we're going to insert our upgraded categories
-	$rootcat = CategoryUtil :: getCategoryByPath('/__SYSTEM__/Modules/crpVideo');
+	$rootcat= CategoryUtil :: getCategoryByPath('/__SYSTEM__/Modules/crpVideo');
 
 	// create an entry in the categories registry
-	$registry = new PNCategoryRegistry();
+	$registry= new PNCategoryRegistry();
 	$registry->setDataField('modname', 'crpVideo');
 	$registry->setDataField('table', 'crpvideos');
 	$registry->setDataField('property', 'Main');

@@ -1,4 +1,6 @@
 crpVideo
+v0.2.1 - 16 february 2009
+- added encode/decodeurl functions for shorturls generation
 v0.2.0 - 22 january 2009
 - added playlist management
 - flv player update
