@@ -61,7 +61,7 @@ function crpVideo_pntables()
 			'name' 					=> "C(255) NOTNULL DEFAULT ''",
 			'content_type'	=> "C(255) NOTNULL DEFAULT ''",
 			'size' 					=> "I NOTNULL DEFAULT 0",
-			'binary_data' 	=> "B NOTNULL DEFAULT ''"
+			'binary_data' 	=> "B NOTNULL"
 		);
 
     // Enable categorization services
