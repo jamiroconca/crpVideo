@@ -278,7 +278,7 @@ class crpVideoDAO
 						's' => 'CategoryRegistryUtil'
 					)));
 				}
-				$registeredCats = CategoryRegistryUtil :: getRegisteredModuleCategories('crpVideo', 'stories');
+				$registeredCats = CategoryRegistryUtil :: getRegisteredModuleCategories('crpVideo', 'crpvideos');
 			}
 			ObjectUtil :: postProcessExpandedObjectCategories($item['__CATEGORIES__'], $registeredCats);
 

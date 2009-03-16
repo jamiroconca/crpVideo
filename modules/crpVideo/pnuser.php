@@ -31,7 +31,7 @@ function crpVideo_user_main()
 	{
 		Loader :: loadClass('CategoryUtil');
 		Loader :: loadClass('CategoryRegistryUtil');
-		$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideo', 'Main', '/__SYSTEM__/Modules/crpVideo');
+		$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideos', 'Main', '/__SYSTEM__/Modules/crpVideo');
 		$rootCat = CategoryUtil :: getCategoryByID($mainCat);
 		$cats = CategoryUtil :: getCategoriesByParentID($mainCat);
 		$parents = array_diff_assoc(array_reverse(CategoryUtil :: getParentCategories($mainCat), true), array_reverse(CategoryUtil :: getParentCategories($mainCat), true));
@@ -106,7 +106,7 @@ function crpVideo_user_view($args)
 		Loader :: loadClass('CategoryRegistryUtil');
 		if (isset ($cat) && !is_numeric($cat))
 		{
-			//$mainCat = CategoryUtil::getCategoryByID(CategoryRegistryUtil::getRegisteredModuleCategory ('Pages', 'pages', 'Main', '/__SYSTEM__/Modules/Pages'));
+			//
 			$cat = CategoryUtil :: getCategoryByPath("{$mainCat['path']}/{$cat}");
 		}
 		elseif (is_numeric($cat))

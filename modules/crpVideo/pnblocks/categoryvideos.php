@@ -129,7 +129,7 @@ function crpVideo_categoryvideosblock_modify($blockinfo)
 	if (!($class = Loader :: loadClass('CategoryRegistryUtil')))
 		pn_exit('Unable to load class [CategoryRegistryUtil] ...');
 
-	$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideo', 'Main', '/__SYSTEM__/Modules/crpVideo');
+	$mainCat = CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideos', 'Main', '/__SYSTEM__/Modules/crpVideo');
 
 	// Create output object
 	$pnRender = pnRender :: getInstance('crpVideo', false);

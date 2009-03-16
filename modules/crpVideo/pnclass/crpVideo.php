@@ -123,7 +123,7 @@ class crpVideo
 		if (!($class= Loader :: loadClass('CategoryRegistryUtil')))
 			pn_exit('Unable to load class [CategoryRegistryUtil] ...');
 
-		$mainCat= CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideo', 'Main', '/__SYSTEM__/Modules/crpVideo');
+		$mainCat= CategoryRegistryUtil :: getRegisteredModuleCategory('crpVideo', 'crpvideos', 'Main', '/__SYSTEM__/Modules/crpVideo');
 
 		return $this->ui->modifyConfig($modvars, $this->gd, $mainCat);
 	}
