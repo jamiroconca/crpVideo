@@ -462,6 +462,31 @@ function crpVideo_userapi_encodeurl($args)
 
 			break;
 
+		case "watch" :
+			// check for the generic object id parameter
+			if (isset ($args['args']['objectid']))
+			{
+				$args['args']['videoid']= $args['args']['objectid'];
+			}
+			// get the item (will be cached by DBUtil)
+			if (isset ($args['args']['videoid']))
+			{
+				$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+					'videoid' => $args['args']['videoid']
+				));
+			}
+			else
+			{
+				$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+					'title' => $args['args']['title']
+				));
+			}
+			$vars= $item['urltitle'];
+			// don't display the function name if either displaying a page or the normal overview
+			$args['func']= 'watch';
+
+			break;
+
 		case "main" :
 			// don't display the function name if either displaying a page or the normal overview
 			$args['func']= '';
@@ -534,6 +559,7 @@ function crpVideo_userapi_decodeurl($args)
 		'view',
 		'view_uploaders',
 		'display',
+		'watch',
 		'new',
 		'create',
 		'get_thumbnail',
@@ -652,7 +678,7 @@ function crpVideo_userapi_decodeurl($args)
 	}
 
 	// video page
-	if (FormUtil :: getPassedValue('func') == 'display')
+	if (FormUtil :: getPassedValue('func') == 'display' || FormUtil :: getPassedValue('func') == 'watch')
 	{
 		// get rid of unused vars
 		$args['vars']= array_slice($args['vars'], $nextvar);

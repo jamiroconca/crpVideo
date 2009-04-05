@@ -61,6 +61,49 @@ class crpVideo
 		return $this->ui->userDisplay($videoid, $title, $item);
 	}
 
+	function userWatch()
+	{
+		$videoid= FormUtil :: getPassedValue('videoid', isset ($args['videoid']) ? $args['videoid'] : null, 'REQUEST');
+		$title= FormUtil :: getPassedValue('title', isset ($args['title']) ? $args['title'] : null, 'REQUEST');
+		$objectid= FormUtil :: getPassedValue('objectid', isset ($args['objectid']) ? $args['objectid'] : null, 'REQUEST');
+		if (!empty ($objectid))
+		{
+			$videoid= $objectid;
+		}
+
+		// Get the page
+		if (isset ($videoid) && is_numeric($videoid))
+		{
+			$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+				'videoid' => $videoid
+			));
+		}
+		else
+		{
+			$item= pnModAPIFunc('crpVideo', 'user', 'get', array (
+				'title' => $title
+			));
+			pnQueryStringSetVar('videoid', $item['videoid']);
+		}
+
+		// The return value of the function is checked here
+		if ($item == false || ($item['obj_status'] == 'P' && !SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_EDIT)))
+		{
+			return LogUtil :: registerError(_NOSUCHITEM, 404);
+		}
+
+		switch ($item['source'])
+		{
+			case "external":
+				return pnRedirect($item['external']);
+				break;
+			case "video":
+			default:
+				return pnRedirect('modules/crpVideo/pnincludes/flvplayer.swf?file='.$item['urlvideo']);
+				break;
+		}
+	}
+
 	/**
 	 * update a cover
 	 *

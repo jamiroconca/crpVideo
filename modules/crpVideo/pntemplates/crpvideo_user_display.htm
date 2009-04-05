@@ -83,9 +83,9 @@
 </script>
 <!--[elseif $source eq 'external']-->
 <object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
-	<param name="movie" value="<!--[$external|pnvarprepfordisplay]-->"></param>
+	<param name="movie" value="<!--[$external|replace:"watch?v=":"v/"|pnvarprepfordisplay]-->"></param>
 	<param name="wmode" value="transparent"></param>
-	<embed src="<!--[$external|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->"></embed>
+	<embed src="<!--[$external|replace:"watch?v=":"v/"|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->"></embed>
 </object>
 <!--[/if]-->
 </div>
@@ -95,15 +95,16 @@
 </div>
 <div style="clear:left;"></div>
 
-<!--[if $display_embed && $source eq 'video']-->
+<!--[if $display_embed]-->
 <p>
-	<label for="embed_code"><!--[pnml name=_CRPVIDEO_EMBED_CODE]--></label>
-	<textarea id="embed_code" readonly="readonly" cols="80" rows="8">
-	<object width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->">
-	<param name="movie" value="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->"></param>
-	<param name="wmode" value="transparent"></param><embed src="<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf?file=<!--[$urlvideo]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->"></embed>
-	</object>
-	</textarea>
+<label for="embed_code"><!--[pnml name=_CRPVIDEO_EMBED_CODE]--></label><br />
+<textarea id="embed_code" readonly="readonly" cols="96" rows="7">
+<object width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->">
+<param name="movie" value="<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=watch videoid=$videoid]-->"></param>
+<param name="wmode" value="transparent"></param>
+<embed src="<!--[pngetbaseurl]--><!--[pnmodurl modname=crpVideo func=watch videoid=$videoid]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$displayheight]-->"></embed>
+</object>
+</textarea>
 </p>
 <!--[/if]-->
 

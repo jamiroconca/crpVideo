@@ -175,6 +175,23 @@ function crpVideo_user_display($args)
 }
 
 /**
+ * watch item
+ *
+ * @return string html string
+ */
+function crpVideo_user_watch($args)
+{
+	// Security check
+	if (!SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_READ))
+	{
+		return LogUtil :: registerPermissionError();
+	}
+
+	$videoObj = new crpVideo();
+	return $videoObj->userWatch();
+}
+
+/**
  * add new item
  *
  * @return string HTML output
