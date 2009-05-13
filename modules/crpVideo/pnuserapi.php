@@ -84,8 +84,6 @@ function crpVideo_userapi_getall($args)
 		$args['sortOrder']= 'ASC';
 	if (!isset ($args['orderBy']))
 		$args['orderBy']= 'title';
-	if (!isset ($args['active']))
-		$args['active']= 'A';
 	if (!isset ($args['uid']))
 		$args['uid']= false;
 	if (!isset ($args['interval']))
