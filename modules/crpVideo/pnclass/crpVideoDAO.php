@@ -559,7 +559,7 @@ class crpVideoDAO
 					break;
 			}
 		}
-		elseif (!in_array($data['image']['type'], $this->ImageTypes) && $data['image']['error'] != UPLOAD_ERR_NO_FILE)
+		elseif (!empty($data['image']) && !in_array($data['image']['type'], $this->ImageTypes) && $data['image']['error'] != UPLOAD_ERR_NO_FILE)
 		{
 			LogUtil :: registerError(_CRPVIDEO_IMAGE_INVALID_TYPE);
 		}

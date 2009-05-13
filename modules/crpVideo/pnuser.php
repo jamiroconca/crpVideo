@@ -128,6 +128,7 @@ function crpVideo_user_view($args)
 		'startnum' => $startnum,
 		'itemsperpage' => $modvars['itemsperpage'],
 		'uid' => $uid,
+		'active' => (SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_ADD)) ? null : 'A',
 		'category' => (isset ($cat['id']
 	)) ? $cat['id'] : null));
 
@@ -149,7 +150,7 @@ function crpVideo_user_view($args)
 		'countitems',
 		array (
 			'category' => $category_id,
-			'active' => 'A'
+			'active' => (SecurityUtil :: checkPermission('crpVideo::', '::', ACCESS_ADD)) ? null : 'A'
 		)
 	), 'itemsperpage' => $modvars['itemsperpage']));
 
