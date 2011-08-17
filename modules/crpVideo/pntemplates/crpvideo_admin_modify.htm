@@ -70,7 +70,7 @@
 	  <div class="pn-formrow">
 	  	<label for="video_source"><!--[pnml name="_CRPVIDEO_EXTERNAL_SOURCE"]--></label>
 	  	<input type="radio" name="video[source]" value="source" id="video_source_check"<!--[if $source eq 'source']--> checked="checked"<!--[/if]-->/>
-	    <input id="video_source" name="video[urlvideo]" type="text" size="32" maxlength="255" value="<!--[if $source neq 'video']--><!--[$urlvideo|pnvarprepfordisplay]-->"<!--[/if]-->/>
+	    <input id="video_source" name="video[urlvideo]" type="text" size="32" maxlength="255" value="<!--[if $source neq 'video']--><!--[$urlvideo|pnvarprepfordisplay]--><!--[/if]-->"/>
 	  </div>
 		<!--[if $enablecategorization]-->
 		<div class="pn-formrow">
