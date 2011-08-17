@@ -274,7 +274,7 @@ function crpVideo_admin_update()
 	if ($video_file['error'] == UPLOAD_ERR_OK && $video['videoid'] && $video['source'] == 'video')
 	{
 		Loader :: loadClass('FileUtil');
-		if ((($video['urlvideo'] != $oldData['urlvideo']) && $video['source'] == 'video') || ($oldData['source'] == 'video' && $video['source'] == 'source'))
+		if (($video['urlvideo'] != $oldData['urlvideo']) && $video['source'] == 'video')
 		{
 			unlink($oldData['pathvideo']);
 		}
@@ -282,6 +282,8 @@ function crpVideo_admin_update()
 		$msg = FileUtil :: uploadFile('video_file', pnModGetVar('crpVideo', 'upload_path'), $newVideoName);
 		chmod(pnModGetVar('crpVideo', 'upload_path') . '/' . $newVideoName, 0755);
 	}
+	else if ($oldData['source'] == 'video' && $video['source'] == 'source')
+		unlink($oldData['pathvideo']);
 
 	return pnRedirect(pnModURL('crpVideo', 'admin', 'view'));
 }
