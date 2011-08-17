@@ -60,7 +60,7 @@
 	var so = new SWFObject("<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth]-->','<!--[$playerheight]-->','9.0.115');
 	so.addParam("allowfullscreen","true");
 	
-	<!--[if $crpvideo_enable_playlist]-->
+	<!--[if $crpvideo_enable_playlist && $source eq 'video']-->
 	var pl = new String("<!--[pngetbaseurl]--><!--[$playlist_url]-->");
 	so.addVariable("thumbsinplaylist", "true");
 	so.addVariable("file",pl.replace(/&/g,'%26'));
@@ -81,6 +81,13 @@
 	
 	so.write('player');
 </script>
+<!--[elseif $source eq 'source']-->
+<object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
+	<param name="movie" value="<!--[$urlvideo|pnvarprepfordisplay]-->"></param>
+	<param name="wmode" value="transparent"></param>
+	<embed src="<!--[$urlvideo|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->"></embed>
+</object>
+<!--[/if]-->
 <!--[elseif $source eq 'external']-->
 <object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
 	<param name="movie" value="<!--[$external|replace:"watch?v=":"v/"|pnvarprepfordisplay]-->"></param>

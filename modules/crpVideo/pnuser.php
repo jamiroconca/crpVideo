@@ -248,6 +248,17 @@ function crpVideo_user_create()
 		$video['pathvideo'] = pnModGetVar('crpVideo', 'upload_path') . '/' . $newVideoName;
 		$video['file'] = $video_file;
 	}
+	elseif ($video['source'] == 'external')
+	{
+		$video['urlvideo'] = null;
+		$video['pathvideo'] = null;
+	}
+	elseif ($video['source'] == 'source')
+	{
+		$video['urlvideo'] = $video['external_source'];
+		$video['pathvideo'] = null;
+		$video['external'] = null;
+	}
 
 	$videoObj = new crpVideo();
 

@@ -53,7 +53,7 @@
 			<input type="hidden" name="MAX_FILE_SIZE" value="<!--[pnmodgetvar module=crpVideo name=file_dimension]-->"/>
 			<input id="crpvideo_file" name="video_file" type="file" size="32"/>
 	  </div>
-	  <!--[if $source neq 'external']-->
+	  <!--[if $source eq 'video']-->
 	  <fieldset class="pn-form-fieldset">
 	  <legend><!--[pnml name=_CRPVIDEO_CURRENT_FILE html=1]--></legend>
 		  <div class="pn-adminformrow">
@@ -66,6 +66,11 @@
 	  	<label for="video_external"><!--[pnml name="_CRPVIDEO_EXTERNAL"]--></label>
 	  	<input type="radio" name="video[source]" value="external" id="videosource"<!--[if $source eq 'external']--> checked="checked"<!--[/if]-->/>
 	    <input id="video_external" name="video[external]" type="text" size="32" maxlength="255" value="<!--[$external|pnvarprepfordisplay]-->"/>
+	  </div>
+	  <div class="pn-formrow">
+	  	<label for="video_source"><!--[pnml name="_CRPVIDEO_EXTERNAL_SOURCE"]--></label>
+	  	<input type="radio" name="video[source]" value="source" id="video_source_check"<!--[if $source eq 'source']--> checked="checked"<!--[/if]-->/>
+	    <input id="video_source" name="video[urlvideo]" type="text" size="32" maxlength="255" value="<!--[if $source neq 'video']--><!--[$urlvideo|pnvarprepfordisplay]-->"<!--[/if]-->/>
 	  </div>
 		<!--[if $enablecategorization]-->
 		<div class="pn-formrow">

@@ -94,6 +94,11 @@ function crpVideo_admin_create()
 		$video['urlvideo'] = null;
 		$video['pathvideo'] = null;
 	}
+	elseif ($video['source'] == 'source')
+	{
+		$video['pathvideo'] = null;
+		$video['external'] = null;
+	}
 
 	$videoObj = new crpVideo();
 
@@ -223,6 +228,11 @@ function crpVideo_admin_update()
 	{
 		$video['urlvideo'] = null;
 		$video['pathvideo'] = null;
+	}
+	elseif ($video['source'] == 'source')
+	{
+		$video['pathvideo'] = null;
+		$video['external'] = null;
 	}
 
 	$videoObj = new crpVideo();

@@ -591,7 +591,7 @@ class crpVideoDAO
 		{
 			LogUtil :: registerError(_CRPVIDEO_ERROR_VIDEO_FILE_SIZE_TOO_BIG);
 		}
-		elseif ($data['external'] && $data['source'] == 'external' && !pnVarValidate($data['external'], 'url'))
+		elseif ($data['external'] && ($data['source'] == 'external' || $data['source'] == 'source') && !pnVarValidate($data['external'], 'url'))
 		{
 			LogUtil :: registerError(_CRPVIDEO_INVALID_URL);
 		}

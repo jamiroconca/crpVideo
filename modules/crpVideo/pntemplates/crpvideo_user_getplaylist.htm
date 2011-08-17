@@ -7,7 +7,7 @@
   <track>
     <creator><!--[$list[k].author]--></creator>
     <title><!--[$list[k].title|pnvarprepfordisplay]--></title>
-    <location><!--[if $list[k].source eq 'video']--><!--[$list[k].urlvideo]--><!--[else]--><!--[$list[k].external]--><!--[/if]--></location>
+    <location><!--[if $list[k].source eq 'video' || $list[k].source eq 'source']--><!--[$list[k].urlvideo]--><!--[else]--><!--[$list[k].external]--><!--[/if]--></location>
     <image><!--[pngetbaseurl]--><!--[pnmodurl modname="crpVideo" type="user" func="get_image" videoid=$list[k].videoid]--></image>
     <info><!--[pngetbaseurl]--></info>
     <annotation><!--[$list[k].content|pnvarprepfordisplay]--></annotation>

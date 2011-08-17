@@ -97,6 +97,9 @@ class crpVideo
 			case "external":
 				return pnRedirect($item['external']);
 				break;
+			case "source":
+				return pnRedirect('modules/crpVideo/pnincludes/flvplayer.swf?file='.$item['urlvideo']);
+				break;
 			case "video":
 			default:
 				return pnRedirect('modules/crpVideo/pnincludes/flvplayer.swf?file='.$item['urlvideo']);
