@@ -212,6 +212,10 @@ function crpVideo_admin_update()
 
 	$video = FormUtil :: getPassedValue('video', null, 'POST');
 	$video_image = FormUtil :: getPassedValue('video_image', null, 'FILES');
+
+	// retrieve old values
+	$oldData = $videoObj->dao->getData($video);
+
 	if ($video['source'] == 'video')
 	{
 		$video_file = FormUtil :: getPassedValue('video_file', null, 'FILES');
@@ -222,6 +226,9 @@ function crpVideo_admin_update()
 			$video['urlvideo'] = pnGetBaseUrl() . pnModGetVar('crpVideo', 'upload_path') . '/' . $newVideoName;
 			$video['pathvideo'] = pnModGetVar('crpVideo', 'upload_path') . '/' . $newVideoName;
 		}
+		else
+			$video['urlvideo'] = $oldData['urlvideo'];
+
 		$video['external'] = null;
 	}
 	elseif ($video['source'] == 'external')
@@ -269,7 +276,7 @@ function crpVideo_admin_update()
 	if ($video_file['error'] == UPLOAD_ERR_OK && $video['videoid'] && $video['source'] == 'video')
 	{
 		Loader :: loadClass('FileUtil');
-		if ($video['urlvideo'] != $oldData['urlvideo'])
+		if (($video['urlvideo'] != $oldData['urlvideo']) && $video['source'] == 'video')
 		{
 			unlink($oldData['pathvideo']);
 		}
