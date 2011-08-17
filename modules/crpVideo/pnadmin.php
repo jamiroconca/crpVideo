@@ -214,6 +214,9 @@ function crpVideo_admin_update()
 	$video_image = FormUtil :: getPassedValue('video_image', null, 'FILES');
 
 	// retrieve old values
+	$videoObj = new crpVideo();
+
+	// retrieve old values
 	$oldData = $videoObj->dao->getData($video);
 
 	if ($video['source'] == 'video')
@@ -241,11 +244,6 @@ function crpVideo_admin_update()
 		$video['pathvideo'] = null;
 		$video['external'] = null;
 	}
-
-	$videoObj = new crpVideo();
-
-	// retrieve old values
-	$oldData = $videoObj->dao->getData($video);
 
 	$video['image'] = $video_image;
 	$video['file'] = $video_file;
