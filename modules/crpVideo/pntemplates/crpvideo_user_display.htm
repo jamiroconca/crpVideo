@@ -82,11 +82,24 @@
 	so.write('player');
 </script>
 <!--[elseif $source eq 'source']-->
-<object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
-	<param name="movie" value="<!--[$urlvideo|pnvarprepfordisplay]-->"></param>
-	<param name="wmode" value="transparent"></param>
-	<embed src="<!--[$urlvideo|pnvarprepfordisplay]-->" type="application/x-shockwave-flash" wmode="transparent" width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->"></embed>
-</object>
+<p id="player"><a href="http://www.macromedia.com/go/getflashplayer">Get Flash</a> to see this player.</p>
+<script type="text/javascript">
+	var so = new SWFObject("<!--[pngetbaseurl]-->modules/crpVideo/pnincludes/flvplayer.swf",'player','<!--[$playerwidth]-->','<!--[$playerheight]-->','9.0.115');
+	so.addParam("allowfullscreen","true");
+	
+	so.addVariable("file","<!--[$urlvideo]-->");
+	so.addVariable("title","<!--[$title]-->");
+	so.addVariable("author","<!--[$author]-->");
+	
+	so.addVariable("displayheight","<!--[$displayheight]-->");
+	so.addVariable("overstretch","false");
+	so.addVariable("backcolor","#CCCCCC");
+	so.addVariable("frontcolor","#000000");
+	so.addVariable("lightcolor","#467AA7");
+	so.addVariable("frontcolor","#000000");
+	
+	so.write('player');
+</script>
 <!--[elseif $source eq 'external']-->
 <object width="<!--[$playerwidth]-->" height="<!--[$playerheight]-->">
 	<param name="movie" value="<!--[$external|replace:"watch?v=":"v/"|pnvarprepfordisplay]-->"></param>
