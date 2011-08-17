@@ -274,7 +274,7 @@ function crpVideo_admin_update()
 	if ($video_file['error'] == UPLOAD_ERR_OK && $video['videoid'] && $video['source'] == 'video')
 	{
 		Loader :: loadClass('FileUtil');
-		if (($video['urlvideo'] != $oldData['urlvideo']) && $video['source'] == 'video')
+		if ((($video['urlvideo'] != $oldData['urlvideo']) && $video['source'] == 'video') || ($oldData['source'] == 'video' && $video['source'] == 'source'))
 		{
 			unlink($oldData['pathvideo']);
 		}
